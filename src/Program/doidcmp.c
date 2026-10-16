@@ -316,12 +316,22 @@ foreverloop:
                     break;
 
                 case IDCMP_RAWKEY:
-                    code&=0x7f;
-                    readkeys(var_key_matrix);
-                    a=code/8; b=code-(a*8);
-                    if (!(var_key_matrix[a]&(1<<b))) {
-                        flushidcmp();
-                        break;
+                    /* Codes past the keyboard matrix (0x00-0x67) are virtual
+                       keys, like the NewMouse wheel: never held down, so the
+                       matrix check below would flush every pending IDCMP
+                       message (clicks too) for them.  Act only on their
+                       key-down, not on key-up or auto-repeat. */
+                    if ((code&0x7f)>=sizeof(var_key_matrix)*8) {
+                        if (code&IECODE_UP_PREFIX || qual&IEQUALIFIER_REPEAT) break;
+                    }
+                    else {
+                        code&=0x7f;
+                        readkeys(var_key_matrix);
+                        a=code/8; b=code-(a*8);
+                        if (!(var_key_matrix[a]&(1<<b))) {
+                            flushidcmp();
+                            break;
+                        }
                     }
                     qual&=VALID_QUALIFIERS;
                     bank=dopus_firstgadbank;
