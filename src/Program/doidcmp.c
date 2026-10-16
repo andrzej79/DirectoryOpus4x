@@ -545,7 +545,6 @@ foobarbaz:
                             if (config->generalflags&GENERAL_ACTIVATE) makeactive(a,0);
                             doposprop(a);
                             FOREVER {
-                                Wait(1<<Window->UserPort->mp_SigBit);
                                 class=0;
                                 while (getintuimsg()) {
                                     class=IMsg->Class;
@@ -554,6 +553,9 @@ foobarbaz:
                                     else if (class==IDCMP_GADGETUP) break;
                                 }
                                 if (class==IDCMP_GADGETUP) break;
+                                /* Wait only when the port is empty: the GADGETUP may already be
+                                   queued (fast mouse wheel), its signal used up by the GADGETDOWN */
+                                Wait(1<<Window->UserPort->mp_SigBit);
                             }
                             dopus_curwin[a]->offset=-1;
                             doposprop(a);
@@ -566,7 +568,6 @@ foobarbaz:
                             if (config->generalflags&GENERAL_ACTIVATE) makeactive(a,0);
                             doposhprop(a);
                             FOREVER {
-                                Wait(1<<Window->UserPort->mp_SigBit);
                                 class=0;
                                 while (getintuimsg()) {
                                     class=IMsg->Class;
@@ -575,6 +576,9 @@ foobarbaz:
                                     else if (class==IDCMP_GADGETUP) break;
                                 }
                                 if (class==IDCMP_GADGETUP) break;
+                                /* Wait only when the port is empty: the GADGETUP may already be
+                                   queued (fast mouse wheel), its signal used up by the GADGETDOWN */
+                                Wait(1<<Window->UserPort->mp_SigBit);
                             }
                             dopus_curwin[a]->hoffset=-1;
                             doposhprop(a);
@@ -584,7 +588,6 @@ foobarbaz:
                             if (config->generalscreenflags&SCR_GENERAL_GADSLIDERS) {
                                 doposdriveprop();
                                 FOREVER {
-                                    Wait(1<<Window->UserPort->mp_SigBit);
                                     class=0;
                                     while (getintuimsg()) {
                                         class=IMsg->Class;
@@ -593,6 +596,9 @@ foobarbaz:
                                         else if (class==IDCMP_GADGETUP) break;
                                     }
                                     if (class==IDCMP_GADGETUP) break;
+                                    /* Wait only when the port is empty: the GADGETUP may already be
+                                       queued (fast mouse wheel), its signal used up by the GADGETDOWN */
+                                    Wait(1<<Window->UserPort->mp_SigBit);
                                 }
                                 doposdriveprop();
                             }
