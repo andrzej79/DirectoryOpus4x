@@ -45,7 +45,22 @@ detach:
     lsl.l   #2,d0
     move.l  d0,a3                   ; struct CommandLineInterface *
     tst.l   cli_Module(a3)
-    beq.w   run                     ; no seglist: we are the detached copy
+    beq.w   run                     ; no seglist (resident): cannot detach
+
+    ; The detached copy runs under the name __procname.  Its CLI may carry
+    ; the seglist too, so the name is what tells the two copies apart.
+    move.l  LN_NAME(a2),d0
+    beq.s   notcopy
+    move.l  d0,a0
+    move.l  ___procname,a1
+cmpname:
+    move.b  (a0)+,d0
+    cmp.b   (a1)+,d0
+    bne.s   notcopy
+    tst.b   d0
+    bne.s   cmpname
+    bra.w   run                     ; we are the detached copy
+notcopy:
 
     lea     dosname(pc),a1
     moveq   #37,d0
