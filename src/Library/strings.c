@@ -30,54 +30,81 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopuslib.h"
 
-int __saveds DoStrCombine(REG(a0, char *buf),
-    REG(a1, char *one),
-    REG(a2, char *two),
-    REG(d0, int lim))
+int __saveds DoStrCombine(REG(a0, char *buf), REG(a1, char *one), REG(a2, char *two), REG(d0, int lim))
 {
-    register int a;
+  register int a;
 
-    a=strlen(one); if (a>=lim) a=lim-1;
-    strncpy(buf,one,a); buf[a]=0;
-    return(StrConcat(buf,two,lim));
+  a = strlen(one);
+  if (a >= lim)
+  {
+    a = lim - 1;
+  }
+  strncpy(buf, one, a);
+  buf[a] = 0;
+  return (StrConcat(buf, two, lim));
 }
 
-int __saveds DoStrConcat(REG(a0, char *buf),
-    REG(a1, char *cat),
-    REG(d0, int lim))
+int __saveds DoStrConcat(REG(a0, char *buf), REG(a1, char *cat), REG(d0, int lim))
 {
-    register int a,b;
+  register int a, b;
 
-    a=strlen(cat); b=strlen(buf);
-    --lim;
-    if (a+b<lim) {
-        strncpy(&buf[b],cat,a); buf[b+a]=0;
-        return(1);
-    }
-    if (lim>b) strncpy(&buf[b],cat,lim-b); buf[lim]=0;
-    return(0);
+  a = strlen(cat);
+  b = strlen(buf);
+  --lim;
+  if (a + b < lim)
+  {
+    strncpy(&buf[b], cat, a);
+    buf[b + a] = 0;
+    return (1);
+  }
+  if (lim > b)
+  {
+    strncpy(&buf[b], cat, lim - b);
+  }
+  buf[lim] = 0;
+  return (0);
 }
 
-int __saveds DoAtoh(REG(a0, unsigned char *buf),
-    REG(d0, int len))
+int __saveds DoAtoh(REG(a0, unsigned char *buf), REG(d0, int len))
 {
-    int a,c,d,e,f;
+  int a, c, d, e, f;
 
-    c=e=0;
-    for (a=0;;a++) {
-        if (!buf[a] || !((buf[a]>='0' && buf[a]<='9') || (buf[a]>='a' && buf[a]<='f') ||
-            (buf[a]>='A' && buf[a]<='F'))) break;
-        if ((++e)==len) break;
+  c = e = 0;
+  for (a = 0;; a++)
+  {
+    if (!buf[a] ||
+        !((buf[a] >= '0' && buf[a] <= '9') || (buf[a] >= 'a' && buf[a] <= 'f') || (buf[a] >= 'A' && buf[a] <= 'F')))
+    {
+      break;
     }
-    if (e==0) return(0);
-    f=1;
-    for (a=1;a<e;a++) f*=16;
-    for (a=0;a<e;a++) {
-        if (buf[a]>='0' && buf[a]<='9') d=buf[a]-'0';
-        else if (buf[a]>='A' && buf[a]<='F') d=10+(buf[a]-'A');
-        else if (buf[a]>='a' && buf[a]<='f') d=10+(buf[a]-'a');
-        c+=(d*f);
-        f/=16;
+    if ((++e) == len)
+    {
+      break;
     }
-    return(c);
+  }
+  if (e == 0)
+  {
+    return (0);
+  }
+  f = 1;
+  for (a = 1; a < e; a++)
+  {
+    f *= 16;
+  }
+  for (a = 0; a < e; a++)
+  {
+    if (buf[a] >= '0' && buf[a] <= '9')
+    {
+      d = buf[a] - '0';
+    } else if (buf[a] >= 'A' && buf[a] <= 'F')
+    {
+      d = 10 + (buf[a] - 'A');
+    } else if (buf[a] >= 'a' && buf[a] <= 'f')
+    {
+      d = 10 + (buf[a] - 'a');
+    }
+    c += (d * f);
+    f /= 16;
+  }
+  return (c);
 }

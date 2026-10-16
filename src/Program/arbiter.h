@@ -28,12 +28,12 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-
-struct ArbiterMessage {
-	struct Message msg;
-	int command;
-	int flags;
-	APTR data;
+struct ArbiterMessage
+{
+  struct Message msg;
+  int command;
+  int flags;
+  APTR data;
 };
 
 extern struct MsgPort *arbiter_reply_port;
@@ -41,24 +41,27 @@ extern struct MsgPort *arbiter_msg_port;
 extern struct ProcessStart *arbiter_seglist;
 extern struct Message arbiter_startup;
 
-enum {
-	ARBITER_INSTALL,
-	ARBITER_REMOVE,
-	ARBITER_LAUNCH
+enum
+{
+  ARBITER_INSTALL,
+  ARBITER_REMOVE,
+  ARBITER_LAUNCH
 };
 
 #define ARB_WAIT 1
 
-struct ArbiterLaunch {
-	void *launch_code;
-	char *launch_name;
-	struct DOpusRemember *launch_memory;
-	APTR data;
+struct ArbiterLaunch
+{
+  void *launch_code;
+  char *launch_name;
+  struct DOpusRemember *launch_memory;
+  APTR data;
 };
 
-enum {
-	ARB_PEN_DETAIL,
-	ARB_PEN_BLOCK,
+enum
+{
+  ARB_PEN_DETAIL,
+  ARB_PEN_BLOCK,
 
-	ARB_PEN_LASTPEN
+  ARB_PEN_LASTPEN
 };

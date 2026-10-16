@@ -30,24 +30,18 @@ the existing commercial status of Directory Opus 5.
 
 #include "iconinfo.h"
 
-char *version="$VER: DOpus_Icon 1.7i (" __DATE__ ") made under GPL license by Jacek Rzeuski";
+char *version = "$VER: DOpus_Icon 1.7i (" __DATE__ ") made under GPL license by Jacek Rzeuski";
 
 struct DOpusBase *DOpusBase;
 struct IntuitionBase *IntuitionBase;
-struct GfxBase *GfxBase = NULL;
+struct GfxBase *GfxBase    = NULL;
 struct Library *LayersBase = NULL;
-struct Library *IconBase = NULL;
+struct Library *IconBase   = NULL;
 
-char protect_flags[6]={          /* The protection bits we understand */
-    FIBF_SCRIPT,
-    FIBF_ARCHIVE,
-    FIBF_READ,
-    FIBF_WRITE,
-    FIBF_EXECUTE,
-    FIBF_DELETE};
+char protect_flags[6] = {/* The protection bits we understand */
+                         FIBF_SCRIPT, FIBF_ARCHIVE, FIBF_READ, FIBF_WRITE, FIBF_EXECUTE, FIBF_DELETE};
 
-char
-    *specific_gadtext[5][6],       /* Icon-specific gadget labels */
-    *icon_type_names[8];           /* Names of different icon types */
+char *specific_gadtext[5][6], /* Icon-specific gadget labels */
+    *icon_type_names[8];      /* Names of different icon types */
 
-unsigned char keys[KEY_DEFTOOL+1];  /* Key equivalents (was keys[] = { 0 }: one byte for 15 keys) */
+unsigned char keys[KEY_DEFTOOL + 1]; /* Key equivalents (was keys[] = { 0 }: one byte for 15 keys) */

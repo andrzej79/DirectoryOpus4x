@@ -39,31 +39,31 @@ the existing commercial status of Directory Opus 5.
 
 struct MusicBase
 {
-	struct Library MLib;
-	BPTR ml_SegList;
-	APTR ml_Module;
-	LONG ml_Len;
-	WORD ml_Playing, ml_ModType, ml_Volume, ml_Tempo, ml_Tracks, ml_SongPos;
-	struct Library *ml_DOSBase, *ml_PPBase;
-	char *ml_SongName;
+  struct Library MLib;
+  BPTR ml_SegList;
+  APTR ml_Module;
+  LONG ml_Len;
+  WORD ml_Playing, ml_ModType, ml_Volume, ml_Tempo, ml_Tracks, ml_SongPos;
+  struct Library *ml_DOSBase, *ml_PPBase;
+  char *ml_SongName;
 };
 
 /* Module types currently supported */
 #define MOD_STNTPT 1 /* Sound/Noise/ProTracker */
-#define MOD_MED 2 /* MED Module (MMD0) */
-#define MOD_OKTA 3 /* Oktalyzer mod */
-#define MOD_OLDST 4 /* 15 Inst SoundTracker */
+#define MOD_MED 2    /* MED Module (MMD0) */
+#define MOD_OKTA 3   /* Oktalyzer mod */
+#define MOD_OLDST 4  /* 15 Inst SoundTracker */
 
 /* Error codes returned by PlayModule
-		if err code is < 0, then the failure code is a PowerPacker.Library fail
+    if err code is < 0, then the failure code is a PowerPacker.Library fail
 */
 
-#define ML_NOMEM 101 /* not enuff memory to load module */
-#define ML_BADMOD 102 /* garbled or not-supported */
-#define ML_NOMOD 103 /* DOS Open failed */
-#define ML_NOPLAYER 104 /* CIA Player Allocations Failed */
-#define ML_LIBLOCKED 105 /* LIBBASE is Locked for processing */
+#define ML_NOMEM 101        /* not enuff memory to load module */
+#define ML_BADMOD 102       /* garbled or not-supported */
+#define ML_NOMOD 103        /* DOS Open failed */
+#define ML_NOPLAYER 104     /* CIA Player Allocations Failed */
+#define ML_LIBLOCKED 105    /* LIBBASE is Locked for processing */
 #define ML_INVALIDFNAME 106 /* Bad file name */
-#define ML_NOAUDIO 107 /* Couldn't lock Audio channels */
+#define ML_NOAUDIO 107      /* Couldn't lock Audio channels */
 
 #endif /* INOVAMUSIC_H */

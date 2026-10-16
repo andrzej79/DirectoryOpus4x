@@ -14,9 +14,9 @@
 #ifndef __NOLIBBASE__
 extern struct DOpusBase *
 #ifdef __CONSTLIBBASEDECL__
-__CONSTLIBBASEDECL__
+    __CONSTLIBBASEDECL__
 #endif /* __CONSTLIBBASEDECL__ */
-DOpusBase;
+        DOpusBase;
 #endif /* !__NOLIBBASE__ */
 
 #endif /* !PROTO_DOPUS_H */

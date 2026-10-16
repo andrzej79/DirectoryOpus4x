@@ -30,134 +30,126 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopuslib.h"
 
-void fill_out_border_data(short *,short *,int,int);
-void fill_out_border(struct Border *,int,int,short *,short *);
+void fill_out_border_data(short *, short *, int, int);
+void fill_out_border(struct Border *, int, int, short *, short *);
 
-void __saveds DoAddGadgetBorders(REG(a0, struct DOpusRemember **key),
-    REG(a1, struct Gadget *gadget),
-    REG(d0, int count),
-    REG(d1, int shine),
-    REG(d2, int shadow))
+void __saveds DoAddGadgetBorders(REG(a0, struct DOpusRemember **key), REG(a1, struct Gadget *gadget),
+                                 REG(d0, int count), REG(d1, int shine), REG(d2, int shadow))
 {
-    struct Border *selborder,*unselborder;
-    int width,height;
+  struct Border *selborder, *unselborder;
+  int width, height;
 
-    width=gadget->Width;
-    height=gadget->Height;
+  width  = gadget->Width;
+  height = gadget->Height;
 
-    DoCreateGadgetBorders(key,
-        gadget->Width,gadget->Height,
-        &selborder,&unselborder,
-        0,
-        shine,shadow);
+  DoCreateGadgetBorders(key, gadget->Width, gadget->Height, &selborder, &unselborder, 0, shine, shadow);
 
-    while (gadget && count) {
-        if (gadget->Width==width && gadget->Height==height &&
-            (gadget->GadgetType==GTYP_BOOLGADGET || gadget->GadgetType&GTYP_SYSGADGET)) {
-            if (unselborder) {
-                gadget->Flags|=GFLG_GADGHIMAGE;
-                gadget->Flags&=~GFLG_GADGHCOMP;
-                gadget->GadgetRender=unselborder;
-                gadget->SelectRender=selborder;
-            }
-            else {
-                gadget->Flags&=~GFLG_GADGHIMAGE;
-                gadget->Flags|=GFLG_GADGHCOMP;
-                gadget->GadgetRender=NULL;
-                gadget->SelectRender=NULL;
-            }
-        }
-        gadget=gadget->NextGadget;
-        --count;
+  while (gadget && count)
+  {
+    if (gadget->Width == width && gadget->Height == height &&
+        (gadget->GadgetType == GTYP_BOOLGADGET || gadget->GadgetType & GTYP_SYSGADGET))
+    {
+      if (unselborder)
+      {
+        gadget->Flags |= GFLG_GADGHIMAGE;
+        gadget->Flags &= ~GFLG_GADGHCOMP;
+        gadget->GadgetRender = unselborder;
+        gadget->SelectRender = selborder;
+      } else
+      {
+        gadget->Flags &= ~GFLG_GADGHIMAGE;
+        gadget->Flags |= GFLG_GADGHCOMP;
+        gadget->GadgetRender = NULL;
+        gadget->SelectRender = NULL;
+      }
     }
+    gadget = gadget->NextGadget;
+    --count;
+  }
 }
 
-void __saveds DoCreateGadgetBorders(REG(a0, struct DOpusRemember **key),
-    REG(d0, int w),
-    REG(d1, int h),
-    REG(a1, struct Border **selborder),
-    REG(a2, struct Border **unselborder),
-    REG(d2, int dogear),
-    REG(d3, int shine),
-    REG(d4, int shadow))
+void __saveds DoCreateGadgetBorders(REG(a0, struct DOpusRemember **key), REG(d0, int w), REG(d1, int h),
+                                    REG(a1, struct Border **selborder), REG(a2, struct Border **unselborder),
+                                    REG(d2, int dogear), REG(d3, int shine), REG(d4, int shadow))
 {
-    short *shine_data,*shadow_data;
+  short *shine_data, *shadow_data;
 
-    *selborder=NULL;
-    *unselborder=NULL;
+  *selborder   = NULL;
+  *unselborder = NULL;
 
-    if ((shine_data=LAllocRemember(key,10*sizeof(short),MEMF_CLEAR)) &&
-        (shadow_data=LAllocRemember(key,10*sizeof(short),MEMF_CLEAR))) {
+  if ((shine_data = LAllocRemember(key, 10 * sizeof(short), MEMF_CLEAR)) &&
+      (shadow_data = LAllocRemember(key, 10 * sizeof(short), MEMF_CLEAR)))
+  {
 
-        fill_out_border_data(shine_data,shadow_data,w-1,h-1);
-        if (dogear) {
-            shine_data[0]=w-6;
-            shadow_data[5]=4;
-            shadow_data[7]=4;
-        }
-
-        if ((*selborder=LAllocRemember(key,sizeof(struct Border)*2,MEMF_CLEAR)) &&
-            (*unselborder=LAllocRemember(key,sizeof(struct Border)*2,MEMF_CLEAR))) {
-
-            fill_out_border(*selborder,shadow,shine,shine_data,shadow_data);
-            fill_out_border(*unselborder,shine,shadow,shine_data,shadow_data);
-        }
+    fill_out_border_data(shine_data, shadow_data, w - 1, h - 1);
+    if (dogear)
+    {
+      shine_data[0]  = w - 6;
+      shadow_data[5] = 4;
+      shadow_data[7] = 4;
     }
+
+    if ((*selborder = LAllocRemember(key, sizeof(struct Border) * 2, MEMF_CLEAR)) &&
+        (*unselborder = LAllocRemember(key, sizeof(struct Border) * 2, MEMF_CLEAR)))
+    {
+
+      fill_out_border(*selborder, shadow, shine, shine_data, shadow_data);
+      fill_out_border(*unselborder, shine, shadow, shine_data, shadow_data);
+    }
+  }
 }
 
-void fill_out_border_data(shine,shadow,w,h)
-short *shine,*shadow;
-int w,h;
+void fill_out_border_data(shine, shadow, w, h) short *shine, *shadow;
+int w, h;
 {
-    shine[0]=w-1;     /* w-1,0  -> 0,0  -> 0,h  -> 1,h-1  -> 1,0 */
-    shine[5]=h;
-    shine[6]=1;
-    shine[7]=h-1;
-    shine[8]=1;
+  shine[0] = w - 1; /* w-1,0  -> 0,0  -> 0,h  -> 1,h-1  -> 1,0 */
+  shine[5] = h;
+  shine[6] = 1;
+  shine[7] = h - 1;
+  shine[8] = 1;
 
-    shadow[0]=1;      /* 1,h  -> w,h  -> w,0  -> w-1,1  -> w-1,h */
-    shadow[1]=h;
-    shadow[2]=w;
-    shadow[3]=h;
-    shadow[4]=w;
-    shadow[6]=w-1;
-    shadow[7]=1;
-    shadow[8]=w-1;
-    shadow[9]=h;
+  shadow[0] = 1; /* 1,h  -> w,h  -> w,0  -> w-1,1  -> w-1,h */
+  shadow[1] = h;
+  shadow[2] = w;
+  shadow[3] = h;
+  shadow[4] = w;
+  shadow[6] = w - 1;
+  shadow[7] = 1;
+  shadow[8] = w - 1;
+  shadow[9] = h;
 }
 
-void fill_out_border(border,fpen,bpen,shine,shadow)
-struct Border *border;
-int fpen,bpen;
-short *shine,*shadow;
+void fill_out_border(border, fpen, bpen, shine, shadow) struct Border *border;
+int fpen, bpen;
+short *shine, *shadow;
 {
-    border[0].FrontPen=fpen;
-    border[0].DrawMode=JAM1;
-    border[0].Count=5;
-    border[0].XY=shine;
-    border[0].NextBorder=&border[1];
-    border[1].FrontPen=bpen;
-    border[1].DrawMode=JAM1;
-    border[1].Count=5;
-    border[1].XY=shadow;
+  border[0].FrontPen   = fpen;
+  border[0].DrawMode   = JAM1;
+  border[0].Count      = 5;
+  border[0].XY         = shine;
+  border[0].NextBorder = &border[1];
+  border[1].FrontPen   = bpen;
+  border[1].DrawMode   = JAM1;
+  border[1].Count      = 5;
+  border[1].XY         = shadow;
 }
 
-void __saveds DoSelectGadget(REG(a0, struct Window *window),
-    REG(a1, struct Gadget *gadget))
+void __saveds DoSelectGadget(REG(a0, struct Window *window), REG(a1, struct Gadget *gadget))
 {
-    if (gadget->GadgetRender && gadget->SelectRender && !(gadget->Flags&GFLG_GADGIMAGE)) {
-        DrawBorder(window->RPort,gadget->SelectRender,gadget->LeftEdge,gadget->TopEdge);
-        Delay(5);
-        DrawBorder(window->RPort,gadget->GadgetRender,gadget->LeftEdge,gadget->TopEdge);
-    }
-    else {
-        int old;
+  if (gadget->GadgetRender && gadget->SelectRender && !(gadget->Flags & GFLG_GADGIMAGE))
+  {
+    DrawBorder(window->RPort, gadget->SelectRender, gadget->LeftEdge, gadget->TopEdge);
+    Delay(5);
+    DrawBorder(window->RPort, gadget->GadgetRender, gadget->LeftEdge, gadget->TopEdge);
+  } else
+  {
+    int old;
 
-        old=window->RPort->DrawMode;
-        SetDrMd(window->RPort,COMPLEMENT);
-        HiliteGad(gadget,window->RPort);
-        Delay(5);
-        HiliteGad(gadget,window->RPort);
-        SetDrMd(window->RPort,old);
-    }
+    old = window->RPort->DrawMode;
+    SetDrMd(window->RPort, COMPLEMENT);
+    HiliteGad(gadget, window->RPort);
+    Delay(5);
+    HiliteGad(gadget, window->RPort);
+    SetDrMd(window->RPort, old);
+  }
 }

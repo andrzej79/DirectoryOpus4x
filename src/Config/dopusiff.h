@@ -35,6 +35,7 @@ the existing commercial status of Directory Opus 5.
 
 /* Form types and other defines */
 
+// clang-format off: must match the NDK's spelling of these IDs
 #define ID_8SVX MAKE_ID('8','S','V','X')
 #define ID_ANHD MAKE_ID('A','N','H','D')
 #define ID_ANIM MAKE_ID('A','N','I','M')
@@ -52,76 +53,82 @@ the existing commercial status of Directory Opus 5.
 #define ID_ILBM MAKE_ID('I','L','B','M')
 #define ID_SHAM MAKE_ID('S','H','A','M')
 #define ID_VHDR MAKE_ID('V','H','D','R')
+// clang-format on
 
 #define CRNG_NORATE 36
-#define CRNG_ACTIVE 1<<0
-#define CRNG_REVERSE 1<<1
+#define CRNG_ACTIVE 1 << 0
+#define CRNG_REVERSE 1 << 1
 #define CY_CYCL 0
 #define CY_WAIT 1
 
 /* IFF Chunk structures */
 
-typedef struct {
-	ULONG ckID;
-	ULONG ckSize;
+typedef struct
+{
+  ULONG ckID;
+  ULONG ckSize;
 } ChunkHeader;
 
-typedef struct {
-	ULONG ckID;
-	ULONG ckSize;
-	UBYTE ckData[1];
+typedef struct
+{
+  ULONG ckID;
+  ULONG ckSize;
+  UBYTE ckData[1];
 } Chunk;
 
 /* IFF Animation structures */
 
-typedef struct {
-	UWORD version;
-	UWORD nframes;
-	unsigned char framespersecond;
-	char pad;
-	UWORD flags;
+typedef struct
+{
+  UWORD version;
+  UWORD nframes;
+  unsigned char framespersecond;
+  char pad;
+  UWORD flags;
 } DPAnimChunk;
 
-typedef struct {
-	UBYTE operation;
-	UBYTE mask;
-	UWORD w,h;
-	WORD x,y;
-	ULONG abstime;
-	ULONG reltime;
-	UBYTE interleave;
-	UBYTE pad0;
-	ULONG bits;
-	UBYTE pad[16];
+typedef struct
+{
+  UBYTE operation;
+  UBYTE mask;
+  UWORD w, h;
+  WORD x, y;
+  ULONG abstime;
+  ULONG reltime;
+  UBYTE interleave;
+  UBYTE pad0;
+  ULONG bits;
+  UBYTE pad[16];
 } AnimHdr;
 
 /* IFF ILBM structures */
 
 typedef struct BitHeader
 {
-	UWORD w,h;
-	UWORD x,y;
-	UBYTE nPlanes;
-	UBYTE masking;
-	UBYTE compression;
-	UBYTE flags;
-	UWORD transparentColor;
-	UBYTE xAspect, yAspect;
-	WORD pageWidth, pageHeight;
+  UWORD w, h;
+  UWORD x, y;
+  UBYTE nPlanes;
+  UBYTE masking;
+  UBYTE compression;
+  UBYTE flags;
+  UWORD transparentColor;
+  UBYTE xAspect, yAspect;
+  WORD pageWidth, pageHeight;
 } BitMapHeader;
 
-#define BMHF_CMAPOK 1<<7
+#define BMHF_CMAPOK 1 << 7
 
 typedef struct C_Range
 {
-	WORD pad1;
-	WORD rate;
-	WORD active;
-	UBYTE low,high;
+  WORD pad1;
+  WORD rate;
+  WORD active;
+  UBYTE low, high;
 } CRange;
 
-struct SHAMData {
-	UWORD ColorTable[200][16];
+struct SHAMData
+{
+  UWORD ColorTable[200][16];
 };
 
 #endif

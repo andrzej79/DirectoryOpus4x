@@ -28,34 +28,36 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#define FS_CURDIR   1
-#define FS_SEGMENT  2
+#define FS_CURDIR 1
+#define FS_SEGMENT 2
 #define FS_LAUNCHED 3
 
-#define FF_SAVESEG  1
+#define FF_SAVESEG 1
 
-struct DOpusStartup {
-	struct WBStartup wbstartup;
-	int retcode;
+struct DOpusStartup
+{
+  struct WBStartup wbstartup;
+  int retcode;
 };
 
-struct dopus_func_start {
-	BPTR segment;                   /* Pointer to pre-loaded segment */
-	char *procname;                 /* Name to start process as      */
-	char *segname;                  /* Name to load segment from     */
-	int argcount;                   /* Argument count                */
-	char **args;                    /* Argument array                */
-	ULONG stack;                    /* Stack size for process        */
-	char flags;                     /* Function flags                */
+struct dopus_func_start
+{
+  BPTR segment;   /* Pointer to pre-loaded segment */
+  char *procname; /* Name to start process as      */
+  char *segname;  /* Name to load segment from     */
+  int argcount;   /* Argument count                */
+  char **args;    /* Argument array                */
+  ULONG stack;    /* Stack size for process        */
+  char flags;     /* Function flags                */
 
-	struct DOpusRemember *key;      /* Memory key                    */
-	struct MsgPort *replyport;      /* Process reply port            */
-	struct DOpusStartup startup;    /* Process Startup message       */
-	char status;                    /* Status byte                   */
-	BPTR olddir;                    /* Old current directory         */
-	struct Segment *resseg;         /* Resident Segment pointer      */
+  struct DOpusRemember *key;   /* Memory key                    */
+  struct MsgPort *replyport;   /* Process reply port            */
+  struct DOpusStartup startup; /* Process Startup message       */
+  char status;                 /* Status byte                   */
+  BPTR olddir;                 /* Old current directory         */
+  struct Segment *resseg;      /* Resident Segment pointer      */
 };
 
-#define SEG_DISK  0
+#define SEG_DISK 0
 #define SEG_PRINT 1
-#define SEG_ICON  2
+#define SEG_ICON 2

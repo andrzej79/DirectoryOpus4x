@@ -66,6 +66,19 @@ make -C src/Config    # one component
 - Distribution layout: `DirectoryOpus`, `C/DOpusRT`, `Libs/dopus.library`, `Modules/*`, `S/*.HLP`.
   This matches `look_dirs[]` in `src/Library/dopus_stuff.c` (`PROGDIR:` first).
 
+## Code formatting
+
+C sources and headers are formatted with clang-format, using `.clang-format` (LLVM based:
+2-space indent, braces on their own line, `InsertBraces`, 120 columns). Format what you touch:
+`clang-format-mp-22 -i --style=file <files>` (MacPorts), or Xcode's `xcrun clang-format`.
+- `.clang-format-ignore` excludes `src/include/inline/*_protos.h`, which `make protos` generates.
+- The `MAKE_ID(...)` IFF ID defines sit between `// clang-format off/on`. The NDK defines the
+  same macros, and C only accepts a redefinition with identical spacing; reformatted, they fail
+  with "macro redefined unidentically".
+- A pure reformat must not change the generated code. To check one, build before and after and
+  compare the binaries. `-S` output may differ only in the order of string constants (split
+  literals), which `sort` on both listings shows.
+
 ## Porting conventions (vbcc)
 
 Follow these when touching or adding code:

@@ -29,25 +29,25 @@ the existing commercial status of Directory Opus 5.
 #ifndef INOVAMUSIC_PRAGMAS_H
 #define INOVAMUSIC_PRAGMAS_H
 
-#pragma libcall MUSICBase PlayModule   1e 0802  /* A0, D0 */
-#pragma libcall MUSICBase StopModule   24 0
-#pragma libcall MUSICBase IsModule     2a 801   /* D0 */
-#pragma libcall MUSICBase FlushModule  30 0
-#pragma libcall MUSICBase ContModule   36 0
-#pragma libcall MUSICBase SetVolume    3c 801   /* D0 */
-#pragma libcall MUSICBase PlayFaster   42 0
-#pragma libcall MUSICBase PlaySlower   48 0
-#pragma libcall MUSICBase TempoReset   4e 0
+#pragma libcall MUSICBase PlayModule 1e 0802 /* A0, D0 */
+#pragma libcall MUSICBase StopModule 24 0
+#pragma libcall MUSICBase IsModule 2a 801 /* D0 */
+#pragma libcall MUSICBase FlushModule 30 0
+#pragma libcall MUSICBase ContModule 36 0
+#pragma libcall MUSICBase SetVolume 3c 801 /* D0 */
+#pragma libcall MUSICBase PlayFaster 42 0
+#pragma libcall MUSICBase PlaySlower 48 0
+#pragma libcall MUSICBase TempoReset 4e 0
 
 // These are older pragmas
-//#pragma libcall MUSICBase PlayModule 1e 0802
-//#pragma libcall MUSICBase StopModule 24 0
-//#pragma libcall MUSICBase IsModule 2a 001
-//#pragma libcall MUSICBase FlushModule 30 0
-//#pragma libcall MUSICBase ContModule 36 0
-//#pragma libcall MUSICBase SetVolume 3c 001
-//#pragma libcall MUSICBase PlayFaster 42 0
-//#pragma libcall MUSICBase PlaySlower 48 0
-//#pragma libcall MUSICBase TempoReset 4e 0
+// #pragma libcall MUSICBase PlayModule 1e 0802
+// #pragma libcall MUSICBase StopModule 24 0
+// #pragma libcall MUSICBase IsModule 2a 001
+// #pragma libcall MUSICBase FlushModule 30 0
+// #pragma libcall MUSICBase ContModule 36 0
+// #pragma libcall MUSICBase SetVolume 3c 001
+// #pragma libcall MUSICBase PlayFaster 42 0
+// #pragma libcall MUSICBase PlaySlower 48 0
+// #pragma libcall MUSICBase TempoReset 4e 0
 
 #endif /* INOVAMUSIC_PRAGMAS_H */

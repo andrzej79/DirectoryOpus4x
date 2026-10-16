@@ -30,8 +30,9 @@
  * structures DOS reaches through a BPTR (FileInfoBlock, InfoData).  It is
  * the portable form of SAS/C's "__aligned"; name is a pointer to the struct.
  */
-#define D_S(type,name) char a_##name[sizeof(type)+3]; \
-    type *name = (type *)(((LONG)(a_##name+3)) & ~3)
+#define D_S(type, name)                                                                                                \
+  char a_##name[sizeof(type) + 3];                                                                                     \
+  type *name = (type *)(((LONG)(a_##name + 3)) & ~3)
 
 /*
  * The DOpus sources were written against the NDK's "#define NULL 0L" and use

@@ -30,72 +30,48 @@ the existing commercial status of Directory Opus 5.
 
 #include "config.h"
 
-void show_slider_setup(x,y,num)
-int x,y,num;
+void show_slider_setup(x, y, num) int x, y, num;
 {
-	int pos,sx,bx;
+  int pos, sx, bx;
 
-	x+=x_off;
-	y+=y_off;
+  x += x_off;
+  y += y_off;
 
-	if (config->slider_pos&(1<<num)) {
-		pos=1;
-		bx=x;
-		sx=x+171;
-	}
-	else {
-		pos=0;
-		bx=x+20;
-		sx=x;
-	}
+  if (config->slider_pos & (1 << num))
+  {
+    pos = 1;
+    bx  = x;
+    sx  = x + 171;
+  } else
+  {
+    pos = 0;
+    bx  = x + 20;
+    sx  = x;
+  }
 
-	SetAPen(rp,screen_pens[1].pen);
-	SetBPen(rp,screen_pens[0].pen);
+  SetAPen(rp, screen_pens[1].pen);
+  SetBPen(rp, screen_pens[0].pen);
 
-	DoCycleGadget(&screen_sliders_gadgets[num],Window,left_right_cycle,pos);
+  DoCycleGadget(&screen_sliders_gadgets[num], Window, left_right_cycle, pos);
 
-	Do3DBox(rp,
-		sx,y,
-		16,94,
-		screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen);
+  Do3DBox(rp, sx, y, 16, 94, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
 
-	Do3DBox(rp,
-		sx,y+96,
-		16,13,
-		screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen);
+  Do3DBox(rp, sx, y + 96, 16, 13, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
 
-	Do3DBox(rp,
-		sx,y+111,
-		16,13,
-		screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen);
+  Do3DBox(rp, sx, y + 111, 16, 13, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
 
-	SetAPen(rp,screen_pens[config->sliderbgcol].pen);
-	RectFill(rp,
-		sx,y,
-		sx+15,y+93);
+  SetAPen(rp, screen_pens[config->sliderbgcol].pen);
+  RectFill(rp, sx, y, sx + 15, y + 93);
 
-	SetAPen(rp,screen_pens[config->slidercol].pen);
-	RectFill(rp,
-		sx+2,y+1,
-		sx+13,y+92);
+  SetAPen(rp, screen_pens[config->slidercol].pen);
+  RectFill(rp, sx + 2, y + 1, sx + 13, y + 92);
 
-	DoArrow(rp,
-		sx,y+96,
-		16,13,
-		screen_pens[config->arrowfg].pen,screen_pens[config->arrowbg].pen,0);
+  DoArrow(rp, sx, y + 96, 16, 13, screen_pens[config->arrowfg].pen, screen_pens[config->arrowbg].pen, 0);
 
-	DoArrow(rp,
-		sx,y+111,
-		16,13,
-		screen_pens[config->arrowfg].pen,screen_pens[config->arrowbg].pen,1);
+  DoArrow(rp, sx, y + 111, 16, 13, screen_pens[config->arrowfg].pen, screen_pens[config->arrowbg].pen, 1);
 
-	Do3DBox(rp,
-		bx,y,
-		167,124,
-		screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen);
+  Do3DBox(rp, bx, y, 167, 124, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
 
-	SetAPen(rp,screen_pens[config->filesbg].pen);
-	RectFill(rp,
-		bx,y,
-		bx+166,y+123);
+  SetAPen(rp, screen_pens[config->filesbg].pen);
+  RectFill(rp, bx, y, bx + 166, y + 123);
 }

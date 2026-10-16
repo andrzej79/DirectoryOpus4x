@@ -10,10 +10,10 @@
 #include <iff/pchg.h>
 #include <clib/pchglib_protos.h>
 
-#define min(a,b) ((a)<(b) ? (a) : (b))
+#define min(a, b) ((a) < (b) ? (a) : (b))
 
-#if INCLUDE_VERSION<36
-FAILURE!! Amiga includes version<36
+#if INCLUDE_VERSION < 36
+FAILURE !!Amiga includes version < 36
 #endif
 
 /* This number is hardware dependent, and limits the numbers of colors
@@ -25,8 +25,7 @@ changes written by PCHG_SetUserCopList(). */
 #define __far
 #endif
 
-extern struct Custom __far custom;
-
+    extern struct Custom __far custom;
 
 /****** pchg.lib/PCHG_SetUserCopList ****************************************
 
@@ -96,126 +95,178 @@ extern struct Custom __far custom;
 
 *****************************************************************************/
 
-VOID PCHG_SetUserCopList(WORD Offset, UWORD Length, struct ViewPort *ViewPort, struct PCHGHeader *PCHG, APTR LineMask, APTR LineData) {
+VOID PCHG_SetUserCopList(WORD Offset, UWORD Length, struct ViewPort *ViewPort, struct PCHGHeader *PCHG, APTR LineMask,
+                         APTR LineData)
+{
 
-    LONG i,j,RegNum;
-    ULONG r,g,b;
-    struct UCopList *UCop;
-    struct SmallLineChanges *slc;
-    UWORD *RGB;
-    ULONG *PreRGB;
-    struct BigLineChanges *blc;
-    struct BigPaletteChange *bpl;
-    ULONG *Mask;
-    BOOL Change;
+  LONG i, j, RegNum;
+  ULONG r, g, b;
+  struct UCopList *UCop;
+  struct SmallLineChanges *slc;
+  UWORD *RGB;
+  ULONG *PreRGB;
+  struct BigLineChanges *blc;
+  struct BigPaletteChange *bpl;
+  ULONG *Mask;
+  BOOL Change;
 
-    Forbid();
-    if (ViewPort->UCopIns) {
-        if (ViewPort->UCopIns->FirstCopList) FreeCopList(ViewPort->UCopIns->FirstCopList);
-        FreeMem(ViewPort->UCopIns, sizeof(struct UCopList));
-        ViewPort->UCopIns = NULL;
+  Forbid();
+  if (ViewPort->UCopIns)
+  {
+    if (ViewPort->UCopIns->FirstCopList)
+    {
+      FreeCopList(ViewPort->UCopIns->FirstCopList);
     }
-    Permit();
+    FreeMem(ViewPort->UCopIns, sizeof(struct UCopList));
+    ViewPort->UCopIns = NULL;
+  }
+  Permit();
 
-    Mask = LineMask;
-    blc = (void *)(slc = LineData);
+  Mask = LineMask;
+  blc  = (void *)(slc = LineData);
 
-    if ((UCop = AllocMem(sizeof(struct UCopList), MEMF_PUBLIC | MEMF_CLEAR)) == NULL) return;
+  if ((UCop = AllocMem(sizeof(struct UCopList), MEMF_PUBLIC | MEMF_CLEAR)) == NULL)
+  {
+    return;
+  }
 
-    CINIT(UCop, PCHG->TotalChanges+PCHG->ChangedLines);
+  CINIT(UCop, PCHG->TotalChanges + PCHG->ChangedLines);
 
-    if (Length && (PreRGB = AllocMem(sizeof(ULONG)*(PCHG->MaxReg-PCHG->MinReg+1), MEMF_PUBLIC | MEMF_CLEAR)) != NULL) {
+  if (Length &&
+      (PreRGB = AllocMem(sizeof(ULONG) * (PCHG->MaxReg - PCHG->MinReg + 1), MEMF_PUBLIC | MEMF_CLEAR)) != NULL)
+  {
 
-        for(i=0; i<Offset-PCHG->StartLine; i++) {
-            if (Mask[i/32] & 1UL<<(31-(i%32))) {
-                if (PCHG->Flags & PCHGF_12BIT) {
+    for (i = 0; i < Offset - PCHG->StartLine; i++)
+    {
+      if (Mask[i / 32] & 1UL << (31 - (i % 32)))
+      {
+        if (PCHG->Flags & PCHGF_12BIT)
+        {
 
-                    RGB = (UWORD *)&slc[1];
+          RGB = (UWORD *)&slc[1];
 
-                    for(j=0; j<slc->ChangeCount16; j++) {
-                        RegNum = *RGB>>12 & 0xF;
-                        if (RegNum >= PCHG->MinReg && RegNum <= PCHG->MaxReg) PreRGB[RegNum-PCHG->MinReg] = 0x1000 | (*RGB & 0xFFF);
-                        RGB++;
-                    }
-
-                    for(j=0; j<slc->ChangeCount32; j++) {
-                        RegNum = (*RGB>>12 & 0xF)+16;
-                        if (RegNum >= PCHG->MinReg && RegNum <= PCHG->MaxReg) PreRGB[RegNum-PCHG->MinReg] = 0x1000 | (*RGB & 0xFFF);
-                        RGB++;
-                    }
-                    slc = (void *)RGB;
-                }
-                else if (PCHG->Flags & PCHGF_32BIT) {
-
-                    bpl = (void *)&blc[1];
-
-                    for(j=0; j<blc->ChangeCount; j++) {
-                        if (bpl->Register >= PCHG->MinReg && bpl->Register <= PCHG->MaxReg) PreRGB[bpl->Register-PCHG->MinReg] = 0x1000000 | bpl->Red<<16 | bpl->Green<<8 | bpl->Blue;
-                        bpl++;
-                    }
-                    blc = (void *)bpl;
-                }
+          for (j = 0; j < slc->ChangeCount16; j++)
+          {
+            RegNum = *RGB >> 12 & 0xF;
+            if (RegNum >= PCHG->MinReg && RegNum <= PCHG->MaxReg)
+            {
+              PreRGB[RegNum - PCHG->MinReg] = 0x1000 | (*RGB & 0xFFF);
             }
+            RGB++;
+          }
+
+          for (j = 0; j < slc->ChangeCount32; j++)
+          {
+            RegNum = (*RGB >> 12 & 0xF) + 16;
+            if (RegNum >= PCHG->MinReg && RegNum <= PCHG->MaxReg)
+            {
+              PreRGB[RegNum - PCHG->MinReg] = 0x1000 | (*RGB & 0xFFF);
+            }
+            RGB++;
+          }
+          slc = (void *)RGB;
+        } else if (PCHG->Flags & PCHGF_32BIT)
+        {
+
+          bpl = (void *)&blc[1];
+
+          for (j = 0; j < blc->ChangeCount; j++)
+          {
+            if (bpl->Register >= PCHG->MinReg && bpl->Register <= PCHG->MaxReg)
+            {
+              PreRGB[bpl->Register - PCHG->MinReg] = 0x1000000 | bpl->Red << 16 | bpl->Green << 8 | bpl->Blue;
+            }
+            bpl++;
+          }
+          blc = (void *)bpl;
         }
-
-        for(i=0; i<=PCHG->MaxReg-PCHG->MinReg; i++) {
-            if (PCHG->Flags & PCHGF_12BIT) {
-                if (PreRGB[i] & 0x1000)
-                    SetRGB4(ViewPort, i+PCHG->MinReg, PreRGB[i]>>8 & 0xF, PreRGB[i]>>4 & 0xF, PreRGB[i] & 0xF);
-            }
-            else if (PCHG->Flags & PCHGF_32BIT) {
-                if (PreRGB[i] & 0x1000000) {
-
-                    r = PreRGB[i]>>16 & 0xFF;
-                    g = PreRGB[i]>>8 & 0xFF;
-                    b = PreRGB[i] & 0xFF;
-
-                    if (GfxBase->LibNode.lib_Version >= 39) {
-                        r = r|r<<8|r<<16|r<<24;
-                        g = g|g<<8|g<<16|g<<24;
-                        b = b|b<<8|b<<16|b<<24;
-                        SetRGB32(ViewPort, i+PCHG->MinReg, r, g, b);
-                    }
-                    else {
-                        SetRGB4(ViewPort, i+PCHG->MinReg, min(r+8,0xFF)>>4, min(g+8,0xFF)>>4, min(b+8,0xFF)>>4);
-                    }
-                }
-            }
-        }
-        FreeMem(PreRGB, sizeof(ULONG)*(PCHG->MaxReg-PCHG->MinReg+1));
-    }
-
-    blc = (void *)(slc = LineData);
-
-    for(i=0; i<PCHG->LineCount; i++) {
-        if (Mask[i/32] & 1UL<<(31-(i%32))) {
-            Change = (!Length || (i+PCHG->StartLine >= Offset && i+PCHG->StartLine < Offset+Length));
-            if (Change) CWAIT(UCop, i+PCHG->StartLine-Offset, 0);
-            if (PCHG->Flags & PCHGF_12BIT) {
-                RGB = (UWORD *)&slc[1];
-                for(j=0; j<slc->ChangeCount16; j++) {
-                    if (j<MAX_PER_LINE_CHANGES && Change) CMOVE(UCop, custom.color[*RGB>>12 & 0xF], *RGB & 0xFFF);
-                    RGB++;
-                }
-                for(j=0; j<slc->ChangeCount32; j++) {
-                    if (j+slc->ChangeCount16<MAX_PER_LINE_CHANGES && Change) CMOVE(UCop, custom.color[(*RGB>>12 & 0xF)+16], *RGB & 0xFFF);
-                    RGB++;
-                }
-                slc = (void *)RGB;
-            }
-            else if (PCHG->Flags & PCHGF_32BIT) {
-                bpl = (void *)&blc[1];
-                for(j=0; j<blc->ChangeCount; j++) {
-                    if (j<MAX_PER_LINE_CHANGES && Change) CMOVE(UCop, custom.color[bpl->Register], (min(bpl->Red+8, 0xFF) & 0xF0)<<4 | min(bpl->Green+8, 0xFF) & 0xF0 | min(bpl->Blue+8, 0xFF)>>4);
-                    bpl++;
-                }
-                blc = (void *)bpl;
-            }
-        }
+      }
     }
 
-    CEND(UCop);
-    Forbid();
-    ViewPort->UCopIns = UCop;
-    Permit();
+    for (i = 0; i <= PCHG->MaxReg - PCHG->MinReg; i++)
+    {
+      if (PCHG->Flags & PCHGF_12BIT)
+      {
+        if (PreRGB[i] & 0x1000)
+        {
+          SetRGB4(ViewPort, i + PCHG->MinReg, PreRGB[i] >> 8 & 0xF, PreRGB[i] >> 4 & 0xF, PreRGB[i] & 0xF);
+        }
+      } else if (PCHG->Flags & PCHGF_32BIT)
+      {
+        if (PreRGB[i] & 0x1000000)
+        {
+
+          r = PreRGB[i] >> 16 & 0xFF;
+          g = PreRGB[i] >> 8 & 0xFF;
+          b = PreRGB[i] & 0xFF;
+
+          if (GfxBase->LibNode.lib_Version >= 39)
+          {
+            r = r | r << 8 | r << 16 | r << 24;
+            g = g | g << 8 | g << 16 | g << 24;
+            b = b | b << 8 | b << 16 | b << 24;
+            SetRGB32(ViewPort, i + PCHG->MinReg, r, g, b);
+          } else
+          {
+            SetRGB4(ViewPort, i + PCHG->MinReg, min(r + 8, 0xFF) >> 4, min(g + 8, 0xFF) >> 4, min(b + 8, 0xFF) >> 4);
+          }
+        }
+      }
+    }
+    FreeMem(PreRGB, sizeof(ULONG) * (PCHG->MaxReg - PCHG->MinReg + 1));
+  }
+
+  blc = (void *)(slc = LineData);
+
+  for (i = 0; i < PCHG->LineCount; i++)
+  {
+    if (Mask[i / 32] & 1UL << (31 - (i % 32)))
+    {
+      Change = (!Length || (i + PCHG->StartLine >= Offset && i + PCHG->StartLine < Offset + Length));
+      if (Change)
+      {
+        CWAIT(UCop, i + PCHG->StartLine - Offset, 0);
+      }
+      if (PCHG->Flags & PCHGF_12BIT)
+      {
+        RGB = (UWORD *)&slc[1];
+        for (j = 0; j < slc->ChangeCount16; j++)
+        {
+          if (j < MAX_PER_LINE_CHANGES && Change)
+          {
+            CMOVE(UCop, custom.color[*RGB >> 12 & 0xF], *RGB & 0xFFF);
+          }
+          RGB++;
+        }
+        for (j = 0; j < slc->ChangeCount32; j++)
+        {
+          if (j + slc->ChangeCount16 < MAX_PER_LINE_CHANGES && Change)
+          {
+            CMOVE(UCop, custom.color[(*RGB >> 12 & 0xF) + 16], *RGB & 0xFFF);
+          }
+          RGB++;
+        }
+        slc = (void *)RGB;
+      } else if (PCHG->Flags & PCHGF_32BIT)
+      {
+        bpl = (void *)&blc[1];
+        for (j = 0; j < blc->ChangeCount; j++)
+        {
+          if (j < MAX_PER_LINE_CHANGES && Change)
+          {
+            CMOVE(UCop, custom.color[bpl->Register],
+                  (min(bpl->Red + 8, 0xFF) & 0xF0) << 4 | min(bpl->Green + 8, 0xFF) & 0xF0 |
+                      min(bpl->Blue + 8, 0xFF) >> 4);
+          }
+          bpl++;
+        }
+        blc = (void *)bpl;
+      }
+    }
+  }
+
+  CEND(UCop);
+  Forbid();
+  ViewPort->UCopIns = UCop;
+  Permit();
 }

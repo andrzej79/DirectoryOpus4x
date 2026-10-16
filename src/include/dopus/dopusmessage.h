@@ -31,57 +31,62 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#define DOPUSMSG_GETVIS         1
-#define DOPUSMSG_UPDATEDRIVE    2
-#define DOPUSMSG_GETNEXTFILE    3
-#define DOPUSMSG_UNSELECTFILE   4
-#define DOPUSMSG_GETPRINTDIR    5
+#define DOPUSMSG_GETVIS 1
+#define DOPUSMSG_UPDATEDRIVE 2
+#define DOPUSMSG_GETNEXTFILE 3
+#define DOPUSMSG_UNSELECTFILE 4
+#define DOPUSMSG_GETPRINTDIR 5
 
-struct DOpusMessage {
-    struct Message msg;
-    int command;
-    APTR data;
+struct DOpusMessage
+{
+  struct Message msg;
+  int command;
+  APTR data;
 };
 
-struct VisInfo {
-    char vi_fg,vi_bg;
-    char vi_shine,vi_shadow;
-    struct TextFont *vi_font;
-    struct Screen *vi_screen;
-    char vi_stringcol[2];
-    char vi_activestringcol[2];
-    ULONG vi_flags;
-    char *vi_language;
+struct VisInfo
+{
+  char vi_fg, vi_bg;
+  char vi_shine, vi_shadow;
+  struct TextFont *vi_font;
+  struct Screen *vi_screen;
+  char vi_stringcol[2];
+  char vi_activestringcol[2];
+  ULONG vi_flags;
+  char *vi_language;
 };
 
 #define VISF_8POINTFONT 1
-#define VISF_WINDOW     2
-#define VISF_BORDERS    (1<<16)
+#define VISF_WINDOW 2
+#define VISF_BORDERS (1 << 16)
 
-struct DOpusArgsList {
-    char *single_file;
-    int   file_window;
-    APTR  file_list;
-    APTR  last_select;
-    char *file_data;
+struct DOpusArgsList
+{
+  char *single_file;
+  int file_window;
+  APTR file_list;
+  APTR last_select;
+  char *file_data;
 };
 
-struct PrintDirData {
-    int win;
-    char titlebuf[512];
-    struct Directory *entry;
-    int onlysel;
-    int namelen;
+struct PrintDirData
+{
+  int win;
+  char titlebuf[512];
+  struct Directory *entry;
+  int onlysel;
+  int namelen;
 };
 
-struct DirWindowPars {
-    char top_name[FILEBUF_SIZE];
-    int offset;
-    int hoffset;
-    char *reselection_list;
-    ULONG reselection_size;
-    UBYTE reselection_win;
-    struct DirectoryWindow *reselection_dir;
+struct DirWindowPars
+{
+  char top_name[FILEBUF_SIZE];
+  int offset;
+  int hoffset;
+  char *reselection_list;
+  ULONG reselection_size;
+  UBYTE reselection_win;
+  struct DirectoryWindow *reselection_dir;
 };
 
 #endif /* DOPUS_MESSAGE_H */

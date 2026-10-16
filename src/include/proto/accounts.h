@@ -14,9 +14,9 @@
 #ifndef __NOLIBBASE__
 extern struct Library *
 #ifdef __CONSTLIBBASEDECL__
-__CONSTLIBBASEDECL__
+    __CONSTLIBBASEDECL__
 #endif /* __CONSTLIBBASEDECL__ */
-AccountsBase;
+        AccountsBase;
 #endif /* !__NOLIBBASE__ */
 
 #endif /* !PROTO_ACCOUNTS_H */

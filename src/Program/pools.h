@@ -47,8 +47,7 @@ void AsmFreePooled(REG(a0, void *),REG(a1, void *),REG(d0, ULONG),REG(a6, struct
 
 #include <proto/exec.h>
 
-#define	LibCreatePool(x,y,z)	CreatePool(x,y,z)
-#define	LibDeletePool(x)		DeletePool(x)
-#define	LibAllocPooled(x,y)	AllocPooled(x,y)
-#define	LibFreePooled(x,y,z)	FreePooled(x,y,z)
-
+#define LibCreatePool(x, y, z) CreatePool(x, y, z)
+#define LibDeletePool(x) DeletePool(x)
+#define LibAllocPooled(x, y) AllocPooled(x, y)
+#define LibFreePooled(x, y, z) FreePooled(x, y, z)

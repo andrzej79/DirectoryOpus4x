@@ -34,1273 +34,892 @@ the existing commercial status of Directory Opus 5.
 
 char **globstring;
 
-struct DefaultString
-    default_strings[]={
-        {STR_DIRS_FILES_BYTES_COUNT,
-        "Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7ld/%7ld"}, // HUX
+struct DefaultString default_strings[] = {
+    {STR_DIRS_FILES_BYTES_COUNT, "Dirs : %03ld/%03ld  Files : %03ld/%03ld  Bytes : %7ld/%7ld"}, // HUX
 
-        {STR_DOPUS_ALREADY_RUNNING,
-        "Directory Opus is already resident in memory.\nDo you want to run another copy?"},
+    {STR_DOPUS_ALREADY_RUNNING, "Directory Opus is already resident in memory.\nDo you want to run another copy?"},
 
-        {STR_UNABLE_TO_OPEN_WINDOW,
-        "Unable to open screen/window!"},
+    {STR_UNABLE_TO_OPEN_WINDOW, "Unable to open screen/window!"},
 
-        {STR_WELCOME_TO_DOPUS,
-        "Welcome to Directory Opus!"},
+    {STR_WELCOME_TO_DOPUS, "Welcome to Directory Opus!"},
 
-        {STR_WELCOME_BACK_TO_DOPUS,
-        "Welcome back to Directory Opus!"},
+    {STR_WELCOME_BACK_TO_DOPUS, "Welcome back to Directory Opus!"},
 
-        {STR_INTERROGATING_FILE,
-        "Interrogating file..."},
+    {STR_INTERROGATING_FILE, "Interrogating file..."},
 
-        {STR_READING_DIRECTORY,
-        "Reading directory..."},
+    {STR_READING_DIRECTORY, "Reading directory..."},
 
-        {STR_ENTER_ARGUMENTS_FOR,
-        "Enter arguments for \"%s\""},
+    {STR_ENTER_ARGUMENTS_FOR, "Enter arguments for \"%s\""},
 
-        {STR_ENTER_DIRECTORY_NAME,
-        "Enter directory name"},
+    {STR_ENTER_DIRECTORY_NAME, "Enter directory name"},
 
-        {STR_FILE_ALREADY_EXISTS,
-        "File or directory already exists!"},
+    {STR_FILE_ALREADY_EXISTS, "File or directory already exists!"},
 
-        {STR_DIRECTORY_CREATED,
-        "Directory created."},
+    {STR_DIRECTORY_CREATED, "Directory created."},
 
-        {STR_PRINTING_DIRECTORY,
-        "Printing directory.."},
+    {STR_PRINTING_DIRECTORY, "Printing directory.."},
 
-        {STR_DIRECTORY,
-        "Directory "},
+    {STR_DIRECTORY, "Directory "},
 
-        {STR_DEVICE_LIST,
-        "Device list\n\n"},
+    {STR_DEVICE_LIST, "Device list\n\n"},
 
-        {STR_NO_CHIP_FOR_ICON,
-        "Not enough chip memory to display icon"},
+    {STR_NO_CHIP_FOR_ICON, "Not enough chip memory to display icon"},
 
-        {STR_FILE_NOT_ILBM,
-        "File is not ILBM"},
+    {STR_FILE_NOT_ILBM, "File is not ILBM"},
 
-        {STR_ERROR_IN_IFF,
-        "Error in IFF structure"},
+    {STR_ERROR_IN_IFF, "Error in IFF structure"},
 
-        {STR_NO_CHIP_FOR_PICTURE,
-        "Not enough chip memory to display picture"},
+    {STR_NO_CHIP_FOR_PICTURE, "Not enough chip memory to display picture"},
 
-        {STR_CANT_ALLOCATE_AUDIO,
-        "Can't allocate audio channels"},
+    {STR_CANT_ALLOCATE_AUDIO, "Can't allocate audio channels"},
 
-        {STR_NOT_ST_MOD,
-        "File is not a supported music module"},
+    {STR_NOT_ST_MOD, "File is not a supported music module"},
 
-//HUX Removed "File " from start of the string
-        {STR_FILE_EXISTS_REPLACE,
-        "\"%s\" already exists! Replace?"},
-//HUX
+    // HUX Removed "File " from start of the string
+    {STR_FILE_EXISTS_REPLACE, "\"%s\" already exists! Replace?"},
+    // HUX
 
-        {STR_SELECT_UNPROTECT,
-        "\nSelect Unprotect to set the deletion bit."},
+    {STR_SELECT_UNPROTECT, "\nSelect Unprotect to set the deletion bit."},
 
-        {STR_ENTER_TIME,
-        "Enter time in the form HH:MM:SS"},
+    {STR_ENTER_TIME, "Enter time in the form HH:MM:SS"},
 
-        {STR_AREXX_NOT_RUNNING,
-        "ARexx server not found!"},
+    {STR_AREXX_NOT_RUNNING, "ARexx server not found!"},
 
-        {STR_ENTER_AREXX_COMMAND,
-        "Enter ARexx command"},
+    {STR_ENTER_AREXX_COMMAND, "Enter ARexx command"},
 
-        {STR_ENTER_NEW_CD,
-        "Enter new current directory"},
+    {STR_ENTER_NEW_CD, "Enter new current directory"},
 
-        {STR_SCANNING_DEVICE_LIST,
-        "Scanning device list..."},
+    {STR_SCANNING_DEVICE_LIST, "Scanning device list..."},
 
-        {STR_FOUND_A_MATCH,
-        "Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?"},
+    {STR_FOUND_A_MATCH, "Found the file \"%s\" in the directory\n\"%s\"\nShall I go there?"},
 
-        {STR_BUFFERS_CLEARED,
-        "Buffers not currently displayed have been cleared."},
+    {STR_BUFFERS_CLEARED, "Buffers not currently displayed have been cleared."},
 
-        {STR_UNREADABLE_DISK,
-        "Unreadable disk"},
+    {STR_UNREADABLE_DISK, "Unreadable disk"},
 
-        {STR_NOT_A_DOS_DISK,
-        "Not a DOS disk"},
+    {STR_NOT_A_DOS_DISK, "Not a DOS disk"},
 
-        {STR_KICKSTART_DISK,
-        "Kickstart disk"},
+    {STR_KICKSTART_DISK, "Kickstart disk"},
 
-        {STR_VALIDATING,
-        "Validating"},
+    {STR_VALIDATING, "Validating"},
 
-        {STR_WRITE_PROTECTED,
-        "Write protected"},
+    {STR_WRITE_PROTECTED, "Write protected"},
 
-        {STR_READ_WRITE,
-        "Read/Write"},
+    {STR_READ_WRITE, "Read/Write"},
 
-        {STR_DEVICE_NOT_MOUNTED,
-        "Device or volume not mounted"},
+    {STR_DEVICE_NOT_MOUNTED, "Device or volume not mounted"},
 
-        {STR_NO_DISK_IN_DRIVE,
-        "No disk in drive"},
+    {STR_NO_DISK_IN_DRIVE, "No disk in drive"},
 
-        {STR_DOS_ERROR_CODE,
-        "DOS error code %ld"},
+    {STR_DOS_ERROR_CODE, "DOS error code %ld"},
 
-        {STR_ENTER_NEW_DISK_NAME,
-        "Enter new disk name"},
+    {STR_ENTER_NEW_DISK_NAME, "Enter new disk name"},
 
-        {STR_ENTER_ASSIGN_NAME,
-        "Enter directory to re-assign device"},
+    {STR_ENTER_ASSIGN_NAME, "Enter directory to re-assign device"},
 
-        {STR_CANT_CANCEL_ASSIGN,
-        "Can't cancel assign."},
+    {STR_CANT_CANCEL_ASSIGN, "Can't cancel assign."},
 
-        {STR_ENTER_DEVICE_NAME,
-        "Enter device name for this directory"},
+    {STR_ENTER_DEVICE_NAME, "Enter device name for this directory"},
 
-        {STR_ASSIGN_FAILED,
-        "Assign failed"},
+    {STR_ASSIGN_FAILED, "Assign failed"},
 
-        {STR_NO_DESTINATION_SELECTED,
-        "No destination directory selected!"},
+    {STR_NO_DESTINATION_SELECTED, "No destination directory selected!"},
 
-        {STR_CANT_COPY_DIR_TO_ITSELF,
-        "You can't copy a directory into itself!"},
+    {STR_CANT_COPY_DIR_TO_ITSELF, "You can't copy a directory into itself!"},
 
-        {STR_SHOWING_FONT,
-        "Showing selected font..."},
+    {STR_SHOWING_FONT, "Showing selected font..."},
 
-        {STR_RUNNING_FILE,
-        "Running selected file..."},
+    {STR_RUNNING_FILE, "Running selected file..."},
 
-        {STR_PLAYING_FILE,
-        "Playing selected file..."},
+    {STR_PLAYING_FILE, "Playing selected file..."},
 
-        {STR_SHOWING_FILE,
-        "Showing selected file..."},
+    {STR_SHOWING_FILE, "Showing selected file..."},
 
-        {STR_PLAYING_ST_MOD,
-        "Playing music module..."},
+    {STR_PLAYING_ST_MOD, "Playing music module..."},
 
-        {STR_READING_SELECTED_FILE,
-        "Reading selected file..."},
+    {STR_READING_SELECTED_FILE, "Reading selected file..."},
 
-        {STR_FOUND_A_MATCH_READ,
-        "Found a match in the file\n\"%s\"\nShall I read the file?"},
+    {STR_FOUND_A_MATCH_READ, "Found a match in the file\n\"%s\"\nShall I read the file?"},
 
-        {STR_CONFIG_CHANGED_QUIT,
-        "You have modified the configuration.\nDo you really want to quit?"},
+    {STR_CONFIG_CHANGED_QUIT, "You have modified the configuration.\nDo you really want to quit?"},
 
-        {STR_SAVING_CONFIG,
-        "Saving configuration.."},
+    {STR_SAVING_CONFIG, "Saving configuration.."},
 
-        {STR_READING_CONFIG,
-        "Reading configuration.."},
+    {STR_READING_CONFIG, "Reading configuration.."},
 
-        {STR_CONFIG_CHANGED_LASTSAVED,
-        "You have modified the configuration.\nReally load the last-saved settings?"},
+    {STR_CONFIG_CHANGED_LASTSAVED, "You have modified the configuration.\nReally load the last-saved settings?"},
 
-        {STR_CONFIG_CHANGED_DEFAULTS,
-        "You have modified the configuration.\nSave before restoring defaults?"},
+    {STR_CONFIG_CHANGED_DEFAULTS, "You have modified the configuration.\nSave before restoring defaults?"},
 
-        {STR_HELP_NOT_AVAILABLE,
-        "Help not available for that function!"},
+    {STR_HELP_NOT_AVAILABLE, "Help not available for that function!"},
 
-        {STR_SCANNING_TREE,
-        "Scanning directory tree..."},
+    {STR_SCANNING_TREE, "Scanning directory tree..."},
 
-        {STR_ENTER_A_STRING,
-        "Enter a string"},
+    {STR_ENTER_A_STRING, "Enter a string"},
 
-        {STR_PLEASE_CHOOSE,
-        "Please choose"},
+    {STR_PLEASE_CHOOSE, "Please choose"},
 
-        {STR_COMMENTING,
-        "commenting"},
+    {STR_COMMENTING, "commenting"},
 
-        {STR_PROTECTING,
-        "protecting"},
+    {STR_PROTECTING, "protecting"},
 
-        {STR_DATESTAMPING,
-        "datestamping"},
+    {STR_DATESTAMPING, "datestamping"},
 
-        {STR_DELETING,
-        "deleting"},
+    {STR_DELETING, "deleting"},
 
-        {STR_COPYING,
-        "copying"},
+    {STR_COPYING, "copying"},
 
-        {STR_CREATING,
-        "creating"},
+    {STR_CREATING, "creating"},
 
-        {STR_CANT_OVERCOPY_FILES,
-        "You can't copy these files over themselves!"},
+    {STR_CANT_OVERCOPY_FILES, "You can't copy these files over themselves!"},
 
-        {STR_INTERROGATING_FILES,
-        "Interrogating files..."},
+    {STR_INTERROGATING_FILES, "Interrogating files..."},
 
-        {STR_NOT_IDENTIFIED,
-        "%s could not be identified."},
+    {STR_NOT_IDENTIFIED, "%s could not be identified."},
 
-        {STR_LOADING_CONFIG,
-        "Loading configuration program..."},
+    {STR_LOADING_CONFIG, "Loading configuration program..."},
 
-        {STR_WAITING_FOR_PORT,
-        "Waiting for configuration port..."},
+    {STR_WAITING_FOR_PORT, "Waiting for configuration port..."},
 
-        {STR_CONFIG_NOT_FOUND,
-        "Configuration program not found/could not be loaded."},
+    {STR_CONFIG_NOT_FOUND, "Configuration program not found/could not be loaded."},
 
-        {STR_ALIEN_WINDOWS,
-        "There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them yourself, or select Close\nand Directory Opus will close them for you (DANGER!)"},
+    {STR_ALIEN_WINDOWS, "There are alien windows open on the Directory Opus screen.\nSelect Cancel and then close them "
+                        "yourself, or select Close\nand Directory Opus will close them for you (DANGER!)"},
 
-        {STR_REALLY_DELETE,
-        "Do you really wish to delete selected entries?"},
+    {STR_REALLY_DELETE, "Do you really wish to delete selected entries?"},
 
-        {STR_WISH_TO_DELETE,
-        "Do you really wish to delete \"%s\"?"},
+    {STR_WISH_TO_DELETE, "Do you really wish to delete \"%s\"?"},
 
-        {STR_NOT_EMPTY,
-        "\"%s\" is not empty! Delete?"},
+    {STR_NOT_EMPTY, "\"%s\" is not empty! Delete?"},
 
-        {STR_ENTER_NEW_NAME,
-        "Enter new name"},
+    {STR_ENTER_NEW_NAME, "Enter new name"},
 
-        {STR_RENAMING,
-        "renaming"},
+    {STR_RENAMING, "renaming"},
 
-        {STR_ENTER_NEW_NAME_MOVE,
-        "Enter new name for moved file"},
+    {STR_ENTER_NEW_NAME_MOVE, "Enter new name for moved file"},
 
-        {STR_MOVING,
-        "moving"},
+    {STR_MOVING, "moving"},
 
-        {STR_ENTER_NEW_NAME_CLONE,
-        "Enter name for cloned entry"},
+    {STR_ENTER_NEW_NAME_CLONE, "Enter name for cloned entry"},
 
-        {STR_CLONING,
-        "cloning"},
+    {STR_CLONING, "cloning"},
 
-        {STR_SIZE_IS_NOT_KNOWN,
-        "Size is not known for the selected directory.\nPerform a byte count on this directory?"},
+    {STR_SIZE_IS_NOT_KNOWN, "Size is not known for the selected directory.\nPerform a byte count on this directory?"},
 
-        {STR_FILE_MAY_NOT_FIT,
-        "Selected file will probably not fit in destination.\nContinue with the copy?"},
+    {STR_FILE_MAY_NOT_FIT, "Selected file will probably not fit in destination.\nContinue with the copy?"},
 
-        {STR_SIZES_NOT_KNOWN,
-        "Sizes are not known for some selected directories.\nPerform a byte count on these directories?"},
+    {STR_SIZES_NOT_KNOWN,
+     "Sizes are not known for some selected directories.\nPerform a byte count on these directories?"},
 
-        {STR_ENTRIES_MAY_NOT_FIT,
-        "Selected entries will probably not fit in destination.\nContinue with the copy?"},
+    {STR_ENTRIES_MAY_NOT_FIT, "Selected entries will probably not fit in destination.\nContinue with the copy?"},
 
-        {STR_ENTER_NEW_NAME_COPY,
-        "Enter new name for copied file"},
+    {STR_ENTER_NEW_NAME_COPY, "Enter new name for copied file"},
 
-        {STR_ENTER_HUNT_PATTERN,
-        "Enter file pattern to hunt"},
+    {STR_ENTER_HUNT_PATTERN, "Enter file pattern to hunt"},
 
-        {STR_COULD_NOT_FIND_FILE,
-        "Sorry! File could not be found!"},
+    {STR_COULD_NOT_FIND_FILE, "Sorry! File could not be found!"},
 
-        {STR_FOUND_MATCHING_FILES,
-        "Found %ld matching files."},
+    {STR_FOUND_MATCHING_FILES, "Found %ld matching files."},
 
-        {STR_ADDING_ICON,
-        "adding an icon to"},
+    {STR_ADDING_ICON, "adding an icon to"},
 
-        {STR_recremoved1,
-        ""},
+    {STR_recremoved1, ""},
 
-        {STR_ENTER_COMMENT,
-        "Enter comment"},
+    {STR_ENTER_COMMENT, "Enter comment"},
 
-        {STR_recremoved2,
-        ""},
-    
-        {STR_ENTER_PASSWORD,
-        "Enter password"},
+    {STR_recremoved2, ""},
 
-        {STR_recremoved3,
-        ""},
+    {STR_ENTER_PASSWORD, "Enter password"},
 
-        {STR_ENTER_DATE_AND_TIME,
-        "Enter date and time (blank for current)"},
+    {STR_recremoved3, ""},
 
-        {STR_ENTER_SEARCH_STRING,
-        "Enter search string"},
+    {STR_ENTER_DATE_AND_TIME, "Enter date and time (blank for current)"},
 
-        {STR_recremoved4,
-        ""},
+    {STR_ENTER_SEARCH_STRING, "Enter search string"},
 
-        {STR_STRING_NOT_FOUND,
-        "Sorry! String could not be found!"},
+    {STR_recremoved4, ""},
 
-        {STR_MATCHED_FILES,
-        "Matched in %ld files."},
+    {STR_STRING_NOT_FOUND, "Sorry! String could not be found!"},
 
-        {STR_NO_SOURCE_SELECTED,
-        "No source directory selected!"},
+    {STR_MATCHED_FILES, "Matched in %ld files."},
 
-        {STR_TEMPORARY_OUTPUT_FILE,
-        "Temporary output file"},
+    {STR_NO_SOURCE_SELECTED, "No source directory selected!"},
 
-        {STR_ENTER_ARGUMENTS,
-        "Enter arguments"},
+    {STR_TEMPORARY_OUTPUT_FILE, "Temporary output file"},
 
-        {STR_SELECT_FUNCTION,
-        "Select function you need help with, or Help again to cancel."},
+    {STR_ENTER_ARGUMENTS, "Enter arguments"},
 
-        {STR_NOT_ENOUGH_MEMORY,
-        "Not enough memory"},
+    {STR_SELECT_FUNCTION, "Select function you need help with, or Help again to cancel."},
 
-        {STR_PROCESS_TABLE_FULL,
-        "Process table full"},
+    {STR_NOT_ENOUGH_MEMORY, "Not enough memory"},
 
-        {STR_BAD_TEMPLATE,
-        "Bad template"},
+    {STR_PROCESS_TABLE_FULL, "Process table full"},
 
-        {STR_BAD_NUMBER,
-        "Bad number"},
+    {STR_BAD_TEMPLATE, "Bad template"},
 
-        {STR_REQUIRED_ARG_MISSING,
-        "Required argument missing"},
+    {STR_BAD_NUMBER, "Bad number"},
 
-        {STR_ARGUMENT_MISSING,
-        "Argument after \"=\" missing"},
+    {STR_REQUIRED_ARG_MISSING, "Required argument missing"},
 
-        {STR_TOO_MANY_ARGUMENTS,
-        "Too many arguments"},
+    {STR_ARGUMENT_MISSING, "Argument after \"=\" missing"},
 
-        {STR_UNMATCHED_QUOTES,
-        "Unmatched quotes"},
+    {STR_TOO_MANY_ARGUMENTS, "Too many arguments"},
 
-        {STR_ARG_LINE_TOO_LONG,
-        "Argument line invalid or too long"},
+    {STR_UNMATCHED_QUOTES, "Unmatched quotes"},
 
-        {STR_FILE_NOT_EXECUTABLE,
-        "File is not executable"},
+    {STR_ARG_LINE_TOO_LONG, "Argument line invalid or too long"},
 
-        {STR_INVALID_LIBRARY,
-        "Invalid resident library"},
+    {STR_FILE_NOT_EXECUTABLE, "File is not executable"},
 
-        {STR_OBJECT_IN_USE,
-        "Object is in use"},
+    {STR_INVALID_LIBRARY, "Invalid resident library"},
 
-        {STR_OBJECT_EXISTS,
-        "Object already exists"},
+    {STR_OBJECT_IN_USE, "Object is in use"},
 
-        {STR_DIR_NOT_FOUND,
-        "Directory not found"},
+    {STR_OBJECT_EXISTS, "Object already exists"},
 
-        {STR_OBJECT_NOT_FOUND,
-        "Object not found"},
+    {STR_DIR_NOT_FOUND, "Directory not found"},
 
-        {STR_INVALID_WINDOW,
-        "Invalid window description"},
+    {STR_OBJECT_NOT_FOUND, "Object not found"},
 
-        {STR_UNKNOWN_PACKET,
-        "Packet request type unknown"},
+    {STR_INVALID_WINDOW, "Invalid window description"},
 
-        {STR_OBJECT_NAME_INVALID,
-        "Object name invalid"},
+    {STR_UNKNOWN_PACKET, "Packet request type unknown"},
 
-        {STR_INVALID_LOCK,
-        "Invalid object lock"},
+    {STR_OBJECT_NAME_INVALID, "Object name invalid"},
 
-        {STR_OBJECT_BAD_TYPE,
-        "Object not of required type"},
+    {STR_INVALID_LOCK, "Invalid object lock"},
 
-        {STR_DISK_NOT_VALIDATED,
-        "Disk not validated"},
+    {STR_OBJECT_BAD_TYPE, "Object not of required type"},
 
-        {STR_DISK_WRITE_PROTECTED,
-        "Disk is write-protected"},
+    {STR_DISK_NOT_VALIDATED, "Disk not validated"},
 
-        {STR_RENAME_DEVICES_ATTEMPTED,
-        "Rename across devices attempted"},
+    {STR_DISK_WRITE_PROTECTED, "Disk is write-protected"},
 
-        {STR_DIRECTORY_NOT_EMPTY,
-        "Directory not empty"},
+    {STR_RENAME_DEVICES_ATTEMPTED, "Rename across devices attempted"},
 
-        {STR_TOO_MANY_LEVELS,
-        "Too many levels"},
+    {STR_DIRECTORY_NOT_EMPTY, "Directory not empty"},
 
-        {STR_SEEK_ERROR,
-        "Seek error"},
+    {STR_TOO_MANY_LEVELS, "Too many levels"},
 
-        {STR_COMMENT_TOO_LONG,
-        "Comment is too long"},
+    {STR_SEEK_ERROR, "Seek error"},
 
-        {STR_DISK_FULL,
-        "Disk is full"},
+    {STR_COMMENT_TOO_LONG, "Comment is too long"},
 
-        {STR_OBJECT_DELETE_PROTECTED,
-        "Object is protected from deletion"},
+    {STR_DISK_FULL, "Disk is full"},
 
-        {STR_OBJECT_WRITE_PROTECTED,
-        "File is write protected"},
+    {STR_OBJECT_DELETE_PROTECTED, "Object is protected from deletion"},
 
-        {STR_OBJECT_READ_PROTECTED,
-        "File is read protected"},
+    {STR_OBJECT_WRITE_PROTECTED, "File is write protected"},
 
-        {STR_NOT_VALID_DOS_DISK,
-        "Not a valid DOS disk"},
+    {STR_OBJECT_READ_PROTECTED, "File is read protected"},
 
-        {STR_NO_MORE_ENTRIES,
-        "No more entries in directory"},
+    {STR_NOT_VALID_DOS_DISK, "Not a valid DOS disk"},
 
-        {STR_OBJECT_IS_SOFT_LINK,
-        "Object is soft link"},
+    {STR_NO_MORE_ENTRIES, "No more entries in directory"},
 
-        {STR_CONFIG_CHANGED_LOAD,
-        "You have modified the configuration.\nReally load a new configuration file?"},
+    {STR_OBJECT_IS_SOFT_LINK, "Object is soft link"},
 
-        {STR_ABORTED,
-        "Aborted..."},
+    {STR_CONFIG_CHANGED_LOAD, "You have modified the configuration.\nReally load a new configuration file?"},
 
-        {STR_ENTER_DOS_ERROR_CODE,
-        "Enter DOS error code"},
+    {STR_ABORTED, "Aborted..."},
 
-        {STR_NO_HELP_FOR_ERROR,
-        "Help not available for that error code!"},
+    {STR_ENTER_DOS_ERROR_CODE, "Enter DOS error code"},
 
-        {STR_ERROR_OCCURED,
-        "An error occured %s \"%s\"\n%s"},
+    {STR_NO_HELP_FOR_ERROR, "Help not available for that error code!"},
 
-        {STR_RENAME,
-        "Rename"},
+    {STR_ERROR_OCCURED, "An error occured %s \"%s\"\n%s"},
 
-        {STR_AS,
-        "As"},
+    {STR_RENAME, "Rename"},
 
-        {STR_ENTER_SELECT_PATTERN,
-        "Enter select pattern"},
+    {STR_AS, "As"},
 
-        {STR_FILE_ENCRYPTED,
-        "\nFile is encrypted!\n\n"},
+    {STR_ENTER_SELECT_PATTERN, "Enter select pattern"},
 
-        {STR_READING_FILE,
-        "Reading file.."},
+    {STR_FILE_ENCRYPTED, "\nFile is encrypted!\n\n"},
 
-        {STR_NO_MEMORY_TO_DECRUNCH,
-        "Not enough memory to load/decrunch complete file!"},
+    {STR_READING_FILE, "Reading file.."},
 
-        {STR_BAD_PASSWORD,
-        "Incorrect password given!"},
+    {STR_NO_MEMORY_TO_DECRUNCH, "Not enough memory to load/decrunch complete file!"},
 
-        {STR_COUNTING_LINES,
-        "Counting lines.."},
+    {STR_BAD_PASSWORD, "Incorrect password given!"},
 
-        {STR_JUMP_TO_LINE,
-        "Jump to which line?"},
+    {STR_COUNTING_LINES, "Counting lines.."},
 
-        {STR_JUMP_TO_PERCENTAGE,
-        "Jump to what percentage?"},
+    {STR_JUMP_TO_LINE, "Jump to which line?"},
 
-        {STR_CANT_OPEN_PRINTER,
-        "Can't open printer!"},
+    {STR_JUMP_TO_PERCENTAGE, "Jump to what percentage?"},
 
-        {STR_ERROR_PRINTING_FILE,
-        "Error printing file! IoErr = %ld\n"},
+    {STR_CANT_OPEN_PRINTER, "Can't open printer!"},
 
-        {STR_READY_PRINTER,
-        "Ready printer, and choose OKAY to continue"},
+    {STR_ERROR_PRINTING_FILE, "Error printing file! IoErr = %ld\n"},
 
-        {STR_CANT_FIND_ICON,
-        "Unable to find or load an icon for that file."},
+    {STR_READY_PRINTER, "Ready printer, and choose OKAY to continue"},
 
-        {STR_ENCRYPTING,
-        "encrypting"},
+    {STR_CANT_FIND_ICON, "Unable to find or load an icon for that file."},
 
-        {STR_NEW_DISK_INSERTED,
-        "A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?"},
+    {STR_ENCRYPTING, "encrypting"},
 
-        {STR_recremoved5,
-        ""},
+    {STR_NEW_DISK_INSERTED, "A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?"},
 
-        {STR_ENTER_DATE_1,
-        "Enter date in the form DD-MMM-YY"},
+    {STR_recremoved5, ""},
 
-        {STR_ENTER_DATE_2,
-        "Enter date in the form YY-MM-DD"},
+    {STR_ENTER_DATE_1, "Enter date in the form DD-MMM-YY"},
 
-        {STR_ENTER_DATE_3,
-        "Enter date in the form MM-DD-YY"},
+    {STR_ENTER_DATE_2, "Enter date in the form YY-MM-DD"},
 
-        {STR_ENTER_DATE_4,
-        "Enter date in the form DD-MM-YY"},
+    {STR_ENTER_DATE_3, "Enter date in the form MM-DD-YY"},
 
-        {STR_CONTINUE_WITH_SEARCH,
-        "Do you wish to continue with the search?"},
+    {STR_ENTER_DATE_4, "Enter date in the form DD-MM-YY"},
 
-        {STR_REALLY_QUIT,
-        "Do you really want to quit Directory Opus?"},
+    {STR_CONTINUE_WITH_SEARCH, "Do you wish to continue with the search?"},
 
-        {STR_REALLY_PROCEED,
-        "Do you really wish to proceed with this operation?"},
+    {STR_REALLY_QUIT, "Do you really want to quit Directory Opus?"},
 
-        {STR_SCREEN_MODE_UNAVAILABLE,
-        "Screen mode not available."},
+    {STR_REALLY_PROCEED, "Do you really wish to proceed with this operation?"},
 
-        {STR_ERROR_INITIALISING_PRINTER,
-        "Error initialising printer.\nCheck cable and connections."},
+    {STR_SCREEN_MODE_UNAVAILABLE, "Screen mode not available."},
 
-        {STR_REALLY_ABORT_PRINT,
-        "Really abort the print?"},
+    {STR_ERROR_INITIALISING_PRINTER, "Error initialising printer.\nCheck cable and connections."},
 
-        {STR_SELECT_SOURCE_DIR,
-        "Select the source directory"},
+    {STR_REALLY_ABORT_PRINT, "Really abort the print?"},
 
-        {STR_SELECT_DESTINATION_DIR,
-        "Select the destination directory"},
+    {STR_SELECT_SOURCE_DIR, "Select the source directory"},
 
-        {STR_SELECT_A_FILE,
-        "Select a file"},
+    {STR_SELECT_DESTINATION_DIR, "Select the destination directory"},
 
-        {STR_SELECT_A_DIRECTORY,
-        "Select a directory"},
+    {STR_SELECT_A_FILE, "Select a file"},
 
-        {STR_LEFT_WINDOW,
-        "Left window"},
+    {STR_SELECT_A_DIRECTORY, "Select a directory"},
 
-        {STR_RIGHT_WINDOW,
-        "Right window"},
+    {STR_LEFT_WINDOW, "Left window"},
 
-        {STR_DEVICE_LIST_TITLE,
-        "<Device list>"},
+    {STR_RIGHT_WINDOW, "Right window"},
 
-        {STR_DIR_NOT_AVAILABLE_TITLE,
-        "<Directory not available>"},
+    {STR_DEVICE_LIST_TITLE, "<Device list>"},
 
-        {STR_BUFFER_LIST_TITLE,
-        "<Buffer list>"},
+    {STR_DIR_NOT_AVAILABLE_TITLE, "<Directory not available>"},
 
-        {STR_UNPROTECT,
-        "Unprotect"},
+    {STR_BUFFER_LIST_TITLE, "<Buffer list>"},
 
-        {STR_RUN,
-        "Run"},
+    {STR_UNPROTECT, "Unprotect"},
 
-        {STR_TRY_AGAIN,
-        "_Try Again"},
+    {STR_RUN, "Run"},
 
-        {STR_RETRY,
-        "_Retry"},
+    {STR_TRY_AGAIN, "_Try Again"},
 
-        {STR_ABORT,
-        "A_bort"},
+    {STR_RETRY, "_Retry"},
 
-        {STR_REPLACE,
-        "_Replace"},
+    {STR_ABORT, "A_bort"},
 
-        {STR_SKIP,
-        "_Skip"},
+    {STR_REPLACE, "_Replace"},
 
-        {STR_ALL,
-        "_All"},
+    {STR_SKIP, "_Skip"},
 
-        {STR_REMOVE,
-        "_Remove"},
+    {STR_ALL, "_All"},
 
-        {STR_QUIT,
-        "_Quit"},
+    {STR_REMOVE, "_Remove"},
 
-        {STR_SAVE_QUIT,
-        "_Save & quit"},
+    {STR_QUIT, "_Quit"},
 
-        {STR_LOAD,
-        "Load"},
+    {STR_SAVE_QUIT, "_Save & quit"},
 
-        {STR_SAVE,
-        "Save"},
+    {STR_LOAD, "Load"},
 
-        {STR_DEFAULTS,
-        "Defaults"},
+    {STR_SAVE, "Save"},
 
-        {STR_CLOSE,
-        "Close"},
+    {STR_DEFAULTS, "Defaults"},
 
-        {STR_DELETE,
-        "_Delete"},
+    {STR_CLOSE, "Close"},
 
-        {STR_LEAVE,
-        "_Leave"},
+    {STR_DELETE, "_Delete"},
 
-        {STR_YES,
-        "_Yes"},
+    {STR_LEAVE, "_Leave"},
 
-        {STR_NO,
-        "_No"},
+    {STR_YES, "_Yes"},
 
-        {STR_ICONIFY,
-        "_Iconify"},
+    {STR_NO, "_No"},
 
-        {STR_CONTINUE,
-        "_Continue"},
+    {STR_ICONIFY, "_Iconify"},
 
-        {STR_OKAY,
-        "_Okay"},
+    {STR_CONTINUE, "_Continue"},
 
-        {STR_CANCEL,
-        "_Cancel"},
+    {STR_OKAY, "_Okay"},
 
-        {STR_OKAY_TITLE,
-        "OK"},
+    {STR_CANCEL, "_Cancel"},
 
-        {STR_DESCRIPTION,
-        "Description"},
+    {STR_OKAY_TITLE, "OK"},
 
-        {STR_PRINT_CONTROL,
-        "Print control"},
+    {STR_DESCRIPTION, "Description"},
 
-        {STR_FILE,
-        "File"},
+    {STR_PRINT_CONTROL, "Print control"},
 
-        {STR_IMAGE_SIZE,
-        "Image size"},
+    {STR_FILE, "File"},
 
-        {STR_PAGE_SIZE,
-        "Page size"},
+    {STR_IMAGE_SIZE, "Image size"},
 
-        {STR_SCREEN_SIZE,
-        "Screen size"},
+    {STR_PAGE_SIZE, "Page size"},
 
-        {STR_DEPTH,
-        "Depth"},
+    {STR_SCREEN_SIZE, "Screen size"},
 
-        {STR_COLOURS,
-        "Colors"},
+    {STR_DEPTH, "Depth"},
 
-        {STR_SCREEN_MODES,
-        "Screen modes"},
+    {STR_COLOURS, "Colors"},
 
-        {STR_ASPECT,
-        "_Aspect:"},
+    {STR_SCREEN_MODES, "Screen modes"},
 
-        {STR_IMAGE,
-        "_Image:"},
+    {STR_ASPECT, "_Aspect:"},
 
-        {STR_SHADE,
-        "_Shade:"},
+    {STR_IMAGE, "_Image:"},
 
-        {STR_PLACEMENT,
-        "_Placement:"},
+    {STR_SHADE, "_Shade:"},
 
-        {STR_FORMFEED,
-        "_Form feed"},
+    {STR_PLACEMENT, "_Placement:"},
 
-        {STR_PRINTTITLE,
-        "Print _Title"},
+    {STR_FORMFEED, "_Form feed"},
 
-        {STR_PRINT,
-        "Print"},
+    {STR_PRINTTITLE, "Print _Title"},
 
-        {STR_ABORT_PRINT,
-        "Abort print"},
+    {STR_PRINT, "Print"},
 
-        {STR_PORTRAIT,
-        "Portrait"},
+    {STR_ABORT_PRINT, "Abort print"},
 
-        {STR_LANDSCAPE,
-        "Landscape"},
+    {STR_PORTRAIT, "Portrait"},
 
-        {STR_POSITIVE,
-        "Positive"},
+    {STR_LANDSCAPE, "Landscape"},
 
-        {STR_NEGATIVE,
-        "Negative"},
+    {STR_POSITIVE, "Positive"},
 
-        {STR_BLACK_WHITE,
-        "Black&White"},
+    {STR_NEGATIVE, "Negative"},
 
-        {STR_GRAY_SCALE,
-        "Gray scale"},
+    {STR_BLACK_WHITE, "Black&White"},
 
-        {STR_COLOUR,
-        "Color"},
+    {STR_GRAY_SCALE, "Gray scale"},
 
-        {STR_CENTER,
-        "Center"},
+    {STR_COLOUR, "Color"},
 
-        {STR_FULL_LEFT,
-        "Full left"},
+    {STR_CENTER, "Center"},
 
-        {STR_FONT,
-        "Font"},
+    {STR_FULL_LEFT, "Full left"},
 
-        {STR_FONT_SIZE,
-        "Font size"},
+    {STR_FONT, "Font"},
 
-        {STR_NUM_CHARS,
-        "Characters"},
+    {STR_FONT_SIZE, "Font size"},
 
-        {STR_FONT_STYLE,
-        "Font style"},
+    {STR_NUM_CHARS, "Characters"},
 
-        {STR_FONT_FLAGS,
-        "Font flags"},
+    {STR_FONT_STYLE, "Font style"},
 
-        {STR_ICON,
-        "Icon"},
+    {STR_FONT_FLAGS, "Font flags"},
 
-        {STR_ICON_TYPE,
-        "Icon type"},
+    {STR_ICON, "Icon"},
 
-        {STR_ICON_ALTERNATE,
-        "Alt. image"},
+    {STR_ICON_TYPE, "Icon type"},
 
-        {STR_ICON_DEFAULTTOOL,
-        "Default tool"},
+    {STR_ICON_ALTERNATE, "Alt. image"},
 
-        {STR_NUM_FRAMES,
-        "Frame"},
+    {STR_ICON_DEFAULTTOOL, "Default tool"},
 
-        {STR_PLAYING_ANIM,
-        "Playing selected animation..."},
+    {STR_NUM_FRAMES, "Frame"},
 
-//HUX Removed "File " from start of the string
-        {STR_OLD_NEW_FILE_REPLACE,
-        "\"%s\" already exists! Replace?\n\n\
+    {STR_PLAYING_ANIM, "Playing selected animation..."},
+
+    // HUX Removed "File " from start of the string
+    {STR_OLD_NEW_FILE_REPLACE, "\"%s\" already exists! Replace?\n\n\
 New  -  Size : %7ld  Date : %19s\n\
 Old  -  Size : %7ld  Date : %19s"},
-//HUX
+    // HUX
 
-        {STR_REMAINING,
-        "%ld of %ld items"},
+    {STR_REMAINING, "%ld of %ld items"},
 
-        {STR_CUSTOM_LIST,
-        "Custom list"},
+    {STR_CUSTOM_LIST, "Custom list"},
 
-        {STR_ENTRIES_IN_TREE,
-        "%ld entries in tree"},
+    {STR_ENTRIES_IN_TREE, "%ld entries in tree"},
 
-        {STR_DIRS_IN_BUFFERS,
-        "%ld directories in buffers"},
+    {STR_DIRS_IN_BUFFERS, "%ld directories in buffers"},
 
-        {STR_USER_ENTRIES,
-        "%ld user-defined entries"},
+    {STR_USER_ENTRIES, "%ld user-defined entries"},
 
-        {STR_COMPLETED,
-        "Completed"},
+    {STR_COMPLETED, "Completed"},
 
-        {STR_UNICONIFY,
-        "Uniconify"},
+    {STR_UNICONIFY, "Uniconify"},
 
-        {STR_CUSTPORT_NOT_FOUND,
-        "User-specified custom handler port\n\"%s\"\ncould not be found!"},
+    {STR_CUSTPORT_NOT_FOUND, "User-specified custom handler port\n\"%s\"\ncould not be found!"},
 
-        {STR_CHECKFIT_STRING,
-        "Bytes needed : %11ld   Bytes free : %11ld   Fit : %s%%"},
+    {STR_CHECKFIT_STRING, "Bytes needed : %11ld   Bytes free : %11ld   Fit : %s%%"},
 
-        {STR_DIR_TREE,
-        "<Directory tree>"},
+    {STR_DIR_TREE, "<Directory tree>"},
 
-        {STR_BUILDING_TREE,
-        "Generating tree structure..."},
+    {STR_BUILDING_TREE, "Generating tree structure..."},
 
-        {STR_UNPROTECT_ALL,
-        "Unprotect all"},
+    {STR_UNPROTECT_ALL, "Unprotect all"},
 
-        {STR_READING_CHANGED_DIRECTORY,
-        "Buffered directory changed - re-reading"},
+    {STR_READING_CHANGED_DIRECTORY, "Buffered directory changed - re-reading"},
 
-        {STR_CREATING_DIRECTORY,
-        "creating directory"},
+    {STR_CREATING_DIRECTORY, "creating directory"},
 
-        {STR_STARTING_DISK_MODULE,
-        "Starting disk module..."},
+    {STR_STARTING_DISK_MODULE, "Starting disk module..."},
 
-        {STR_UNABLE_TO_LOAD_MODULE,
-        "Unable to load external module"},
+    {STR_UNABLE_TO_LOAD_MODULE, "Unable to load external module"},
 
-        {STR_SELECT_ALL_ENTRIES,
-        "All entries"},
+    {STR_SELECT_ALL_ENTRIES, "All entries"},
 
-        {STR_SELECT_ONLY_FILES,
-        "Only files"},
+    {STR_SELECT_ONLY_FILES, "Only files"},
 
-        {STR_SELECT_ONLY_DIRS,
-        "Only dirs"},
+    {STR_SELECT_ONLY_DIRS, "Only dirs"},
 
-        {STR_SELECT_NAME,
-        "Name"},
+    {STR_SELECT_NAME, "Name"},
 
-        {STR_SELECT_DATE,
-        "Date"},
+    {STR_SELECT_DATE, "Date"},
 
-        {STR_SELECT_BITS,
-        "Bits"},
+    {STR_SELECT_BITS, "Bits"},
 
-        {STR_STARTING_PRINT_MODULE,
-        "Starting print module..."},
+    {STR_STARTING_PRINT_MODULE, "Starting print module..."},
 
-        {STR_ABOUT,
-        "%s\n"
-        "Based on GPL release version 4.12\n"
-        "modified by %s\n"
-        "\n"
-        "This program is free software; you can redistribute it and/or\n"
-        "modify it under the terms of the GNU General Public License\n"
-        "as published by the Free Software Foundation; either version 2\n"
-        "of the License, or (at your option) any later version.\n"
-        "\n"
-        "This program is distributed in the hope that it will be useful,\n"
-        "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
-        "GNU General Public License for more details.\n"
-        "\n"
-        "All users of Directory Opus 4 (including versions distributed\n"
-        "under the GPL) are entitled to upgrade to the latest version of\n"
-        "Directory Opus version 5 at a reduced price. Please see\n"
-        "http://www.gpsoft.com.au for more information."},
+    {STR_ABOUT, "%s\n"
+                "Based on GPL release version 4.12\n"
+                "modified by %s\n"
+                "\n"
+                "This program is free software; you can redistribute it and/or\n"
+                "modify it under the terms of the GNU General Public License\n"
+                "as published by the Free Software Foundation; either version 2\n"
+                "of the License, or (at your option) any later version.\n"
+                "\n"
+                "This program is distributed in the hope that it will be useful,\n"
+                "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+                "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n"
+                "GNU General Public License for more details.\n"
+                "\n"
+                "All users of Directory Opus 4 (including versions distributed\n"
+                "under the GPL) are entitled to upgrade to the latest version of\n"
+                "Directory Opus version 5 at a reduced price. Please see\n"
+                "http://www.gpsoft.com.au for more information."},
 
-        {STR_SEARCH_NO_CASE,
-        "Treat upper and lower case as the same"},
+    {STR_SEARCH_NO_CASE, "Treat upper and lower case as the same"},
 
-        {STR_SEARCH_WILD,
-        "Recognise ? as a wildcard character"},
+    {STR_SEARCH_WILD, "Recognise ? as a wildcard character"},
 
-        {STR_SEARCH_ONLYWORD,
-        "Only match on whole, unbroken words"},
+    {STR_SEARCH_ONLYWORD, "Only match on whole, unbroken words"},
 
-        {STR_ENTER_FILTER,
-        "Enter file filter"},
+    {STR_ENTER_FILTER, "Enter file filter"},
 
-        {STR_SELECT_PROTECTION_BITS,
-        "Select new protection bits"},
+    {STR_SELECT_PROTECTION_BITS, "Select new protection bits"},
 
-        {STR_DIRECTORY_OPUS_REQUEST,
-        "Directory Opus Request"},
+    {STR_DIRECTORY_OPUS_REQUEST, "Directory Opus Request"},
 
-        {STR_CLOCK_CHIP,
-        "CHIP:"},
+    {STR_CLOCK_CHIP, "CHIP:"},
 
-        {STR_CLOCK_FAST,
-        "FAST:"},
+    {STR_CLOCK_FAST, "FAST:"},
 
-        {STR_CLOCK_TOTAL,
-        "TOTAL:"},
+    {STR_CLOCK_TOTAL, "TOTAL:"},
 
-        {STR_CLOCK_MEM,
-        "MEM:"},
+    {STR_CLOCK_MEM, "MEM:"},
 
-        {STR_CLOCK_MEMORY,
-        "MEMORY:"},
+    {STR_CLOCK_MEMORY, "MEMORY:"},
 
-        {STR_MONTH_JANUARY,
-        "January"},
+    {STR_MONTH_JANUARY, "January"},
 
-        {STR_MONTH_FEBRUARY,
-        "February"},
+    {STR_MONTH_FEBRUARY, "February"},
 
-        {STR_MONTH_MARCH,
-        "March"},
+    {STR_MONTH_MARCH, "March"},
 
-        {STR_MONTH_APRIL,
-        "April"},
+    {STR_MONTH_APRIL, "April"},
 
-        {STR_MONTH_MAY_LONG,
-        "May"},
+    {STR_MONTH_MAY_LONG, "May"},
 
-        {STR_MONTH_JUNE,
-        "June"},
+    {STR_MONTH_JUNE, "June"},
 
-        {STR_MONTH_JULY,
-        "July"},
+    {STR_MONTH_JULY, "July"},
 
-        {STR_MONTH_AUGUST,
-        "August"},
+    {STR_MONTH_AUGUST, "August"},
 
-        {STR_MONTH_SEPTEMBER,
-        "September"},
+    {STR_MONTH_SEPTEMBER, "September"},
 
-        {STR_MONTH_OCTOBER,
-        "October"},
+    {STR_MONTH_OCTOBER, "October"},
 
-        {STR_MONTH_NOVEMBER,
-        "November"},
+    {STR_MONTH_NOVEMBER, "November"},
 
-        {STR_MONTH_DECEMBER,
-        "December"},
+    {STR_MONTH_DECEMBER, "December"},
 
-        {STR_MONTH_JAN,
-        "Jan"},
+    {STR_MONTH_JAN, "Jan"},
 
-        {STR_MONTH_FEB,
-        "Feb"},
+    {STR_MONTH_FEB, "Feb"},
 
-        {STR_MONTH_MAR,
-        "Mar"},
+    {STR_MONTH_MAR, "Mar"},
 
-        {STR_MONTH_APR,
-        "Apr"},
+    {STR_MONTH_APR, "Apr"},
 
-        {STR_MONTH_MAY,
-        "May"},
+    {STR_MONTH_MAY, "May"},
 
-        {STR_MONTH_JUN,
-        "Jun"},
+    {STR_MONTH_JUN, "Jun"},
 
-        {STR_MONTH_JUL,
-        "Jul"},
+    {STR_MONTH_JUL, "Jul"},
 
-        {STR_MONTH_AUG,
-        "Aug"},
+    {STR_MONTH_AUG, "Aug"},
 
-        {STR_MONTH_SEP,
-        "Sep"},
+    {STR_MONTH_SEP, "Sep"},
 
-        {STR_MONTH_OCT,
-        "Oct"},
+    {STR_MONTH_OCT, "Oct"},
 
-        {STR_MONTH_NOV,
-        "Nov"},
+    {STR_MONTH_NOV, "Nov"},
 
-        {STR_MONTH_DEC,
-        "Dec"},
+    {STR_MONTH_DEC, "Dec"},
 
-        {STR_DAY_MONDAY,
-        "Monday"},
+    {STR_DAY_MONDAY, "Monday"},
 
-        {STR_DAY_TUESDAY,
-        "Tuesday"},
+    {STR_DAY_TUESDAY, "Tuesday"},
 
-        {STR_DAY_WEDNESDAY,
-        "Wednesday"},
+    {STR_DAY_WEDNESDAY, "Wednesday"},
 
-        {STR_DAY_THURSDAY,
-        "Thursday"},
+    {STR_DAY_THURSDAY, "Thursday"},
 
-        {STR_DAY_FRIDAY,
-        "Friday"},
+    {STR_DAY_FRIDAY, "Friday"},
 
-        {STR_DAY_SATURDAY,
-        "Saturday"},
+    {STR_DAY_SATURDAY, "Saturday"},
 
-        {STR_DAY_SUNDAY,
-        "Sunday"},
+    {STR_DAY_SUNDAY, "Sunday"},
 
-        {STR_DAY_MON,
-        "Mon"},
+    {STR_DAY_MON, "Mon"},
 
-        {STR_DAY_TUE,
-        "Tue"},
+    {STR_DAY_TUE, "Tue"},
 
-        {STR_DAY_WED,
-        "Wed"},
+    {STR_DAY_WED, "Wed"},
 
-        {STR_DAY_THU,
-        "Thu"},
+    {STR_DAY_THU, "Thu"},
 
-        {STR_DAY_FRI,
-        "Fri"},
+    {STR_DAY_FRI, "Fri"},
 
-        {STR_DAY_SAT,
-        "Sat"},
+    {STR_DAY_SAT, "Sat"},
 
-        {STR_DAY_SUN,
-        "Sun"},
+    {STR_DAY_SUN, "Sun"},
 
-        {STR_DAY_YESTERDAY,
-        "Yesterday"},
+    {STR_DAY_YESTERDAY, "Yesterday"},
 
-        {STR_DAY_TODAY,
-        "Today"},
+    {STR_DAY_TODAY, "Today"},
 
-        {STR_DAY_TOMORROW,
-        "Tomorrow"},
+    {STR_DAY_TOMORROW, "Tomorrow"},
 
-        {STR_DAY_FUTURE,
-        "Future"},
+    {STR_DAY_FUTURE, "Future"},
 
-        {STR_KEY,
-        "Key : "},
+    {STR_KEY, "Key : "},
 
-        {STR_TINY_BUTTONS,
-        "BRSA?EFCIQ"},
+    {STR_TINY_BUTTONS, "BRSA?EFCIQ"},
 
-        {STR_VIEW_BUTTONS,
-        "UDTBSPQ"},
+    {STR_VIEW_BUTTONS, "UDTBSPQ"},
 
-        {STR_DISKINFO_DEVICE,
-        "Device"},
+    {STR_DISKINFO_DEVICE, "Device"},
 
-        {STR_DISKINFO_NAME,
-        "Name"},
+    {STR_DISKINFO_NAME, "Name"},
 
-        {STR_DISKINFO_SIZE,
-        "Size"},
+    {STR_DISKINFO_SIZE, "Size"},
 
-        {STR_DISKINFO_USED,
-        "Used"},
+    {STR_DISKINFO_USED, "Used"},
 
-        {STR_DISKINFO_FREE,
-        "Free"},
+    {STR_DISKINFO_FREE, "Free"},
 
-        {STR_DISKINFO_PERCENT,
-        "Percent"},
+    {STR_DISKINFO_PERCENT, "Percent"},
 
-        {STR_DISKINFO_DENSITY,
-        "Density"},
+    {STR_DISKINFO_DENSITY, "Density"},
 
-        {STR_DISKINFO_ERRORS,
-        "Errors"},
+    {STR_DISKINFO_ERRORS, "Errors"},
 
-        {STR_DISKINFO_STATUS,
-        "Status"},
+    {STR_DISKINFO_STATUS, "Status"},
 
-        {STR_DISKINFO_DATE,
-        "Date"},
+    {STR_DISKINFO_DATE, "Date"},
 
-        {STR_DISKINFO_FILESYSTEM,
-        "F.System"},
+    {STR_DISKINFO_FILESYSTEM, "F.System"},
 
-        {STR_DISKINFO_BYTES,
-        "bytes"},
+    {STR_DISKINFO_BYTES, "bytes"},
 
-        {STR_DISKINFO_BLOCKS,
-        "blocks"},
+    {STR_DISKINFO_BLOCKS, "blocks"},
 
-        {STR_DISKINFO_FULL,
-        "full"},
+    {STR_DISKINFO_FULL, "full"},
 
-        {STR_DISKINFO_SFREE,
-        "free"},
+    {STR_DISKINFO_SFREE, "free"},
 
-        {STR_DISKINFO_BYTESPERBLOCK,
-        "bytes/block"},
+    {STR_DISKINFO_BYTESPERBLOCK, "bytes/block"},
 
-        {STR_TEXT_VIEWER_TITLE,
-        "Directory Opus Text Viewer"},
+    {STR_TEXT_VIEWER_TITLE, "Directory Opus Text Viewer"},
 
-        {STR_PROTECT_ALL_BITS,
-        "All bits"},
+    {STR_PROTECT_ALL_BITS, "All bits"},
 
-        {STR_PROTECT_NONE,
-        "None"},
+    {STR_PROTECT_NONE, "None"},
 
-        {STR_PROTECT_TOGGLE,
-        "Toggle"},
+    {STR_PROTECT_TOGGLE, "Toggle"},
 
-        {STR_PROTECT_REVERT,
-        "Revert"},
+    {STR_PROTECT_REVERT, "Revert"},
 
-        {STR_PROTECT_OLD,
-        "Old :"},
+    {STR_PROTECT_OLD, "Old :"},
 
-        {STR_PROTECT_NEW,
-        "New :"},
+    {STR_PROTECT_NEW, "New :"},
 
-        {STR_PROTECT_MASK,
-        "Mask:"},
+    {STR_PROTECT_MASK, "Mask:"},
 
-        {STR_PROTECT_HIDDEN,
-        "_Hidden"},
+    {STR_PROTECT_HIDDEN, "_Hidden"},
 
-        {STR_PROTECT_SCRIPT,
-        "_Script"},
+    {STR_PROTECT_SCRIPT, "_Script"},
 
-        {STR_PROTECT_PURE,
-        "_Pure"},
+    {STR_PROTECT_PURE, "_Pure"},
 
-        {STR_PROTECT_ARCHIVE,
-        "_Archive"},
+    {STR_PROTECT_ARCHIVE, "_Archive"},
 
-        {STR_PROTECT_READ,
-        "_Read"},
+    {STR_PROTECT_READ, "_Read"},
 
-        {STR_PROTECT_WRITE,
-        "_Write"},
+    {STR_PROTECT_WRITE, "_Write"},
 
-        {STR_PROTECT_EXECUTE,
-        "_Execute"},
+    {STR_PROTECT_EXECUTE, "_Execute"},
 
-        {STR_PROTECT_DELETE,
-        "_Delete"},
+    {STR_PROTECT_DELETE, "_Delete"},
 
-        {STR_FILE_REQUEST,
-        "File request"},
+    {STR_FILE_REQUEST, "File request"},
 
-        {STR_OF,
-        "of"},
+    {STR_OF, "of"},
 
-        {STR_FRAME,
-        "Frame"},
+    {STR_FRAME, "Frame"},
 
-        {STR_DISK_OP_TITLE,
-        "Directory Opus Disk Operations"},
+    {STR_DISK_OP_TITLE, "Directory Opus Disk Operations"},
 
-        {STR_BUTTON_STRIP,
-        "Directory Opus Button Strip"},
+    {STR_BUTTON_STRIP, "Directory Opus Button Strip"},
 
-        {STR_NO_FIT,
-        " N"},
+    {STR_NO_FIT, " N"},
 
-        {STR_YES_FIT,
-        " Y"},
+    {STR_YES_FIT, " Y"},
 
-        {STR_FTYPE_DEFAULT,
-        "Default"},
+    {STR_FTYPE_DEFAULT, "Default"},
 
-        {STR_FTYPE_UNKNOWN,
-        "Unknown file type"},
+    {STR_FTYPE_UNKNOWN, "Unknown file type"},
 
-        {STR_PROTBIT_HSPA,
-        "HSPA----"},
+    {STR_PROTBIT_HSPA, "HSPA----"},
 
-        {STR_PROTBIT_RWED,
-        "----RWED"},
+    {STR_PROTBIT_RWED, "----RWED"},
 
-        {STR_PROTBIT_ALLBITS,
-        "hsparwed"},
+    {STR_PROTBIT_ALLBITS, "hsparwed"},
 
-        {STR_MULTI_DRAG,
-        "Multi-drag - %ld files selected"},
+    {STR_MULTI_DRAG, "Multi-drag - %ld files selected"},
 
-        {STR_PRESS_MOUSE_BUTTON,
-        "Press left mouse button to continue..."},
+    {STR_PRESS_MOUSE_BUTTON, "Press left mouse button to continue..."},
 
-        {STR_NETWORK_NO_OWNER,
-        "No owner"},
+    {STR_NETWORK_NO_OWNER, "No owner"},
 
-        {STR_NETWORK_NO_GROUP,
-        "No group"},
+    {STR_NETWORK_NO_GROUP, "No group"},
 
-        {STR_ERROR_ERROR_HELP,
-        "Error help"},
+    {STR_ERROR_ERROR_HELP, "Error help"},
 
-        {STR_SKIP_ALL,
-        "S_kip all"},
+    {STR_SKIP_ALL, "S_kip all"},
 
-        {STR_PARENT_MULTI,
-        "Parents and Multi-Assigns..."},
+    {STR_PARENT_MULTI, "Parents and Multi-Assigns..."},
 
-        {STR_ANIM_TYPE,
-        "Anim type"},
+    {STR_ANIM_TYPE, "Anim type"},
 
-        {STR_GFX_NATIVE,
-        "Native"},
+    {STR_GFX_NATIVE, "Native"},
 
-        {STR_OPENING_ARCHIVE,
-        "Opening archive..."},
+    {STR_OPENING_ARCHIVE, "Opening archive..."},
 
-        {STR_SORT_BY,
-        "Sort by"},
+    {STR_SORT_BY, "Sort by"},
 
-        {STR_FILE_NAME,
-        "File name"},
+    {STR_FILE_NAME, "File name"},
 
-        {STR_FILE_SIZE,
-        "File size"},
+    {STR_FILE_SIZE, "File size"},
 
-        {STR_PROTECTION_BITS,
-        "Protection bits"},
+    {STR_PROTECTION_BITS, "Protection bits"},
 
-        {STR_CREATION_DATE,
-        "Creation date"},
+    {STR_CREATION_DATE, "Creation date"},
 
-        {STR_FILE_COMMENT,
-        "File comment"},
+    {STR_FILE_COMMENT, "File comment"},
 
-        {STR_FILE_TYPE,
-        "File type"},
+    {STR_FILE_TYPE, "File type"},
 
-        {STR_OWNER,
-        "Owner"},
+    {STR_OWNER, "Owner"},
 
-        {STR_GROUP,
-        "Group"},
+    {STR_GROUP, "Group"},
 
-        {STR_NET_PROTECTION_BITS,
-        "Net protection bits"},
+    {STR_NET_PROTECTION_BITS, "Net protection bits"},
 
-        {STR_REVERSE_ORDER,
-        "Reverse order"},
+    {STR_REVERSE_ORDER, "Reverse order"},
 
-        {STR_SIZE_AS_KMG,
-        "Size as K/M/G"},
+    {STR_SIZE_AS_KMG, "Size as K/M/G"},
 
-        {STR_BRING_TO_FRONT,
-        "Bring to front"},
+    {STR_BRING_TO_FRONT, "Bring to front"},
 
-        {STR_REPLACE_DIR_WITH_FILE,
-        "\"%s\" already exists! Replace?\n\nNew  -  Size : %7ld  Date : %19s\nOld  -                  Date : %19s"},
+    {STR_REPLACE_DIR_WITH_FILE,
+     "\"%s\" already exists! Replace?\n\nNew  -  Size : %7ld  Date : %19s\nOld  -                  Date : %19s"},
 
-        {STR_REPLACE_FILE_WITH_DIR,
-        "\"%s\" already exists! Replace?\n\nNew  -                  Date : %19s\nOld  -  Size : %7ld  Date : %19s"},
+    {STR_REPLACE_FILE_WITH_DIR,
+     "\"%s\" already exists! Replace?\n\nNew  -                  Date : %19s\nOld  -  Size : %7ld  Date : %19s"},
 
-        {STR_OPERATION_NOT_SUPPORTED,
-        "Operation not supported"},
+    {STR_OPERATION_NOT_SUPPORTED, "Operation not supported"},
 
-        {STR_QUERY_REMOVE_ASSIGN,
-        "Do you really wish to remove \"%s\" assign?"},
+    {STR_QUERY_REMOVE_ASSIGN, "Do you really wish to remove \"%s\" assign?"},
 
-        {STR_VERSION_CONTENTS,
-        "%-42s\n\n"
-        "  Directory Opus%24s  \n"
-        "  DOpus Library%25s  \n"
-        "  Compile time%26s  \n"
-        "  Compile date%26s  \n"
-        "  Port/screen name%22s  \n\n"
-        "  Kickstart%29s  \n"
-        "  Workbench%29s  \n"
-        "  Processor%29s  \n"
-        "  Math co-processor%21s  \n"
-        "  Graphics chipset%22s  \n"
-        "  Video system%26s  "},
+    {STR_VERSION_CONTENTS, "%-42s\n\n"
+                           "  Directory Opus%24s  \n"
+                           "  DOpus Library%25s  \n"
+                           "  Compile time%26s  \n"
+                           "  Compile date%26s  \n"
+                           "  Port/screen name%22s  \n\n"
+                           "  Kickstart%29s  \n"
+                           "  Workbench%29s  \n"
+                           "  Processor%29s  \n"
+                           "  Math co-processor%21s  \n"
+                           "  Graphics chipset%22s  \n"
+                           "  Video system%26s  "},
 
-        {STR_VERSION_HEADER,
-        "Version information..."},
+    {STR_VERSION_HEADER, "Version information..."},
 
-        {STR_STRING_COUNT,NULL}};
+    {STR_STRING_COUNT, NULL}};
 
 char str_okaystring[30];
 char str_cancelstring[30];
 
 #ifndef STRINGS_ONLY
-void readstrings(file)
-char *file;
+void readstrings(file) char *file;
 {
-    int a;
+  int a;
 
-    stringdata.default_table=default_strings;
-    stringdata.string_count=STR_STRING_COUNT;
-    stringdata.min_version=STRING_VERSION;
+  stringdata.default_table = default_strings;
+  stringdata.string_count  = STR_STRING_COUNT;
+  stringdata.min_version   = STRING_VERSION;
 
-//kprintf("STR_STRING_COUNT=%ld\n",STR_STRING_COUNT);
-//for(a=0;a<STR_STRING_COUNT;a++) kprintf("%ld\t%s\n",default_strings[a].string_id,default_strings[a].string);
-    if (!(ReadStringFile(&stringdata,file))) quit();
-    globstring=stringdata.string_table;
+  // kprintf("STR_STRING_COUNT=%ld\n",STR_STRING_COUNT);
+  // for(a=0;a<STR_STRING_COUNT;a++) kprintf("%ld\t%s\n",default_strings[a].string_id,default_strings[a].string);
+  if (!(ReadStringFile(&stringdata, file)))
+  {
+    quit();
+  }
+  globstring = stringdata.string_table;
 
-    for (a=0;a<12;a++) {
-        date_months[a]=globstring[STR_MONTH_JANUARY+a];
-        date_shortmonths[a]=globstring[STR_MONTH_JAN+a];
-    }
-    date_weekdays[0]=globstring[STR_DAY_SUNDAY];
-    date_shortweekdays[0]=globstring[STR_DAY_SUN];
-    for (a=1;a<7;a++) {
-        date_weekdays[a]=globstring[(STR_DAY_MONDAY-1)+a];
-        date_shortweekdays[a]=globstring[(STR_DAY_MON-1)+a];
-    }
-    for (a=0;a<4;a++) date_special[a]=globstring[STR_DAY_YESTERDAY+a];
-    strcpy(str_okaystring,globstring[STR_OKAY]);
-    strcpy(str_cancelstring,globstring[STR_CANCEL]);
+  for (a = 0; a < 12; a++)
+  {
+    date_months[a]      = globstring[STR_MONTH_JANUARY + a];
+    date_shortmonths[a] = globstring[STR_MONTH_JAN + a];
+  }
+  date_weekdays[0]      = globstring[STR_DAY_SUNDAY];
+  date_shortweekdays[0] = globstring[STR_DAY_SUN];
+  for (a = 1; a < 7; a++)
+  {
+    date_weekdays[a]      = globstring[(STR_DAY_MONDAY - 1) + a];
+    date_shortweekdays[a] = globstring[(STR_DAY_MON - 1) + a];
+  }
+  for (a = 0; a < 4; a++)
+  {
+    date_special[a] = globstring[STR_DAY_YESTERDAY + a];
+  }
+  strcpy(str_okaystring, globstring[STR_OKAY]);
+  strcpy(str_cancelstring, globstring[STR_CANCEL]);
 }
 
 int getkeyshortcut(const char *str)
 {
-    char *c;
+  char *c;
 
-    if (c = strchr(str,'_')) return ToLower(c[1]);
-    else return 0;
+  if (c = strchr(str, '_'))
+  {
+    return ToLower(c[1]);
+  } else
+  {
+    return 0;
+  }
 }
 #else
-char string_type[]="Directory Opus Strings";
-char *string_save="DO_%s.STR";
+char string_type[] = "Directory Opus Strings";
+char *string_save  = "DO_%s.STR";
 #endif

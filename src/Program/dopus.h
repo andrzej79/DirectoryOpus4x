@@ -29,17 +29,16 @@ the existing commercial status of Directory Opus 5.
 */
 
 #ifdef DEBUG
-  #define bug kprintf
-  #define D(x) x
+#define bug kprintf
+#define D(x) x
 #else
-  #define D(x)
+#define D(x)
 #endif
-
 
 #ifndef DOPUS_INCLUDE
 #define DOPUS_INCLUDE
 
-//#include <fctype.h>
+// #include <fctype.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -72,7 +71,7 @@ the existing commercial status of Directory Opus 5.
 #include <proto/accounts.h>
 #include "pools.h"
 
-//#define lsprintf sprintf
+// #define lsprintf sprintf
 
 #include "arbiter.h"
 #include "dopusstructures.h"
@@ -94,8 +93,8 @@ the existing commercial status of Directory Opus 5.
 #define DOPUSLIB_VERSION 22
 #define DOPUSLIB_REVISION 18
 
-#define DOPUS_VERSION  4
-#define DOPUS_REV      "17"
+#define DOPUS_VERSION 4
+#define DOPUS_REV "17"
 
 #define DOPUS_REVISION DOPUS_REV
 
@@ -105,75 +104,75 @@ the existing commercial status of Directory Opus 5.
 #define OSVER_39 3
 #define OSVER_40 4
 
-#define ASYNC_READ_SIZE  16384
+#define ASYNC_READ_SIZE 16384
 #define ASYNC_WRITE_SIZE 16384
-#define COPY_BUF_SIZE    16384 //2048
+#define COPY_BUF_SIZE 16384 // 2048
 
 #define CURSOR_LEFT 0x4f
 #define CURSOR_RIGHT 0x4e
 #define CURSOR_UP 0x4c
 #define CURSOR_DOWN 0x4d
 
-#define APPWINID     1
+#define APPWINID 1
 
-#define TASK_QUIT             999
-#define TASK_HOTKEY_WAKEUP     33
-#define PROGRESS_OPEN         100
-#define PROGRESS_UPDATE       101
-#define PROGRESS_CLOSE        102
-#define HOTKEY_HOTKEYCHANGE   120
-#define HOTKEY_NEWHOTKEYS     121
-#define HOTKEY_KILLHOTKEYS    122
-#define CLOCK_ACTIVE          130
+#define TASK_QUIT 999
+#define TASK_HOTKEY_WAKEUP 33
+#define PROGRESS_OPEN 100
+#define PROGRESS_UPDATE 101
+#define PROGRESS_CLOSE 102
+#define HOTKEY_HOTKEYCHANGE 120
+#define HOTKEY_NEWHOTKEYS 121
+#define HOTKEY_KILLHOTKEYS 122
+#define CLOCK_ACTIVE 130
 
-#define VALID_QUALIFIERS (IEQUALIFIER_LCOMMAND|IEQUALIFIER_RCOMMAND|\
-                         IEQUALIFIER_CONTROL|IEQUALIFIER_LSHIFT|\
-                         IEQUALIFIER_RSHIFT|IEQUALIFIER_LALT|IEQUALIFIER_RALT)
+#define VALID_QUALIFIERS                                                                                               \
+  (IEQUALIFIER_LCOMMAND | IEQUALIFIER_RCOMMAND | IEQUALIFIER_CONTROL | IEQUALIFIER_LSHIFT | IEQUALIFIER_RSHIFT |       \
+   IEQUALIFIER_LALT | IEQUALIFIER_RALT)
 
-#define IEQUALIFIER_ANYSHIFT (IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)
+#define IEQUALIFIER_ANYSHIFT (IEQUALIFIER_LSHIFT | IEQUALIFIER_RSHIFT)
 
-#define ICON_IDCMP (IDCMP_CLOSEWINDOW|IDCMP_MOUSEBUTTONS|IDCMP_DISKINSERTED|\
-                                        IDCMP_DISKREMOVED|IDCMP_GADGETUP|IDCMP_GADGETDOWN|\
-                                        IDCMP_ACTIVEWINDOW|IDCMP_INACTIVEWINDOW|IDCMP_MOUSEMOVE|\
-                                        IDCMP_MENUPICK)
+#define ICON_IDCMP                                                                                                     \
+  (IDCMP_CLOSEWINDOW | IDCMP_MOUSEBUTTONS | IDCMP_DISKINSERTED | IDCMP_DISKREMOVED | IDCMP_GADGETUP |                  \
+   IDCMP_GADGETDOWN | IDCMP_ACTIVEWINDOW | IDCMP_INACTIVEWINDOW | IDCMP_MOUSEMOVE | IDCMP_MENUPICK)
 
-#define IFFERR_NOTILBM  -2
-#define IFFERR_BADIFF   -3
+#define IFFERR_NOTILBM -2
+#define IFFERR_BADIFF -3
 #define IFFERR_NOMEMORY -4
-#define IFFERR_BADMODE  -5
+#define IFFERR_BADMODE -5
 #define IFFERR_NOSCREEN -6
 
 #define SOURCE 0
 
-#define ENTRY_FILE              -1
-#define ENTRY_DEVICE             0
-#define ENTRY_DIRECTORY          1
-#define ENTRY_CUSTOM           999
-#define CUSTOMENTRY_DIRTREE      1
-#define CUSTOMENTRY_BUFFERLIST   2
-#define CUSTOMENTRY_USER         3
+#define ENTRY_FILE -1
+#define ENTRY_DEVICE 0
+#define ENTRY_DIRECTORY 1
+#define ENTRY_CUSTOM 999
+#define CUSTOMENTRY_DIRTREE 1
+#define CUSTOMENTRY_BUFFERLIST 2
+#define CUSTOMENTRY_USER 3
 
-#define CUSTENTRY_CANSELECT      0x00010000
+#define CUSTENTRY_CANSELECT 0x00010000
 
-#define USERENTRY_ERROR         -1
-#define USERENTRY_FUNCTION       0
-#define USERENTRY_DOUBLECLICK    1
-#define USERENTRY_CLICKMCLICK    2
+#define USERENTRY_ERROR -1
+#define USERENTRY_FUNCTION 0
+#define USERENTRY_DOUBLECLICK 1
+#define USERENTRY_CLICKMCLICK 2
 
-#define ENTRYTYPE(t) ((t==ENTRY_CUSTOM)?ENTRY_CUSTOM:((t==0)?ENTRY_DEVICE:((t<0)?ENTRY_FILE:ENTRY_DIRECTORY)))
+#define ENTRYTYPE(t)                                                                                                   \
+  ((t == ENTRY_CUSTOM) ? ENTRY_CUSTOM : ((t == 0) ? ENTRY_DEVICE : ((t < 0) ? ENTRY_FILE : ENTRY_DIRECTORY)))
 
-#define MAXDISPLAYLENGTH  300
+#define MAXDISPLAYLENGTH 300
 
-#define isonlyword(c) (!c || c==10 || c==13 || isspace(c) || ispunct(c))
+#define isonlyword(c) (!c || c == 10 || c == 13 || isspace(c) || ispunct(c))
 
 #define MENUCOUNT 100
 #define GADCOUNT 84
 #define DRIVECOUNT 32
 #define NUMFONTS 16
 #define USEDRIVECOUNT 30
-#define FILETYPE_FUNCNUM   16
+#define FILETYPE_FUNCNUM 16
 
-#define SHIFTKEYS (IEQUALIFIER_LSHIFT|IEQUALIFIER_RSHIFT)
+#define SHIFTKEYS (IEQUALIFIER_LSHIFT | IEQUALIFIER_RSHIFT)
 
 #define DRIVE1 200
 #define DRIVE2 201
@@ -182,11 +181,11 @@ the existing commercial status of Directory Opus 5.
 #define DRIVE5 204
 #define DRIVE6 205
 
-#define ARROWS_INSIDE   0
-#define ARROWS_OUTSIDE  1
+#define ARROWS_INSIDE 0
+#define ARROWS_OUTSIDE 1
 #define ARROWS_EACHSIDE 2
 
-#define ABSI(n) ((n<0)?-n:n)
+#define ABSI(n) ((n < 0) ? -n : n)
 
 #define CONFIG_GET_CONFIG 1
 #define CONFIG_HERES_CONFIG 2
@@ -194,57 +193,57 @@ the existing commercial status of Directory Opus 5.
 #define CONFIG_NEW_HOTKEY 4
 #define CONFIG_HOTKEYS_CHANGE 5
 
-#define PSTYLE_NORMAL  1
-#define PSTYLE_BOLD    2
+#define PSTYLE_NORMAL 1
+#define PSTYLE_BOLD 2
 #define PSTYLE_ITALICS 3
-#define PSTYLE_ULINE   4
+#define PSTYLE_ULINE 4
 #define PSTYLE_DSTRIKE 5
-#define PSTYLE_SHADOW  6
+#define PSTYLE_SHADOW 6
 
-#define NLQ_OFF        0
-#define NLQ_ON         1
-#define NLQ_HEADEROFF  2
-#define NLQ_HEADERON   3
+#define NLQ_OFF 0
+#define NLQ_ON 1
+#define NLQ_HEADEROFF 2
+#define NLQ_HEADERON 3
 
-#define HEADER_OFF     0
-#define HEADER_TITLE   1
-#define HEADER_DATE    2
-#define HEADER_PAGE    4
+#define HEADER_OFF 0
+#define HEADER_TITLE 1
+#define HEADER_DATE 2
+#define HEADER_PAGE 4
 
-#define PNLQ_ON  "\x1b[2\"z"
+#define PNLQ_ON "\x1b[2\"z"
 #define PNLQ_OFF "\x1b[1\"z"
 
-#define MODE_WORKBENCHUSE         1
-#define MODE_WORKBENCHCLONE       2
-#define MODE_PUBLICSCREEN         3
+#define MODE_WORKBENCHUSE 1
+#define MODE_WORKBENCHCLONE 2
+#define MODE_PUBLICSCREEN 3
 
-#define REQOB_END        0
-#define REQOB_BOOLEAN    1
-#define REQOB_STRING     2
-#define REQOB_CYCLE      3
-#define REQOB_CHECK      4
-#define REQOB_TEXT     512
+#define REQOB_END 0
+#define REQOB_BOOLEAN 1
+#define REQOB_STRING 2
+#define REQOB_CYCLE 3
+#define REQOB_CHECK 4
+#define REQOB_TEXT 512
 
 #define REQOB_ISGADGET (511)
 
-#define REQFLAG_STR_INT  1
+#define REQFLAG_STR_INT 1
 #define REQFLAG_NOBORDER 1
 
-#define STATUS_HELP         1    /* Help mode is active */
-#define STATUS_IANSCRAP     2    /* Various things for Ian */
-#define STATUS_ISINBUTTONS  4    /* Is current iconified to buttons */
-#define STATUS_DONEREXX     8    /* Done the initial ARexx script */
-#define STATUS_BUSY         16   /* Busy */
-#define STATUS_AUDIOLED     32   /* AudioLed is off */
-#define STATUS_GLOBALFILE   64   /* File is a global one */
-#define STATUS_VERIFYFAIL   128  /* Verify requester was cancelled */
-#define STATUS_FROMHOTKEY   256  /* File is run from hotkey */
-#define STATUS_IANSCRAP2    512  /* More of Ian's crap :-) */
-#define STATUS_SQUAREPIXEL  1024 /* Screen has square pixels */
-#define STATUS_NEWLOOK      2048 /* New-look sliders */
+#define STATUS_HELP 1           /* Help mode is active */
+#define STATUS_IANSCRAP 2       /* Various things for Ian */
+#define STATUS_ISINBUTTONS 4    /* Is current iconified to buttons */
+#define STATUS_DONEREXX 8       /* Done the initial ARexx script */
+#define STATUS_BUSY 16          /* Busy */
+#define STATUS_AUDIOLED 32      /* AudioLed is off */
+#define STATUS_GLOBALFILE 64    /* File is a global one */
+#define STATUS_VERIFYFAIL 128   /* Verify requester was cancelled */
+#define STATUS_FROMHOTKEY 256   /* File is run from hotkey */
+#define STATUS_IANSCRAP2 512    /* More of Ian's crap :-) */
+#define STATUS_SQUAREPIXEL 1024 /* Screen has square pixels */
+#define STATUS_NEWLOOK 2048     /* New-look sliders */
 
 extern struct DiskObject *icontable[4];
-extern char *comp_date,*comp_time;
+extern char *comp_date, *comp_time;
 
 #define MAXMENULENGTH 64
 
@@ -283,19 +282,13 @@ ULONG IDToGroup( unsigned long groupID, struct GroupInfo *group );
 
 #if defined(__SASC_60) || defined(__VBCC__)
 
-extern __chip USHORT
-    pageflip_data1[5],
-    pageflip_data2[3],
-    null_pointer[6];
+extern __chip USHORT pageflip_data1[5], pageflip_data2[3], null_pointer[6];
 
 extern __chip char beepwave[16];
 
 #else
 
-extern USHORT __chip
-    pageflip_data1[5],
-    pageflip_data2[3],
-    null_pointer[6];
+extern USHORT __chip pageflip_data1[5], pageflip_data2[3], null_pointer[6];
 
 extern char __chip beepwave[16];
 

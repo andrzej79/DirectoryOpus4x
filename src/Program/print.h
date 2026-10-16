@@ -28,28 +28,29 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#define PSTYLE_NORMAL  1
-#define PSTYLE_NLQ     2
-#define PSTYLE_BOLD    3
+#define PSTYLE_NORMAL 1
+#define PSTYLE_NLQ 2
+#define PSTYLE_BOLD 3
 #define PSTYLE_ITALICS 4
-#define PSTYLE_ULINE   5
+#define PSTYLE_ULINE 5
 #define PSTYLE_DSTRIKE 6
-#define PSTYLE_SHADOW  7
+#define PSTYLE_SHADOW 7
 
-#define HEADER_OFF     0
-#define HEADER_TITLE   1
-#define HEADER_DATE    2
-#define HEADER_PAGE    4
+#define HEADER_OFF 0
+#define HEADER_TITLE 1
+#define HEADER_DATE 2
+#define HEADER_PAGE 4
 
-struct PrintData {
-	int length;
-	int lmargin,rmargin;
-	int tabs;
-	int style;
-	int formfeed;
-	int header,footer;
-	int hstyle,fstyle;
-	char title[80];
+struct PrintData
+{
+  int length;
+  int lmargin, rmargin;
+  int tabs;
+  int style;
+  int formfeed;
+  int header, footer;
+  int hstyle, fstyle;
+  char title[80];
 };
 
 extern struct PrintData *printdata;

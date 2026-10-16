@@ -33,49 +33,53 @@ the existing commercial status of Directory Opus 5.
 
 /* Structure used by programs internally to define the default strings */
 
-struct DefaultString {
-    USHORT string_id;                /* Unique ID number for this string */
-    char *string;                    /* Pointer to the string itself */
+struct DefaultString
+{
+  USHORT string_id; /* Unique ID number for this string */
+  char *string;     /* Pointer to the string itself */
 };
-
 
 /* Data structure passed to the string routines */
 
-struct StringData {
-    struct DefaultString             /* Pointer to array of default strings */
-        *default_table;
-    int string_count;                /* Number of strings in the table */
+struct StringData
+{
+  struct DefaultString /* Pointer to array of default strings */
+      *default_table;
+  int string_count; /* Number of strings in the table */
 
-    char **string_table;             /* This will point to the table of
-                                        string pointers to actually use */
+  char **string_table; /* This will point to the table of
+                          string pointers to actually use */
 
-    char *string_buffer;             /* Buffer of loaded string file */
-    ULONG string_size;               /* Size of buffer */
+  char *string_buffer; /* Buffer of loaded string file */
+  ULONG string_size;   /* Size of buffer */
 
-    int min_version;                 /* Minimum version to recognise */
+  int min_version; /* Minimum version to recognise */
 
-    struct Library *LocaleBase;      // JRZ
-    struct Catalog *catalog;         // JRZ
+  struct Library *LocaleBase; // JRZ
+  struct Catalog *catalog;    // JRZ
 };
-
 
 /* IFF definitions for the external string file */
 
+// clang-format off: must match the NDK's spelling of these IDs
 #define ID_OSTR MAKE_ID('O','S','T','R')
 #define ID_STHD MAKE_ID('S','T','H','D')
 #define ID_STRN MAKE_ID('S','T','R','N')
+// clang-format on
 
-typedef struct StringFile_Header {
-    ULONG header_id;         /* STHD */
-    ULONG header_size;
-    ULONG version;
-    ULONG stringcount;
-    ULONG flags;
-    char  language[20];
+typedef struct StringFile_Header
+{
+  ULONG header_id; /* STHD */
+  ULONG header_size;
+  ULONG version;
+  ULONG stringcount;
+  ULONG flags;
+  char language[20];
 } StringHeader;
 
-typedef struct StringFile_String {
-    ULONG chunk_id;          /* STRN */
+typedef struct StringFile_String
+{
+  ULONG chunk_id; /* STRN */
   ULONG chunk_size;
   ULONG string_id;
 } String;

@@ -14,9 +14,9 @@
 #ifndef __NOLIBBASE__
 extern struct MusicBase *
 #ifdef __CONSTLIBBASEDECL__
-__CONSTLIBBASEDECL__
+    __CONSTLIBBASEDECL__
 #endif /* __CONSTLIBBASEDECL__ */
-MUSICBase;
+        MUSICBase;
 #endif /* !__NOLIBBASE__ */
 
 #endif /* !PROTO_INOVAMUSIC_H */

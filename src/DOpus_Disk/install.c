@@ -30,446 +30,514 @@ the existing commercial status of Directory Opus 5.
 
 #include "diskop.h"
 
-enum {
-    INSTALL_FFS,
-    INSTALL_INSTALL,
-    INSTALL_NOBOOT,
-    INSTALL_CANCEL};
+enum
+{
+  INSTALL_FFS,
+  INSTALL_INSTALL,
+  INSTALL_NOBOOT,
+  INSTALL_CANCEL
+};
 
-struct TagItem
-    install_device_list[]={
-        {RO_Type,OBJECT_LISTVIEW},
-        {RO_ListViewID,0},
-        {RO_LeftFine,2},
-        {RO_Width,10},
-        {RO_Height,6},
-        {RO_HeightFine,30},
-        {RO_HighRecess,TRUE},
-        {TAG_END,0}},
+struct TagItem install_device_list[] =
+    {{RO_Type, OBJECT_LISTVIEW}, {RO_ListViewID, 0},    {RO_LeftFine, 2}, {RO_Width, 10}, {RO_Height, 6},
+     {RO_HeightFine, 30},        {RO_HighRecess, TRUE}, {TAG_END, 0}},
 
-    install_ffs_gadget[]={
-        {RO_Type,OBJECT_GADGET},
-        {RO_GadgetType,GADGET_CHECK},
-        {RO_GadgetID,INSTALL_FFS},
-        {RO_Left,14},
-        {RO_TextNum,STR_FORMAT_FFS},
-        {RO_TextPos,TEXTPOS_RIGHT},
-        {RO_ChkCenter,TRUE},
-        {TAG_END,0}},
+               install_ffs_gadget[] = {{RO_Type, OBJECT_GADGET},     {RO_GadgetType, GADGET_CHECK},
+                                       {RO_GadgetID, INSTALL_FFS},   {RO_Left, 14},
+                                       {RO_TextNum, STR_FORMAT_FFS}, {RO_TextPos, TEXTPOS_RIGHT},
+                                       {RO_ChkCenter, TRUE},         {TAG_END, 0}},
 
-    install_install_gadget[]={
-        {RO_Type,OBJECT_GADGET},
-        {RO_GadgetType,GADGET_BOOLEAN},
-        {RO_GadgetID,INSTALL_INSTALL},
-        {RO_Top,8},
-        {RO_TopFine,37},
-        {RO_Width,13},
-        {RO_Height,1},
-        {RO_HeightFine,4},
-        {RO_TextNum,STR_INSTALL_INSTALL},
-        {RO_TextPos,TEXTPOS_CENTER},
-        {RO_HighRecess,TRUE},
-        {TAG_END,0}},
-    install_noboot_gadget[]={
-        {RO_Type,OBJECT_GADGET},
-        {RO_GadgetType,GADGET_BOOLEAN},
-        {RO_GadgetID,INSTALL_NOBOOT},
-        {RO_Left,14},
-        {RO_Top,8},
-        {RO_TopFine,37},
-        {RO_Width,13},
-        {RO_Height,1},
-        {RO_HeightFine,4},
-        {RO_TextNum,STR_INSTALL_NOBOOT},
-        {RO_TextPos,TEXTPOS_CENTER},
-        {RO_HighRecess,TRUE},
-        {TAG_END,0}},
-    install_cancel_gadget[]={
-        {RO_Type,OBJECT_GADGET},
-        {RO_GadgetType,GADGET_BOOLEAN},
-        {RO_GadgetID,INSTALL_CANCEL},
-        {RO_Left,28},
-        {RO_Top,8},
-        {RO_TopFine,37},
-        {RO_Width,13},
-        {RO_Height,1},
-        {RO_HeightFine,4},
-        {RO_TextNum,STR_FORMAT_EXIT},
-        {RO_TextPos,TEXTPOS_CENTER},
-        {RO_HighRecess,TRUE},
-        {TAG_END,0}},
+               install_install_gadget[] = {{RO_Type, OBJECT_GADGET},
+                                           {RO_GadgetType, GADGET_BOOLEAN},
+                                           {RO_GadgetID, INSTALL_INSTALL},
+                                           {RO_Top, 8},
+                                           {RO_TopFine, 37},
+                                           {RO_Width, 13},
+                                           {RO_Height, 1},
+                                           {RO_HeightFine, 4},
+                                           {RO_TextNum, STR_INSTALL_INSTALL},
+                                           {RO_TextPos, TEXTPOS_CENTER},
+                                           {RO_HighRecess, TRUE},
+                                           {TAG_END, 0}},
+               install_noboot_gadget[]  = {{RO_Type, OBJECT_GADGET},
+                                           {RO_GadgetType, GADGET_BOOLEAN},
+                                           {RO_GadgetID, INSTALL_NOBOOT},
+                                           {RO_Left, 14},
+                                           {RO_Top, 8},
+                                           {RO_TopFine, 37},
+                                           {RO_Width, 13},
+                                           {RO_Height, 1},
+                                           {RO_HeightFine, 4},
+                                           {RO_TextNum, STR_INSTALL_NOBOOT},
+                                           {RO_TextPos, TEXTPOS_CENTER},
+                                           {RO_HighRecess, TRUE},
+                                           {TAG_END, 0}},
+               install_cancel_gadget[]  = {{RO_Type, OBJECT_GADGET},
+                                           {RO_GadgetType, GADGET_BOOLEAN},
+                                           {RO_GadgetID, INSTALL_CANCEL},
+                                           {RO_Left, 28},
+                                           {RO_Top, 8},
+                                           {RO_TopFine, 37},
+                                           {RO_Width, 13},
+                                           {RO_Height, 1},
+                                           {RO_HeightFine, 4},
+                                           {RO_TextNum, STR_FORMAT_EXIT},
+                                           {RO_TextPos, TEXTPOS_CENTER},
+                                           {RO_HighRecess, TRUE},
+                                           {TAG_END, 0}},
 
-    install_info_box[]={
-        {RO_Type,OBJECT_BORDER},
-        {RO_BorderType,BORDER_RECESSED},
-        {RO_LeftFine,2},
-        {RO_Top,7},
-        {RO_TopFine,28},
-        {RO_Width,41},
-        {RO_WidthFine,-4},
-        {RO_Height,1},
-        {RO_HeightFine,4},
-        {TAG_END,0}},
+               install_info_box[] = {{RO_Type, OBJECT_BORDER}, {RO_BorderType, BORDER_RECESSED},
+                                     {RO_LeftFine, 2},         {RO_Top, 7},
+                                     {RO_TopFine, 28},         {RO_Width, 41},
+                                     {RO_WidthFine, -4},       {RO_Height, 1},
+                                     {RO_HeightFine, 4},       {TAG_END, 0}},
 
-    *install_gadgets[]={
-        install_ffs_gadget,
-        install_install_gadget,
-        install_noboot_gadget,
-        install_cancel_gadget,
-        NULL};
+               *install_gadgets[] = {install_ffs_gadget, install_install_gadget, install_noboot_gadget,
+                                     install_cancel_gadget, NULL};
 
 /* prototypes */
-void show_install_info(struct RequesterBase *reqbase,Object_Border *border,char *name);
+void show_install_info(struct RequesterBase *reqbase, Object_Border *border, char *name);
 /* end of prototypes */
 
-void diskop_install(vis,argc,argv)
-struct VisInfo *vis;
+void diskop_install(vis, argc, argv) struct VisInfo *vis;
 int argc;
 char *argv[];
 {
-    struct RequesterBase installreq;
-    struct Window *window;
-    struct IntuiMessage *msg;
-    Object_Border *infobox;
-    struct DOpusListView *devicelist,*view;
-    struct Gadget *gadlist;
-    ULONG class,mask;
-    USHORT code,gadgetid;
-    APTR iaddress;
-    int gadcount=0,ignorechange=0,a,b;
-    int start=-1,startffs=0,startnoboot=0;
-    unsigned char keys[4];
+  struct RequesterBase installreq;
+  struct Window *window;
+  struct IntuiMessage *msg;
+  Object_Border *infobox;
+  struct DOpusListView *devicelist, *view;
+  struct Gadget *gadlist;
+  ULONG class, mask;
+  USHORT code, gadgetid;
+  APTR iaddress;
+  int gadcount = 0, ignorechange = 0, a, b;
+  int start = -1, startffs = 0, startnoboot = 0;
+  unsigned char keys[4];
 
-    installreq.rb_width=41;
-    installreq.rb_height=9;
-    installreq.rb_widthfine=16;
-    installreq.rb_heightfine=54;
-    installreq.rb_leftoffset=8;
-    installreq.rb_topoffset=8;
-    installreq.rb_flags=0;
+  installreq.rb_width      = 41;
+  installreq.rb_height     = 9;
+  installreq.rb_widthfine  = 16;
+  installreq.rb_heightfine = 54;
+  installreq.rb_leftoffset = 8;
+  installreq.rb_topoffset  = 8;
+  installreq.rb_flags      = 0;
 
-    fill_out_req(&installreq,vis);
+  fill_out_req(&installreq, vis);
 
-    installreq.rb_privateflags=0;
-    installreq.rb_screenname=NULL;
+  installreq.rb_privateflags = 0;
+  installreq.rb_screenname   = NULL;
 
-    if (installreq.rb_screen && !(vis->vi_flags&VISF_BORDERS)) {
-        installreq.rb_flags|=RBF_STRINGS;
-        installreq.rb_title=NULL;
-    }
-    else {
-        installreq.rb_flags|=RBF_BORDERS|RBF_CLOSEGAD|RBF_STRINGS;
-        installreq.rb_title=string_table[STR_WINDOW_INSTALL];
-    }
+  if (installreq.rb_screen && !(vis->vi_flags & VISF_BORDERS))
+  {
+    installreq.rb_flags |= RBF_STRINGS;
+    installreq.rb_title = NULL;
+  } else
+  {
+    installreq.rb_flags |= RBF_BORDERS | RBF_CLOSEGAD | RBF_STRINGS;
+    installreq.rb_title = string_table[STR_WINDOW_INSTALL];
+  }
 
-    installreq.rb_extend=NULL;
-    installreq.rb_idcmpflags=0;
-    installreq.rb_string_table=string_table;
+  installreq.rb_extend       = NULL;
+  installreq.rb_idcmpflags   = 0;
+  installreq.rb_string_table = string_table;
 
-    if (SysBase->LibNode.lib_Version<36) mask=1;
-    else mask=0;
+  if (SysBase->LibNode.lib_Version < 36)
+  {
+    mask = 1;
+  } else
+  {
+    mask = 0;
+  }
 
-    if (!(window=OpenRequester(&installreq)) ||
-        !(gadlist=addreqgadgets(&installreq,install_gadgets,mask,&gadcount)) ||
-        !(infobox=(Object_Border *)
-            AddRequesterObject(&installreq,install_info_box)) ||
-        !(devicelist=(struct DOpusListView *)
-            AddRequesterObject(&installreq,install_device_list)) ||
-        !(devicelist->items=get_device_list(&installreq.rb_memory,"DF0:"))) {
-        CloseRequester(&installreq);
-        return;
-    }
+  if (!(window = OpenRequester(&installreq)) ||
+      !(gadlist = addreqgadgets(&installreq, install_gadgets, mask, &gadcount)) ||
+      !(infobox = (Object_Border *)AddRequesterObject(&installreq, install_info_box)) ||
+      !(devicelist = (struct DOpusListView *)AddRequesterObject(&installreq, install_device_list)) ||
+      !(devicelist->items = get_device_list(&installreq.rb_memory, "DF0:")))
+  {
+    CloseRequester(&installreq);
+    return;
+  }
 
-    fix_listview(&installreq,devicelist);
-    get_env("install",gadlist,gadcount,devicelist);
+  fix_listview(&installreq, devicelist);
+  get_env("install", gadlist, gadcount, devicelist);
 
-    for (a=0;a<argc;a++) {
-        if (LStrCmpI(argv[a],"ffs")==0 && !mask) startffs=1;
-        else if (LStrCmpI(argv[a],"noboot")==0) startnoboot=1;
-        else {
-            if (start==-1) {
-                for (b=0;devicelist->items[b];b++) {
-                    if (LStrCmpI(argv[a],devicelist->items[b])==0) {
-                        start=b;
-                        devicelist->itemselected=b;
-                        break;
-                    }
-                }
-            }
+  for (a = 0; a < argc; a++)
+  {
+    if (LStrCmpI(argv[a], "ffs") == 0 && !mask)
+    {
+      startffs = 1;
+    } else if (LStrCmpI(argv[a], "noboot") == 0)
+    {
+      startnoboot = 1;
+    } else
+    {
+      if (start == -1)
+      {
+        for (b = 0; devicelist->items[b]; b++)
+        {
+          if (LStrCmpI(argv[a], devicelist->items[b]) == 0)
+          {
+            start                    = b;
+            devicelist->itemselected = b;
+            break;
+          }
         }
+      }
     }
+  }
 
-    if (!(AddListView(devicelist,1))) {
-        CloseRequester(&installreq);
-        return;
+  if (!(AddListView(devicelist, 1)))
+  {
+    CloseRequester(&installreq);
+    return;
+  }
+  show_sel_item(devicelist);
+
+  if (start > -1)
+  {
+    if (startffs)
+    {
+      gadlist->Flags |= GFLG_SELECTED;
+    } else
+    {
+      gadlist->Flags &= ~GFLG_SELECTED;
     }
-    show_sel_item(devicelist);
+  }
 
-    if (start>-1) {
-        if (startffs) gadlist->Flags|=GFLG_SELECTED;
-        else gadlist->Flags&=~GFLG_SELECTED;
-    }
+  RefreshRequesterObject(&installreq, NULL);
+  RefreshGList(gadlist, window, NULL, gadcount);
+  show_install_info(&installreq, infobox, devicelist->items[devicelist->itemselected]);
 
-    RefreshRequesterObject(&installreq,NULL);
-    RefreshGList(gadlist,window,NULL,gadcount);
-    show_install_info(&installreq,infobox,devicelist->items[devicelist->itemselected]);
+  if (start > -1)
+  {
+    do_install(&installreq, infobox, devicelist->items[devicelist->itemselected], startnoboot, startffs);
+    RemoveListView(devicelist, 1);
+    CloseRequester(&installreq);
+    return;
+  }
 
-    if (start>-1) {
-        do_install(&installreq,infobox,
-            devicelist->items[devicelist->itemselected],
-            startnoboot,startffs);
-        RemoveListView(devicelist,1);
-        CloseRequester(&installreq);
-        return;
-    }
+  keys[0] = getkeyshortcut(string_table[STR_FORMAT_FFS]);
+  keys[1] = getkeyshortcut(string_table[STR_INSTALL_INSTALL]);
+  keys[2] = getkeyshortcut(string_table[STR_INSTALL_NOBOOT]);
+  keys[3] = getkeyshortcut(string_table[STR_FORMAT_EXIT]);
 
-    keys[0] = getkeyshortcut(string_table[STR_FORMAT_FFS]);
-    keys[1] = getkeyshortcut(string_table[STR_INSTALL_INSTALL]);
-    keys[2] = getkeyshortcut(string_table[STR_INSTALL_NOBOOT]);
-    keys[3] = getkeyshortcut(string_table[STR_FORMAT_EXIT]);
+  FOREVER
+  {
+    while (msg = (struct IntuiMessage *)GetMsg(window->UserPort))
+    {
+      if ((view = (struct DOpusListView *)ListViewIDCMP(devicelist, msg)) == (struct DOpusListView *)-1)
+      {
+        class    = msg->Class;
+        code     = msg->Code;
+        iaddress = msg->IAddress;
+        ReplyMsg((struct Message *)msg);
 
-    FOREVER {
-        while (msg=(struct IntuiMessage *)GetMsg(window->UserPort)) {
-            if ((view=(struct DOpusListView *)ListViewIDCMP(devicelist,msg))==
-                (struct DOpusListView *)-1) {
-                class=msg->Class; code=msg->Code;
-                iaddress=msg->IAddress;
-                ReplyMsg((struct Message *)msg);
+        switch (class)
+        {
+        case IDCMP_DISKINSERTED:
+        case IDCMP_DISKREMOVED:
+          if (ignorechange)
+          {
+            ignorechange = 0;
+          } else
+          {
+            show_install_info(&installreq, infobox, devicelist->items[devicelist->itemselected]);
+          }
+          break;
 
-                switch (class) {
-                    case IDCMP_DISKINSERTED:
-                    case IDCMP_DISKREMOVED:
-                        if (ignorechange) ignorechange=0;
-                        else {
-                            show_install_info(&installreq,
-                                infobox,
-                                devicelist->items[devicelist->itemselected]);
-                        }
-                        break;
-
-                    case IDCMP_VANILLAKEY:  
-                        code=LToLower(code);
-                        if (code == keys[0]) {
-                                if (!mask) {
-                                    gadlist->Flags^=GFLG_SELECTED;
-                                    RefreshGList(gadlist,window,NULL,1);
-                                }
-                        }
-                        else if ((code == keys[1]) || (code == keys[2]) || (code == '\r')) {
-                          if (do_install(&installreq,infobox,
-                              devicelist->items[devicelist->itemselected],
-                              code == keys[2],(!mask && gadlist->Flags&GFLG_SELECTED)))
-                              ignorechange=1;
-                        }
-                        else if ((code == keys[3]) || (code == 0x1b)) {
-                                set_env("install",gadlist,gadcount,devicelist);
-                                RemoveListView(devicelist,1);
-                                CloseRequester(&installreq);
-                                return;
-                        }
-                        break;
-
-                    case IDCMP_GADGETDOWN:
-                    case IDCMP_GADGETUP:
-                        gadgetid=((struct Gadget *)iaddress)->GadgetID;
-                    case IDCMP_CLOSEWINDOW:
-                        if (class==IDCMP_CLOSEWINDOW) gadgetid=INSTALL_CANCEL;
-
-                        switch (gadgetid) {
-                            case INSTALL_CANCEL:
-                                set_env("install",gadlist,gadcount,devicelist);
-                                RemoveListView(devicelist,1);
-                                CloseRequester(&installreq);
-                                return;
-                            case INSTALL_INSTALL:
-                            case INSTALL_NOBOOT:
-                              if (do_install(&installreq,infobox,
-                                  devicelist->items[devicelist->itemselected],
-                                  (gadgetid==INSTALL_NOBOOT),(!mask && gadlist->Flags&GFLG_SELECTED)))
-                                  ignorechange=1;
-                                break;
-                        }
-                        break;
-                }
+        case IDCMP_VANILLAKEY:
+          code = LToLower(code);
+          if (code == keys[0])
+          {
+            if (!mask)
+            {
+              gadlist->Flags ^= GFLG_SELECTED;
+              RefreshGList(gadlist, window, NULL, 1);
             }
-            else if (view) {
-                show_install_info(&installreq,
-                    infobox,view->items[view->itemselected]);
+          } else if ((code == keys[1]) || (code == keys[2]) || (code == '\r'))
+          {
+            if (do_install(&installreq, infobox, devicelist->items[devicelist->itemselected], code == keys[2],
+                           (!mask && gadlist->Flags & GFLG_SELECTED)))
+            {
+              ignorechange = 1;
             }
+          } else if ((code == keys[3]) || (code == 0x1b))
+          {
+            set_env("install", gadlist, gadcount, devicelist);
+            RemoveListView(devicelist, 1);
+            CloseRequester(&installreq);
+            return;
+          }
+          break;
+
+        case IDCMP_GADGETDOWN:
+        case IDCMP_GADGETUP:
+          gadgetid = ((struct Gadget *)iaddress)->GadgetID;
+        case IDCMP_CLOSEWINDOW:
+          if (class == IDCMP_CLOSEWINDOW)
+          {
+            gadgetid = INSTALL_CANCEL;
+          }
+
+          switch (gadgetid)
+          {
+          case INSTALL_CANCEL:
+            set_env("install", gadlist, gadcount, devicelist);
+            RemoveListView(devicelist, 1);
+            CloseRequester(&installreq);
+            return;
+          case INSTALL_INSTALL:
+          case INSTALL_NOBOOT:
+            if (do_install(&installreq, infobox, devicelist->items[devicelist->itemselected],
+                           (gadgetid == INSTALL_NOBOOT), (!mask && gadlist->Flags & GFLG_SELECTED)))
+            {
+              ignorechange = 1;
+            }
+            break;
+          }
+          break;
         }
-        Wait(1<<window->UserPort->mp_SigBit);
+      } else if (view)
+      {
+        show_install_info(&installreq, infobox, view->items[view->itemselected]);
+      }
     }
+    Wait(1 << window->UserPort->mp_SigBit);
+  }
 }
 
-void show_install_info(reqbase,border,name)
-struct RequesterBase *reqbase;
+void show_install_info(reqbase, border, name) struct RequesterBase *reqbase;
 Object_Border *border;
 char *name;
 {
-    struct DeviceHandle handle;
-    ULONG *buffer,tracksize,dostype;
-    char infobuf[80];
-    int a,sum,lastsum,ffs;
+  struct DeviceHandle handle;
+  ULONG *buffer, tracksize, dostype;
+  char infobuf[80];
+  int a, sum, lastsum, ffs;
 
-    border_text(reqbase,border,NULL);
-    strcpy(infobuf,string_table[STR_INSTALL_NOINFO]);
+  border_text(reqbase, border, NULL);
+  strcpy(infobuf, string_table[STR_INSTALL_NOINFO]);
 
-    if (open_device(name,&handle)) {
-        handle.device_req->iotd_Req.io_Command=TD_CHANGESTATE;
-        DoIO((struct IORequest *)handle.device_req);
-        if (handle.device_req->iotd_Req.io_Actual)
-            lsprintf(infobuf,string_table[STR_NODISKPRESENT],name);
-        else {
-            tracksize=(handle.dosenvec->de_SizeBlock<<2)*
-                handle.dosenvec->de_Surfaces*handle.dosenvec->de_BlocksPerTrack,
-            drive_motor(handle.device_req,1);
-            if (buffer=(ULONG *)AllocMem(TD_SECTOR*2,handle.dosenvec->de_BufMemType)) {
-                handle.device_req->iotd_Req.io_Command=CMD_READ;
-                handle.device_req->iotd_Req.io_Data=(APTR)buffer;
-                handle.device_req->iotd_Req.io_Offset=handle.dosenvec->de_LowCyl*tracksize;
-                handle.device_req->iotd_Req.io_Length=TD_SECTOR*2;
-                if (!(DoIO((struct IORequest *)handle.device_req))) {
-                    dostype=buffer[0];
-                    for (a=0,sum=0;a<TD_SECTOR>>1;a++) {
-                        lastsum=sum;
-                        sum+=buffer[a];
-                        if (lastsum>sum) ++sum;
-                    }
-                    if (sum!=0) strcpy(infobuf,string_table[STR_INSTALL_NOTBOOTABLE]);
-                    else {
-                        if (dostype&1) ffs=1;
-                        else ffs=0;
-
-                        if (install_compare_block(buffer,bootblock_13,13)) {
-                            lsprintf(infobuf,string_table[STR_INSTALL_NORMAL],
-                                "1.3",(ffs)?"FFS":"OFS");
-                        }
-                        else if (install_compare_block(buffer,bootblock_20,24)) {
-                            lsprintf(infobuf,string_table[STR_INSTALL_NORMAL],
-                                "2.0+",(ffs)?"FFS":"OFS");
-                            if ((dostype&0xfffffffe)==ID_INTER_DOS_DISK)
-                                strcat(infobuf," (Inter)");
-                            else if ((dostype&0xfffffffe)==ID_FASTDIR_DOS_DISK)
-                                strcat(infobuf," (Cache)");
-                        }
-                        else strcpy(infobuf,string_table[STR_INSTALL_NONSTANDARD]);
-                    }
-                }
-                FreeMem(buffer,TD_SECTOR*2);
+  if (open_device(name, &handle))
+  {
+    handle.device_req->iotd_Req.io_Command = TD_CHANGESTATE;
+    DoIO((struct IORequest *)handle.device_req);
+    if (handle.device_req->iotd_Req.io_Actual)
+    {
+      lsprintf(infobuf, string_table[STR_NODISKPRESENT], name);
+    } else
+    {
+      tracksize =
+          (handle.dosenvec->de_SizeBlock << 2) * handle.dosenvec->de_Surfaces * handle.dosenvec->de_BlocksPerTrack,
+      drive_motor(handle.device_req, 1);
+      if (buffer = (ULONG *)AllocMem(TD_SECTOR * 2, handle.dosenvec->de_BufMemType))
+      {
+        handle.device_req->iotd_Req.io_Command = CMD_READ;
+        handle.device_req->iotd_Req.io_Data    = (APTR)buffer;
+        handle.device_req->iotd_Req.io_Offset  = handle.dosenvec->de_LowCyl * tracksize;
+        handle.device_req->iotd_Req.io_Length  = TD_SECTOR * 2;
+        if (!(DoIO((struct IORequest *)handle.device_req)))
+        {
+          dostype = buffer[0];
+          for (a = 0, sum = 0; a < TD_SECTOR >> 1; a++)
+          {
+            lastsum = sum;
+            sum += buffer[a];
+            if (lastsum > sum)
+            {
+              ++sum;
             }
+          }
+          if (sum != 0)
+          {
+            strcpy(infobuf, string_table[STR_INSTALL_NOTBOOTABLE]);
+          } else
+          {
+            if (dostype & 1)
+            {
+              ffs = 1;
+            } else
+            {
+              ffs = 0;
+            }
+
+            if (install_compare_block(buffer, bootblock_13, 13))
+            {
+              lsprintf(infobuf, string_table[STR_INSTALL_NORMAL], "1.3", (ffs) ? "FFS" : "OFS");
+            } else if (install_compare_block(buffer, bootblock_20, 24))
+            {
+              lsprintf(infobuf, string_table[STR_INSTALL_NORMAL], "2.0+", (ffs) ? "FFS" : "OFS");
+              if ((dostype & 0xfffffffe) == ID_INTER_DOS_DISK)
+              {
+                strcat(infobuf, " (Inter)");
+              } else if ((dostype & 0xfffffffe) == ID_FASTDIR_DOS_DISK)
+              {
+                strcat(infobuf, " (Cache)");
+              }
+            } else
+            {
+              strcpy(infobuf, string_table[STR_INSTALL_NONSTANDARD]);
+            }
+          }
         }
-        drive_motor(handle.device_req,0);
+        FreeMem(buffer, TD_SECTOR * 2);
+      }
     }
-    close_device(&handle);
-    border_text(reqbase,border,infobuf);
+    drive_motor(handle.device_req, 0);
+  }
+  close_device(&handle);
+  border_text(reqbase, border, infobuf);
 }
 
-install_compare_block(block,testblock,size)
-ULONG *block,*testblock,size;
+install_compare_block(block, testblock, size) ULONG *block, *testblock, size;
 {
-    int a;
+  int a;
 
-    for (a=3;a<size;a++)
-        if (block[a]!=testblock[a])
-            return(0);
-    return(1);
+  for (a = 3; a < size; a++)
+  {
+    if (block[a] != testblock[a])
+    {
+      return (0);
+    }
+  }
+  return (1);
 }
 
-do_install(reqbase,border,device,noboot,forceffs)
-struct RequesterBase *reqbase;
+do_install(reqbase, border, device, noboot, forceffs) struct RequesterBase *reqbase;
 Object_Border *border;
 char *device;
-int noboot,forceffs;
+int noboot, forceffs;
 {
-    struct DeviceHandle handle;
-    ULONG dostype;
-    ULONG *buffer,tracksize;
-    BPTR lock;
-    D_S(struct InfoData,data);
-    int a,err=STR_SUCCESS,sum,lastsum;
-    struct Requester busyreq;
+  struct DeviceHandle handle;
+  ULONG dostype;
+  ULONG *buffer, tracksize;
+  BPTR lock;
+  D_S(struct InfoData, data);
+  int a, err = STR_SUCCESS, sum, lastsum;
+  struct Requester busyreq;
 
-    InitRequester(&busyreq);
-    busyreq.Flags=NOISYREQ;
-    Request(&busyreq,reqbase->rb_window);
-    SetBusyPointer(reqbase->rb_window);
+  InitRequester(&busyreq);
+  busyreq.Flags = NOISYREQ;
+  Request(&busyreq, reqbase->rb_window);
+  SetBusyPointer(reqbase->rb_window);
 
-    if (open_device(device,&handle)) {
-        border_text(reqbase,border,string_table[STR_CHECKING_DESTINATION]);
-        drive_motor(handle.device_req,1);
-        tracksize=(handle.dosenvec->de_SizeBlock<<2)*
-            handle.dosenvec->de_Surfaces*handle.dosenvec->de_BlocksPerTrack;
+  if (open_device(device, &handle))
+  {
+    border_text(reqbase, border, string_table[STR_CHECKING_DESTINATION]);
+    drive_motor(handle.device_req, 1);
+    tracksize =
+        (handle.dosenvec->de_SizeBlock << 2) * handle.dosenvec->de_Surfaces * handle.dosenvec->de_BlocksPerTrack;
 
-        if (check_disk(reqbase,handle.device_req,device,1)) {
-            if (lock=Lock(device,ACCESS_READ)) {
-                Info(lock,data);
-                UnLock(lock);
+    if (check_disk(reqbase, handle.device_req, device, 1))
+    {
+      if (lock = Lock(device, ACCESS_READ))
+      {
+        Info(lock, data);
+        UnLock(lock);
 
-                dostype=data->id_DiskType;
+        dostype = data->id_DiskType;
 
-                border_text(reqbase,border,string_table[STR_INSTALL_INSTALLINGDISK]);
+        border_text(reqbase, border, string_table[STR_INSTALL_INSTALLINGDISK]);
 
-                if ((dostype&~(0xff))==0x444f5300) {
-                    if (forceffs) dostype|=1;
-                    if (buffer=(ULONG *)AllocMem(TD_SECTOR*2,handle.dosenvec->de_BufMemType|MEMF_CLEAR)) {
+        if ((dostype & ~(0xff)) == 0x444f5300)
+        {
+          if (forceffs)
+          {
+            dostype |= 1;
+          }
+          if (buffer = (ULONG *)AllocMem(TD_SECTOR * 2, handle.dosenvec->de_BufMemType | MEMF_CLEAR))
+          {
 
-                        if (noboot) buffer[0]=dostype;
-                        else {
-                            if (SysBase->LibNode.lib_Version<36)
-                                CopyMem((char *)bootblock_13,(char *)buffer,sizeof(bootblock_13));
-                            else CopyMem((char *)bootblock_20,(char *)buffer,sizeof(bootblock_20));
+            if (noboot)
+            {
+              buffer[0] = dostype;
+            } else
+            {
+              if (SysBase->LibNode.lib_Version < 36)
+              {
+                CopyMem((char *)bootblock_13, (char *)buffer, sizeof(bootblock_13));
+              } else
+              {
+                CopyMem((char *)bootblock_20, (char *)buffer, sizeof(bootblock_20));
+              }
 
-                            buffer[0]=dostype;
+              buffer[0] = dostype;
 
-                            for (a=0,sum=0;a<TD_SECTOR>>1;a++) {
-                                lastsum=sum;
-                                sum+=buffer[a];
-                                if (lastsum>sum) ++sum;
-                            }
-
-                            buffer[1]=~sum;
-                        }
-
-                        inhibit_drive(device,DOSTRUE);
-
-                        FOREVER {
-                            handle.device_req->iotd_Req.io_Command=CMD_WRITE;
-                            handle.device_req->iotd_Req.io_Data=(APTR)buffer;
-                            handle.device_req->iotd_Req.io_Offset=handle.dosenvec->de_LowCyl*tracksize;
-                            handle.device_req->iotd_Req.io_Length=TD_SECTOR*2;
-
-                            if (!(DoIO((struct IORequest *)handle.device_req))) {
-                                handle.device_req->iotd_Req.io_Command=CMD_UPDATE;
-                                if (!(DoIO((struct IORequest *)handle.device_req))) break;
-                            }
-
-                            border_text(reqbase,border,string_table[STR_INSTALL_ERRORWRITING]);
-                            if (!(check_error(reqbase,string_table[STR_INSTALL_ERRORWRITING],STR_RETRY))) {
-                                err=-1;
-                                break;
-                            }
-                        }
-
-                        inhibit_drive(device,FALSE);
-                        FreeMem(buffer,TD_SECTOR*2);
-                    }
-                    else err=STR_MEMORY_ERROR;
+              for (a = 0, sum = 0; a < TD_SECTOR >> 1; a++)
+              {
+                lastsum = sum;
+                sum += buffer[a];
+                if (lastsum > sum)
+                {
+                  ++sum;
                 }
-                else err=STR_INVALID_DISK;
+              }
+
+              buffer[1] = ~sum;
             }
-            else err=STR_INVALID_DISK;
+
+            inhibit_drive(device, DOSTRUE);
+
+            FOREVER
+            {
+              handle.device_req->iotd_Req.io_Command = CMD_WRITE;
+              handle.device_req->iotd_Req.io_Data    = (APTR)buffer;
+              handle.device_req->iotd_Req.io_Offset  = handle.dosenvec->de_LowCyl * tracksize;
+              handle.device_req->iotd_Req.io_Length  = TD_SECTOR * 2;
+
+              if (!(DoIO((struct IORequest *)handle.device_req)))
+              {
+                handle.device_req->iotd_Req.io_Command = CMD_UPDATE;
+                if (!(DoIO((struct IORequest *)handle.device_req)))
+                {
+                  break;
+                }
+              }
+
+              border_text(reqbase, border, string_table[STR_INSTALL_ERRORWRITING]);
+              if (!(check_error(reqbase, string_table[STR_INSTALL_ERRORWRITING], STR_RETRY)))
+              {
+                err = -1;
+                break;
+              }
+            }
+
+            inhibit_drive(device, FALSE);
+            FreeMem(buffer, TD_SECTOR * 2);
+          } else
+          {
+            err = STR_MEMORY_ERROR;
+          }
+        } else
+        {
+          err = STR_INVALID_DISK;
         }
-        else err=STR_ABORTED;
-
-        drive_motor(handle.device_req,0);
+      } else
+      {
+        err = STR_INVALID_DISK;
+      }
+    } else
+    {
+      err = STR_ABORTED;
     }
-    else err=STR_NODEVICE_ERROR;
 
-    if (err>-1) border_text(reqbase,border,string_table[err]);
+    drive_motor(handle.device_req, 0);
+  } else
+  {
+    err = STR_NODEVICE_ERROR;
+  }
 
-    close_device(&handle);
+  if (err > -1)
+  {
+    border_text(reqbase, border, string_table[err]);
+  }
 
-    EndRequest(&busyreq,reqbase->rb_window);
-    ClearPointer(reqbase->rb_window);
-    return((err==STR_SUCCESS));
+  close_device(&handle);
+
+  EndRequest(&busyreq, reqbase->rb_window);
+  ClearPointer(reqbase->rb_window);
+  return ((err == STR_SUCCESS));
 }

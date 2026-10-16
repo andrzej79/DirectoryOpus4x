@@ -30,10 +30,10 @@ the existing commercial status of Directory Opus 5.
 
 #include "print.h"
 
-char *version="$VER: DOpus_Print 1.29 (" __DATE__ ") made under GPL license by Jacek Rzeuski";
+char *version = "$VER: DOpus_Print 1.29 (" __DATE__ ") made under GPL license by Jacek Rzeuski";
 
 struct DOpusBase *DOpusBase;
 struct IntuitionBase *IntuitionBase;
-struct GfxBase *GfxBase = NULL;
+struct GfxBase *GfxBase       = NULL;
 struct Library *WorkbenchBase = NULL;
 // JRZ: struct PPBase *PPBase = NULL;

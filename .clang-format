@@ -1,0 +1,28 @@
+BasedOnStyle: LLVM
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction:   true         # <-- function braces new line
+  AfterControlStatement: true   # <-- control statements (if, for, etc) brace new line
+  AfterClass:      true
+  AfterEnum:       true
+  AfterNamespace:  true
+  AfterObjCDeclaration: true
+  AfterStruct:     true
+  AfterUnion:      true
+  BeforeCatch:     false
+  BeforeElse:      false
+  IndentBraces:    false
+AllowShortIfStatementsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+InsertBraces: true
+ColumnLimit: 120
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpacesInAngles: false
+SpacesInCStyleCastParentheses: false
+AlignConsecutiveAssignments: true
+AlignTrailingComments: true
+SortIncludes: false

@@ -1,7 +1,7 @@
-#ifndef  CLIB_ACCOUNTS_PROTOS_H
-#define  CLIB_ACCOUNTS_PROTOS_H
+#ifndef CLIB_ACCOUNTS_PROTOS_H
+#define CLIB_ACCOUNTS_PROTOS_H
 
-#ifndef  EXEC_TYPES_H
+#ifndef EXEC_TYPES_H
 #include <exec/types.h>
 #endif
 
@@ -9,19 +9,18 @@
 extern "C" {
 #endif
 
-
 struct UserInfo
 {
-	UBYTE	ui_UserName[32];
-	UWORD	ui_UserID;
-	UWORD	ui_PrimaryGroupID;
-	ULONG   ui_Flags;
+  UBYTE ui_UserName[32];
+  UWORD ui_UserID;
+  UWORD ui_PrimaryGroupID;
+  ULONG ui_Flags;
 };
 
 struct GroupInfo
 {
-	UBYTE	gi_GroupName[32];
-	UWORD	gi_GroupID;
+  UBYTE gi_GroupName[32];
+  UWORD gi_GroupID;
 };
 
 /* allocation functions */
@@ -58,4 +57,4 @@ ULONG VerifyUserCrypt(STRPTR uname, STRPTR passwd, struct UserInfo *user);
 }
 #endif
 
-#endif	 /* C_ACCOUNTS_PROTOS_H */
+#endif /* C_ACCOUNTS_PROTOS_H */

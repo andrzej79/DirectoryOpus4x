@@ -28,7 +28,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-//#include <fctype.h>
+// #include <fctype.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -48,19 +48,21 @@ the existing commercial status of Directory Opus 5.
 #include <dopus/dopusmessage.h>
 #include "iconstrings.h"
 
-#define II_TTLINES 5                      /* Number of tooltype lines */
+#define II_TTLINES 5 /* Number of tooltype lines */
 
-enum {
-    II_SAVE,                                /* Save changes to icon */
-    II_SKIP,                                /* Leave this icon unchanged */
-    II_CANCEL,                              /* Lose changes to icon */
-    II_STACK,                               /* Stack size of projects */
-    II_COMMENT,                             /* Comment field */
-    II_DEFAULTTOOL,                         /* Default tool field */
-    II_TOOLTYPE,                            /* ToolType string gadget */
-    II_NEW,                                 /* New ToolType */
-    II_DELETE,                              /* Delete ToolType */
-    II_REMAP};                              /* Remap colours 1.3/2.0 */
+enum
+{
+  II_SAVE,        /* Save changes to icon */
+  II_SKIP,        /* Leave this icon unchanged */
+  II_CANCEL,      /* Lose changes to icon */
+  II_STACK,       /* Stack size of projects */
+  II_COMMENT,     /* Comment field */
+  II_DEFAULTTOOL, /* Default tool field */
+  II_TOOLTYPE,    /* ToolType string gadget */
+  II_NEW,         /* New ToolType */
+  II_DELETE,      /* Delete ToolType */
+  II_REMAP
+}; /* Remap colours 1.3/2.0 */
 
 extern struct DOpusBase *DOpusBase;
 extern struct IntuitionBase *IntuitionBase;
@@ -78,11 +80,11 @@ extern struct DefaultString default_strings[];
 
 #define STRING_VERSION 1
 
-struct DOpusStartup {
-    struct WBStartup wbstartup;
-    int retcode;
+struct DOpusStartup
+{
+  struct WBStartup wbstartup;
+  int retcode;
 };
-
 
 /* Functions returning pointers: declared so that they are not taken as int */
 struct Gadget *addreqgadgets();

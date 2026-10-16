@@ -28,12 +28,12 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-#define SEARCH_COL_FG          0
-#define SEARCH_COL_BG          1
-#define SEARCH_COL_SHINE       2
-#define SEARCH_COL_SHADOW      3
-#define SEARCH_COL_STRINGFG    4
-#define SEARCH_COL_STRINGBG    5
+#define SEARCH_COL_FG 0
+#define SEARCH_COL_BG 1
+#define SEARCH_COL_SHINE 2
+#define SEARCH_COL_SHADOW 3
+#define SEARCH_COL_STRINGFG 4
+#define SEARCH_COL_STRINGBG 5
 #define SEARCH_COL_STRINGSELFG 6
 #define SEARCH_COL_STRINGSELBG 7
 

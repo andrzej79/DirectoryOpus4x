@@ -28,7 +28,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-//#include "dopuslib.h"
+// #include "dopuslib.h"
 #include <compiler.h>
 #include <string.h>
 #include <proto/dos.h>
@@ -43,143 +43,154 @@ struct MatchData {
 
 extern int __saveds DoMatchPattern(REG(a0, unsigned char *pat), REG(a1, unsigned char *str), REG(d0, int cas));
 extern void __saveds DoParsePattern(REG(a0, unsigned char *pat), REG(a1, unsigned char *patbuf), REG(d0, int cas));
-//extern int WildMatch(struct MatchData *),findendor(struct MatchData *,int);
-//extern struct DOpusBase *DOpusBase;
+// extern int WildMatch(struct MatchData *),findendor(struct MatchData *,int);
+// extern struct DOpusBase *DOpusBase;
 
 int __saveds DoMatchPattern(REG(a0, unsigned char *pat), REG(a1, unsigned char *str), REG(d0, int cas))
 {
-//    if (DOSBase->dl_lib.lib_Version>35) {
-        int suc,old;
+  //    if (DOSBase->dl_lib.lib_Version>35) {
+  int suc, old;
 
-        old=DOSBase->dl_Root->rn_Flags&RNF_WILDSTAR;
-        DOSBase->dl_Root->rn_Flags|=RNF_WILDSTAR;
-        suc = (cas?MatchPatternNoCase(pat,str):MatchPattern(pat,str));
-//        if (cas) suc=(int)MatchPatternNoCase(pat,str);
-//        else suc=(int)MatchPattern(pat,str);
-        if (!old) DOSBase->dl_Root->rn_Flags&=~RNF_WILDSTAR;
-        return(suc);
-/*
-    }
-    else {
-        struct MatchData mdata;
+  old = DOSBase->dl_Root->rn_Flags & RNF_WILDSTAR;
+  DOSBase->dl_Root->rn_Flags |= RNF_WILDSTAR;
+  suc = (cas ? MatchPatternNoCase(pat, str) : MatchPattern(pat, str));
+  //        if (cas) suc=(int)MatchPatternNoCase(pat,str);
+  //        else suc=(int)MatchPattern(pat,str);
+  if (!old)
+  {
+    DOSBase->dl_Root->rn_Flags &= ~RNF_WILDSTAR;
+  }
+  return (suc);
+  /*
+      }
+      else {
+          struct MatchData mdata;
 
-        mdata.str=str;
-        mdata.pat=pat;
-        mdata.levels=mdata.flags=0;
-        mdata.cas=cas;
-        return(WildMatch(&mdata));
-    }
-*/
+          mdata.str=str;
+          mdata.pat=pat;
+          mdata.levels=mdata.flags=0;
+          mdata.cas=cas;
+          return(WildMatch(&mdata));
+      }
+  */
 }
 
 void __saveds DoParsePattern(REG(a0, unsigned char *pat), REG(a1, unsigned char *patbuf), REG(d0, int cas))
 {
-//    if (DOSBase->dl_lib.lib_Version>35) {
-        int len,old;
+  //    if (DOSBase->dl_lib.lib_Version>35) {
+  int len, old;
 
-        old=DOSBase->dl_Root->rn_Flags&RNF_WILDSTAR;
-        DOSBase->dl_Root->rn_Flags|=RNF_WILDSTAR;
-        len=(strlen(pat)*2)+2;
+  old = DOSBase->dl_Root->rn_Flags & RNF_WILDSTAR;
+  DOSBase->dl_Root->rn_Flags |= RNF_WILDSTAR;
+  len = (strlen(pat) * 2) + 2;
 
-    (cas?ParsePatternNoCase(pat,patbuf,len):ParsePattern(pat,patbuf,len));
+  (cas ? ParsePatternNoCase(pat, patbuf, len) : ParsePattern(pat, patbuf, len));
 
-        if (cas) ParsePatternNoCase(pat,patbuf,len);
-        else ParsePattern(pat,patbuf,len);
-        if (!old) DOSBase->dl_Root->rn_Flags&=~RNF_WILDSTAR;
-/*
-    }
-    else {
-        int or=0,class=0,rep=0;
+  if (cas)
+  {
+    ParsePatternNoCase(pat, patbuf, len);
+  } else
+  {
+    ParsePattern(pat, patbuf, len);
+  }
+  if (!old)
+  {
+    DOSBase->dl_Root->rn_Flags &= ~RNF_WILDSTAR;
+  }
+  /*
+      }
+      else {
+          int or=0,class=0,rep=0;
 
-        while (*pat) {
-            switch (*pat) {
-                case '*':
-                    if (rep) {
-                        *patbuf++=P_REPEND;
-                        rep=0;
-                    }
-                    *patbuf++=P_ANY;
-                    break;
-                case '?':
-                    if (rep) {
-                        *patbuf++=P_REPEND;
-                        rep=0;
-                    }
-                    *patbuf++=P_SINGLE;
-                    break;
-                case '(':
-                    if (rep) rep=0;
-                    *patbuf++=P_ORSTART;
-                    ++or;
-                    break;
-                case '|':
-                    if (rep) rep=0;
-                    if (or) *patbuf++=P_ORNEXT;
-                    else *patbuf++='|';
-                    break;
-                case ')':
-                    if (rep) {
-                        *patbuf++=P_REPEND;
-                        rep=0;
-                    }
-                    if (or) {
-                        *patbuf++=P_OREND;
-                        --or;
-                    }
-                    else *patbuf++=')';
-                    break;
-                case '~':
-                    if (rep) {
-                        *patbuf++=P_REPEND;
-                        rep=0;
-                    }
-                    *patbuf++=P_NOT;
-                    break;
-                case '[':
-                    if (class) *patbuf++='[';
-                    else {
-                        *patbuf++=P_CLASS;
-                        class=1;
-                    }
-                    break;
-                case ']':
-                    if (class) {
-                        *patbuf++=P_CLASS;
-                        class=0;
-                    }
-                    else *patbuf++=']';
-                    if (rep) {
-                        *patbuf++=P_REPEND;
-                        rep=0;
-                    }
-                    break;
-                case '#':
-                    if (*(pat+1)=='?' || *(pat+1)=='*') {
-                        *patbuf++=P_ANY;
-                        ++pat;
-                    }
-                    else {
-                        *patbuf++=P_REPBEG;
-                        rep=1;
-                    }
-                    break;
-                case '%':
-                    break;
-                case '\'':
-                    ++pat;
-                default:
-                    *patbuf++=(cas)?upper(*pat):*pat;
-                    if (rep && !class) {
-                        *patbuf++=P_REPEND;
-                        rep=0;
-                    }
-                    break;
-            }
-            ++pat;
-        }
-        *patbuf=0;
-    }
-*/
+          while (*pat) {
+              switch (*pat) {
+                  case '*':
+                      if (rep) {
+                          *patbuf++=P_REPEND;
+                          rep=0;
+                      }
+                      *patbuf++=P_ANY;
+                      break;
+                  case '?':
+                      if (rep) {
+                          *patbuf++=P_REPEND;
+                          rep=0;
+                      }
+                      *patbuf++=P_SINGLE;
+                      break;
+                  case '(':
+                      if (rep) rep=0;
+                      *patbuf++=P_ORSTART;
+                      ++or;
+                      break;
+                  case '|':
+                      if (rep) rep=0;
+                      if (or) *patbuf++=P_ORNEXT;
+                      else *patbuf++='|';
+                      break;
+                  case ')':
+                      if (rep) {
+                          *patbuf++=P_REPEND;
+                          rep=0;
+                      }
+                      if (or) {
+                          *patbuf++=P_OREND;
+                          --or;
+                      }
+                      else *patbuf++=')';
+                      break;
+                  case '~':
+                      if (rep) {
+                          *patbuf++=P_REPEND;
+                          rep=0;
+                      }
+                      *patbuf++=P_NOT;
+                      break;
+                  case '[':
+                      if (class) *patbuf++='[';
+                      else {
+                          *patbuf++=P_CLASS;
+                          class=1;
+                      }
+                      break;
+                  case ']':
+                      if (class) {
+                          *patbuf++=P_CLASS;
+                          class=0;
+                      }
+                      else *patbuf++=']';
+                      if (rep) {
+                          *patbuf++=P_REPEND;
+                          rep=0;
+                      }
+                      break;
+                  case '#':
+                      if (*(pat+1)=='?' || *(pat+1)=='*') {
+                          *patbuf++=P_ANY;
+                          ++pat;
+                      }
+                      else {
+                          *patbuf++=P_REPBEG;
+                          rep=1;
+                      }
+                      break;
+                  case '%':
+                      break;
+                  case '\'':
+                      ++pat;
+                  default:
+                      *patbuf++=(cas)?upper(*pat):*pat;
+                      if (rep && !class) {
+                          *patbuf++=P_REPEND;
+                          rep=0;
+                      }
+                      break;
+              }
+              ++pat;
+          }
+          *patbuf=0;
+      }
+  */
 }
 /*
 WildMatch(mdata)

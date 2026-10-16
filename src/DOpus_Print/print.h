@@ -28,7 +28,7 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-//#include <fctype.h>
+// #include <fctype.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -58,71 +58,74 @@ extern struct DosLibrary *DOSBase;
 extern struct Library *WorkbenchBase;
 // JRZ extern struct PPBase *PPBase;
 
-struct Directory {
-    struct Directory *last,*next;
-    char name[FILEBUF_SIZE];
-    int type;
-    int size;
-    int subtype;
-    int protection;
-    char *comment;
-    char *dispstr;
-    char protbuf[12],datebuf[20];
-    int selected;
-    char *description;
-    int userdata,userdata2;
-    struct DateStamp date;
+struct Directory
+{
+  struct Directory *last, *next;
+  char name[FILEBUF_SIZE];
+  int type;
+  int size;
+  int subtype;
+  int protection;
+  char *comment;
+  char *dispstr;
+  char protbuf[12], datebuf[20];
+  int selected;
+  char *description;
+  int userdata, userdata2;
+  struct DateStamp date;
 };
 
-#define PRINTFLAG_EJECT    1
-#define PRINTFLAG_FILE     2
+#define PRINTFLAG_EJECT 1
+#define PRINTFLAG_FILE 2
 
 #define HEADFOOTFLAG_TITLE 1
-#define HEADFOOTFLAG_DATE  2
-#define HEADFOOTFLAG_PAGE  4
+#define HEADFOOTFLAG_DATE 2
+#define HEADFOOTFLAG_PAGE 4
 
-#define PITCH_PICA         0
-#define PITCH_ELITE        1
-#define PITCH_FINE         2
+#define PITCH_PICA 0
+#define PITCH_ELITE 1
+#define PITCH_FINE 2
 
-#define PITCH_COUNT        3
+#define PITCH_COUNT 3
 
-#define STYLE_NORMAL       0
-#define STYLE_BOLD         1
-#define STYLE_ITALICS      2
-#define STYLE_UNDERLINED   3
+#define STYLE_NORMAL 0
+#define STYLE_BOLD 1
+#define STYLE_ITALICS 2
+#define STYLE_UNDERLINED 3
 #define STYLE_DOUBLESTRIKE 4
-#define STYLE_SHADOW       5
+#define STYLE_SHADOW 5
 
-#define STYLE_COUNT        6
+#define STYLE_COUNT 6
 
-#define QUALITY_DRAFT      0
-#define QUALITY_NLQ        1
+#define QUALITY_DRAFT 0
+#define QUALITY_NLQ 1
 
-#define HEADER             0
-#define FOOTER             1
+#define HEADER 0
+#define FOOTER 1
 
-typedef struct HeadFootData {
-    char text_style;
-    char headfoot_flags;
-    char headfoot_title[40];
+typedef struct HeadFootData
+{
+  char text_style;
+  char headfoot_flags;
+  char headfoot_title[40];
 } HeaderFooter;
 
-typedef struct MyPrinterData {
-    USHORT top_margin;
-    USHORT bottom_margin;
-    USHORT left_margin;
-    USHORT right_margin;
-    char tab_size;
-    char print_pitch;
-    char text_quality;
-    char print_flags;
-    char output_file[256];
-    HeaderFooter headfoot[2];
+typedef struct MyPrinterData
+{
+  USHORT top_margin;
+  USHORT bottom_margin;
+  USHORT left_margin;
+  USHORT right_margin;
+  char tab_size;
+  char print_pitch;
+  char text_quality;
+  char print_flags;
+  char output_file[256];
+  HeaderFooter headfoot[2];
 } PrintData;
 
 #define DOUBLESTRIKE_OFF "\x1b[3\"z"
-#define SHADOW_OFF       "\x1b[5\"z"
+#define SHADOW_OFF "\x1b[5\"z"
 
 extern struct DefaultString default_strings[];
 

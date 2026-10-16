@@ -32,186 +32,125 @@ the existing commercial status of Directory Opus 5.
 
 char **string_table;
 
-struct DefaultString
-    default_strings[]={
-        {STR_SELECT_FILE,
-        "Select file"},
+struct DefaultString default_strings[] = {{STR_SELECT_FILE, "Select file"},
 
-        {STR_ABORT,
-        "Abort"},
+                                          {STR_ABORT, "Abort"},
 
-        {STR_CONTINUE,
-        "Continue"},
+                                          {STR_CONTINUE, "Continue"},
 
-        {STR_OKAY,
-        "Okay"},
+                                          {STR_OKAY, "Okay"},
 
-        {STR_CANCEL,
-        "Cancel"},
+                                          {STR_CANCEL, "Cancel"},
 
-        {STR_FILE,
-        "File"},
+                                          {STR_FILE, "File"},
 
-        {STR_TOP_MARGIN,
-        "Top Margin"},
+                                          {STR_TOP_MARGIN, "Top Margin"},
 
-        {STR_BOTTOM_MARGIN,
-        "Bottom Margin"},
+                                          {STR_BOTTOM_MARGIN, "Bottom Margin"},
 
-        {STR_LEFT_MARGIN,
-        "Left Margin"},
+                                          {STR_LEFT_MARGIN, "Left Margin"},
 
-        {STR_RIGHT_MARGIN,
-        "Right Margin"},
+                                          {STR_RIGHT_MARGIN, "Right Margin"},
 
-        {STR_TAB_SIZE,
-        "Tab size"},
+                                          {STR_TAB_SIZE, "Tab size"},
 
-        {STR_PRINT_PITCH,
-        "Print pitch"},
+                                          {STR_PRINT_PITCH, "Print pitch"},
 
-        {STR_QUALITY,
-        "Density"},
+                                          {STR_QUALITY, "Density"},
 
-        {STR_EJECT,
-        "Eject final page"},
+                                          {STR_EJECT, "Eject final page"},
 
-        {STR_CONFIGURATION,
-        "configuration..."},
+                                          {STR_CONFIGURATION, "configuration..."},
 
-        {STR_TITLE,
-        "Title"},
+                                          {STR_TITLE, "Title"},
 
-        {STR_DATE,
-        "Date"},
+                                          {STR_DATE, "Date"},
 
-        {STR_PAGE_NUMBER,
-        "Page no."},
+                                          {STR_PAGE_NUMBER, "Page no."},
 
-        {STR_TEXT_STYLE,
-        "Text style"},
+                                          {STR_TEXT_STYLE, "Text style"},
 
-        {STR_PRINTER,
-        "Printer"},
+                                          {STR_PRINTER, "Printer"},
 
-        {STR_PRINT,
-        "Print"},
+                                          {STR_PRINT, "Print"},
 
-        {STR_EXIT,
-        "Exit"},
+                                          {STR_EXIT, "Exit"},
 
-        {STR_OUTPUT_TO,
-        "Output to..."},
+                                          {STR_OUTPUT_TO, "Output to..."},
 
-        {STR_PICA,
-        "Pica"},
+                                          {STR_PICA, "Pica"},
 
-        {STR_ELITE,
-        "Elite"},
+                                          {STR_ELITE, "Elite"},
 
-        {STR_FINE,
-        "Fine"},
+                                          {STR_FINE, "Fine"},
 
-        {STR_NORMAL,
-        "Normal"},
+                                          {STR_NORMAL, "Normal"},
 
-        {STR_BOLD,
-        "Bold"},
+                                          {STR_BOLD, "Bold"},
 
-        {STR_ITALICS,
-        "Italics"},
+                                          {STR_ITALICS, "Italics"},
 
-        {STR_UNDERLINED,
-        "UnLined"},
+                                          {STR_UNDERLINED, "UnLined"},
 
-        {STR_DOUBLESTRIKE,
-        "DbStrik"},
+                                          {STR_DOUBLESTRIKE, "DbStrik"},
 
-        {STR_SHADOW,
-        "Shadow"},
+                                          {STR_SHADOW, "Shadow"},
 
-        {STR_DRAFT,
-        "Draft"},
+                                          {STR_DRAFT, "Draft"},
 
-        {STR_LETTER,
-        "Letter"},
+                                          {STR_LETTER, "Letter"},
 
-        {STR_HEADER,
-        "Header"},
+                                          {STR_HEADER, "Header"},
 
-        {STR_FOOTER,
-        "Footer"},
+                                          {STR_FOOTER, "Footer"},
 
-        {STR_SIZE,
-        "Size"},
+                                          {STR_SIZE, "Size"},
 
-        {STR_PROTECTION,
-        "Protection"},
+                                          {STR_PROTECTION, "Protection"},
 
-        {STR_COMMENT,
-        "Comment"},
+                                          {STR_COMMENT, "Comment"},
 
-        {STR_FILETYPE,
-        "File type"},
+                                          {STR_FILETYPE, "File type"},
 
-        {STR_PRINT_DOT,
-        "Print..."},
+                                          {STR_PRINT_DOT, "Print..."},
 
-        {STR_PRINTDIR,
-        "Printdir"},
+                                          {STR_PRINTDIR, "Printdir"},
 
-        {STR_UNABLE_TO_OPEN_FILE,
-        "Unable to open file. Try again?"},
+                                          {STR_UNABLE_TO_OPEN_FILE, "Unable to open file. Try again?"},
 
-        {STR_UNABLE_TO_OPEN_OUTPUT,
-        "Unable to open output file. Try again?"},
+                                          {STR_UNABLE_TO_OPEN_OUTPUT, "Unable to open output file. Try again?"},
 
-        {STR_UNABLE_TO_OPEN_PRINTER,
-        "Unable to open printer. Try again?"},
+                                          {STR_UNABLE_TO_OPEN_PRINTER, "Unable to open printer. Try again?"},
 
-        {STR_ERROR_PRINTING_DIR,
-        "Error printing directory. Try again?"},
+                                          {STR_ERROR_PRINTING_DIR, "Error printing directory. Try again?"},
 
-        {STR_INCORRECT_PASSWORD,
-        "Incorrect password entered. Try again?"},
+                                          {STR_INCORRECT_PASSWORD, "Incorrect password entered. Try again?"},
 
-        {STR_PRINT_ERROR,
-        "Print error! Try again?"},
+                                          {STR_PRINT_ERROR, "Print error! Try again?"},
 
-        {STR_REALLY_ABORT,
-        "Really abort print operation?"},
+                                          {STR_REALLY_ABORT, "Really abort print operation?"},
 
-        {STR_CREATING_FILE,
-        "Creating file"},
+                                          {STR_CREATING_FILE, "Creating file"},
 
-        {STR_OPENING_PRINTER,
-        "Opening printer"},
+                                          {STR_OPENING_PRINTER, "Opening printer"},
 
-        {STR_LOADING_FILE,
-        "Loading file.."},
+                                          {STR_LOADING_FILE, "Loading file.."},
 
-        {STR_PRINTING_FILE,
-        "Printing file..."},
+                                          {STR_PRINTING_FILE, "Printing file..."},
 
-        {STR_PRESS_ESCAPE,
-        "Press ESC to abort"},
+                                          {STR_PRESS_ESCAPE, "Press ESC to abort"},
 
-        {STR_PAGE,
-        "Page"},
+                                          {STR_PAGE, "Page"},
 
-        {STR_COMPLETE,
-        "complete"},
+                                          {STR_COMPLETE, "complete"},
 
-        {STR_TOFILE,
-        "File"},
+                                          {STR_TOFILE, "File"},
 
-        {STR_PRINTWIN,
-        "Print"},
+                                          {STR_PRINTWIN, "Print"},
 
-        {STR_STRING_COUNT,
-        NULL}};
+                                          {STR_STRING_COUNT, NULL}};
 
 #ifdef STRINGS_ONLY
-char string_type[]="DOpus_Print strings";
-char *string_save="DM_Print_%s.STR";
+char string_type[] = "DOpus_Print strings";
+char *string_save  = "DM_Print_%s.STR";
 #endif

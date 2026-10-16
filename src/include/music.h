@@ -28,38 +28,30 @@ the existing commercial status of Directory Opus 5.
 
 */
 
-
 #include <exec/types.h>
 #include <libraries/dos.h>
 #include <exec/resident.h>
 #include <exec/memory.h>
 #include <exec/libraries.h>
 
-
 /*Our Library Structure */
 
-
-struct MusicBase {
-    struct Library MLib;
-    BPTR    ml_SegList;
-    APTR    ml_Module;
-    LONG    ml_Len;
-    WORD    ml_Playing,
-            ml_ModType,
-            ml_Volume,
-            ml_Tempo,
-            ml_Tracks,
-            ml_SongPos;
-    struct Library *ml_DOSBase, *ml_PPBase;
-    char   *ml_SongName;
+struct MusicBase
+{
+  struct Library MLib;
+  BPTR ml_SegList;
+  APTR ml_Module;
+  LONG ml_Len;
+  WORD ml_Playing, ml_ModType, ml_Volume, ml_Tempo, ml_Tracks, ml_SongPos;
+  struct Library *ml_DOSBase, *ml_PPBase;
+  char *ml_SongName;
 };
 
-
 /* Module types currently supported */
-#define MOD_STNTPT   1               /* Sound/Noise/ProTracker */
-#define MOD_MED      2               /* MED Module (MMD0) */
-#define MOD_OKTA     3               /* Oktalyzer mod */
-#define MOD_OLDST    4               /* 15 Inst SoundTracker */
+#define MOD_STNTPT 1 /* Sound/Noise/ProTracker */
+#define MOD_MED 2    /* MED Module (MMD0) */
+#define MOD_OKTA 3   /* Oktalyzer mod */
+#define MOD_OLDST 4  /* 15 Inst SoundTracker */
 
 /* Error codes returned by PlayModule
 
@@ -68,16 +60,15 @@ struct MusicBase {
 
 */
 
+#define ML_NOMEM 101        /* not enuff memory to load module */
+#define ML_BADMOD 102       /* garbled or not-supported */
+#define ML_NOMOD 103        /* DOS Open failed */
+#define ML_NOPLAYER 104     /* CIA Player Allocations Failed */
+#define ML_LIBLOCKED 105    /* LIBBASE is Locked for processing */
+#define ML_INVALIDFNAME 106 /* Bad file name */
+#define ML_NOAUDIO 107      /* Couldn't lock Audio channels */
 
-#define ML_NOMEM        101       /* not enuff memory to load module */
-#define ML_BADMOD       102       /* garbled or not-supported */
-#define ML_NOMOD        103       /* DOS Open failed */
-#define ML_NOPLAYER     104       /* CIA Player Allocations Failed */
-#define ML_LIBLOCKED    105       /* LIBBASE is Locked for processing */
-#define ML_INVALIDFNAME 106       /* Bad file name */
-#define ML_NOAUDIO      107       /* Couldn't lock Audio channels */
-
-WORD PlayModule(char *,BOOL);
+WORD PlayModule(char *, BOOL);
 VOID StopModule(void);
 WORD IsModule(char *);
 VOID FlushModule(void);
@@ -87,15 +78,12 @@ VOID PlayFaster(void);
 VOID PlaySlower(void);
 VOID TempoReset(void);
 
-#pragma libcall MUSICBase PlayModule   1e 0802  /* A0, D0 */
-#pragma libcall MUSICBase StopModule   24 0
-#pragma libcall MUSICBase IsModule     2a 801   /* D0 */
-#pragma libcall MUSICBase FlushModule  30 0
-#pragma libcall MUSICBase ContModule   36 0
-#pragma libcall MUSICBase SetVolume    3c 801   /* D0 */
-#pragma libcall MUSICBase PlayFaster   42 0
-#pragma libcall MUSICBase PlaySlower   48 0
-#pragma libcall MUSICBase TempoReset   4e 0
-
-
-
+#pragma libcall MUSICBase PlayModule 1e 0802 /* A0, D0 */
+#pragma libcall MUSICBase StopModule 24 0
+#pragma libcall MUSICBase IsModule 2a 801 /* D0 */
+#pragma libcall MUSICBase FlushModule 30 0
+#pragma libcall MUSICBase ContModule 36 0
+#pragma libcall MUSICBase SetVolume 3c 801 /* D0 */
+#pragma libcall MUSICBase PlayFaster 42 0
+#pragma libcall MUSICBase PlaySlower 48 0
+#pragma libcall MUSICBase TempoReset 4e 0

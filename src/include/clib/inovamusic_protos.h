@@ -1,7 +1,7 @@
-#ifndef  CLIB_INOVAMUSIC_PROTOS_H
-#define  CLIB_INOVAMUSIC_PROTOS_H
+#ifndef CLIB_INOVAMUSIC_PROTOS_H
+#define CLIB_INOVAMUSIC_PROTOS_H
 
-#ifndef  INOVAMUSIC_H
+#ifndef INOVAMUSIC_H
 #include <libraries/inovamusic.h>
 #endif
 
@@ -9,8 +9,7 @@
 extern "C" {
 #endif
 
-
-WORD PlayModule(char *,BOOL);
+WORD PlayModule(char *, BOOL);
 VOID StopModule(void);
 WORD IsModule(char *);
 VOID FlushModule(void);
@@ -24,4 +23,4 @@ VOID TempoReset(void);
 }
 #endif
 
-#endif   /* CLIB_INOVAMUSIC_PROTOS_H */
+#endif /* CLIB_INOVAMUSIC_PROTOS_H */

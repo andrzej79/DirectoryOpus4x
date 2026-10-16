@@ -32,117 +32,79 @@ the existing commercial status of Directory Opus 5.
 
 char **string_table;
 
-struct DefaultString
-    default_strings[]={
-        {STR_REMAP_COLORS,
-        "Rema_p colors"},
+struct DefaultString default_strings[] = {{STR_REMAP_COLORS, "Rema_p colors"},
 
-        {STR_SAVE,
-        "Sa_ve"},
+                                          {STR_SAVE, "Sa_ve"},
 
-        {STR_SKIP,
-        "S_kip"},
+                                          {STR_SKIP, "S_kip"},
 
-        {STR_CANCEL,
-        "_Cancel"},
+                                          {STR_CANCEL, "_Cancel"},
 
-        {STR_DELETE,
-        "De_lete"},
+                                          {STR_DELETE, "De_lete"},
 
-        {STR_NEW,
-        "_New"},
+                                          {STR_NEW, "_New"},
 
-        {STR_TOOLTYPES,
-        "Tool types:"},
+                                          {STR_TOOLTYPES, "Tool types:"},
 
-        {STR_COMMENT,
-        "Co_mment:"},
+                                          {STR_COMMENT, "Co_mment:"},
 
-        {STR_DEFAULT_TOOL,
-        "De_fault tool:"},
+                                          {STR_DEFAULT_TOOL, "De_fault tool:"},
 
-        {STR_VALIDATING,
-        "Validating"},
+                                          {STR_VALIDATING, "Validating"},
 
-        {STR_WRITE_PROTECTED,
-        "Write protected"},
+                                          {STR_WRITE_PROTECTED, "Write protected"},
 
-        {STR_READ_WRITE,
-        "Read/Write"},
+                                          {STR_READ_WRITE, "Read/Write"},
 
-        {STR_SCRIPT,
-        "_Script"},
+                                          {STR_SCRIPT, "_Script"},
 
-        {STR_ARCHIVED,
-        "_Archived"},
+                                          {STR_ARCHIVED, "_Archived"},
 
-        {STR_READABLE,
-        "_Readable"},
+                                          {STR_READABLE, "_Readable"},
 
-        {STR_WRITABLE,
-        "_Writable"},
+                                          {STR_WRITABLE, "_Writable"},
 
-        {STR_EXECUTABLE,
-        "_Executable"},
+                                          {STR_EXECUTABLE, "_Executable"},
 
-        {STR_DELETABLE,
-        "_Deletable"},
+                                          {STR_DELETABLE, "_Deletable"},
 
-        {STR_BLOCKS,
-        "Blocks"},
+                                          {STR_BLOCKS, "Blocks"},
 
-        {STR_USED,
-        "Used"},
+                                          {STR_USED, "Used"},
 
-        {STR_FREE,
-        "Free"},
+                                          {STR_FREE, "Free"},
 
-        {STR_BLOCK_SIZE,
-        "Block size"},
+                                          {STR_BLOCK_SIZE, "Block size"},
 
-        {STR_CREATED,
-        "Created"},
+                                          {STR_CREATED, "Created"},
 
-        {STR_LAST_CHANGED,
-        "Last changed"},
+                                          {STR_LAST_CHANGED, "Last changed"},
 
-        {STR_BYTES,
-        "Bytes"},
+                                          {STR_BYTES, "Bytes"},
 
-        {STR_STACK,
-        "S_tack"},
+                                          {STR_STACK, "S_tack"},
 
-        {STR_DISK,
-        "Disk"},
+                                          {STR_DISK, "Disk"},
 
-        {STR_DRAWER,
-        "Drawer"},
+                                          {STR_DRAWER, "Drawer"},
 
-        {STR_TOOL,
-        "Tool"},
+                                          {STR_TOOL, "Tool"},
 
-        {STR_PROJECT,
-        "Project"},
+                                          {STR_PROJECT, "Project"},
 
-        {STR_TRASH,
-        "Trash"},
+                                          {STR_TRASH, "Trash"},
 
-        {STR_DEVICE,
-        "Device"},
+                                          {STR_DEVICE, "Device"},
 
-        {STR_KICK,
-        "Kick"},
+                                          {STR_KICK, "Kick"},
 
-        {STR_APPICON,
-        "AppIcon"},
+                                          {STR_APPICON, "AppIcon"},
 
-        {STR_ICON,
-        "Icon"},
+                                          {STR_ICON, "Icon"},
 
-        {STR_STRING_COUNT,
-        NULL}};
+                                          {STR_STRING_COUNT, NULL}};
 
 #ifdef STRINGS_ONLY
-char string_type[]="DOpus_Print strings";
-char *string_save="DM_Icon_%s.STR";
+char string_type[] = "DOpus_Print strings";
+char *string_save  = "DM_Icon_%s.STR";
 #endif

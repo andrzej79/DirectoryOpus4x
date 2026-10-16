@@ -45,66 +45,75 @@
 
 *************************************************************************/
 
-
-#if INCLUDE_VERSION<36
-FAILURE!! Amiga includes version<36
+#if INCLUDE_VERSION < 36
+FAILURE !!Amiga includes version < 36
 #endif
 
-/* The following structures are used by pchg.lib, and shouldn't be used by
-any other program. */
+    /* The following structures are used by pchg.lib, and shouldn't be used by
+    any other program. */
 
-struct TreeInternalNode {
-	struct TreeNode *Left;
-	struct TreeNode *Right;
+    struct TreeInternalNode
+{
+  struct TreeNode *Left;
+  struct TreeNode *Right;
 };
 
-struct TreeExternalNode {
-	ULONG CodeLength;
-	ULONG Code;
+struct TreeExternalNode
+{
+  ULONG CodeLength;
+  ULONG Code;
 };
 
-struct TreeNode {
-	struct TreeNode *Parent;
-	UWORD IsExternal;
-	UWORD IsRight;
-	union {
-		struct TreeInternalNode Int;
-		struct TreeExternalNode Ext;
-	} n;
+struct TreeNode
+{
+  struct TreeNode *Parent;
+  UWORD IsExternal;
+  UWORD IsRight;
+  union
+  {
+    struct TreeInternalNode Int;
+    struct TreeExternalNode Ext;
+  } n;
 };
 
 /* This routine is here for historical interest. Is a C version of
 PCHG_FastDecomp(). */
 
-VOID PCHG_Decompress(ULONG *Source, UBYTE *Dest, WORD *Tree, ULONG OriginalSize) {
-	ULONG i = 0, bits = 0;
-	ULONG CurLongword;
-	SHORT *p = Tree;
+VOID PCHG_Decompress(ULONG *Source, UBYTE *Dest, WORD *Tree, ULONG OriginalSize)
+{
+  ULONG i = 0, bits = 0;
+  ULONG CurLongword;
+  SHORT *p = Tree;
 
-	while(i<OriginalSize) {
-		if (!bits) {
-			CurLongword = *(Source++);
-			bits = 32;
-		}
-		if (CurLongword & 0x80000000) {
-			if (*p>=0) {
-				*(Dest++) = (unsigned char)*p;
-				i++;
-				p = Tree;
-			}
-			else p+=(*p/2);
-		}
-		else {
-			p--;
-			if (*p>0 && (*p & 0x100)) {
-				*(Dest++) = (unsigned char)*p;
-				i++;
-				p = Tree;
-			}
-		}
-		CurLongword <<= 1;
-		bits--;
-	}
+  while (i < OriginalSize)
+  {
+    if (!bits)
+    {
+      CurLongword = *(Source++);
+      bits        = 32;
+    }
+    if (CurLongword & 0x80000000)
+    {
+      if (*p >= 0)
+      {
+        *(Dest++) = (unsigned char)*p;
+        i++;
+        p = Tree;
+      } else
+      {
+        p += (*p / 2);
+      }
+    } else
+    {
+      p--;
+      if (*p > 0 && (*p & 0x100))
+      {
+        *(Dest++) = (unsigned char)*p;
+        i++;
+        p = Tree;
+      }
+    }
+    CurLongword <<= 1;
+    bits--;
+  }
 }
-
-

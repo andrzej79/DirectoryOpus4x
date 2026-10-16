@@ -31,225 +31,245 @@ the existing commercial status of Directory Opus 5.
 #ifndef DOPUS_STRUCTURES
 #define DOPUS_STRUCTURES
 
-struct CustEntryMessage {
-    struct Message cem_Message;
-    int cem_Action;
-    char *cem_Data;
-    int cem_UserData;
+struct CustEntryMessage
+{
+  struct Message cem_Message;
+  int cem_Action;
+  char *cem_Data;
+  int cem_UserData;
 };
 
-struct NetworkStuff {
-    char *owner;
-    char *group;
-    char net_protbuf[10];
+struct NetworkStuff
+{
+  char *owner;
+  char *group;
+  char net_protbuf[10];
 };
 
-struct Directory {
-    struct Directory *last,*next;
-    char name[FILEBUF_SIZE];
-    int type;
-    int size;
-    int subtype;
-    int protection;
-    char *comment;
-    char *dispstr;
-    char protbuf[12],datebuf[20];
-    int selected;
-    char *description;
-    int userdata,userdata2;
-    struct DateStamp date;
-    UWORD owner_id,group_id;
-    struct NetworkStuff *network;
+struct Directory
+{
+  struct Directory *last, *next;
+  char name[FILEBUF_SIZE];
+  int type;
+  int size;
+  int subtype;
+  int protection;
+  char *comment;
+  char *dispstr;
+  char protbuf[12], datebuf[20];
+  int selected;
+  char *description;
+  int userdata, userdata2;
+  struct DateStamp date;
+  UWORD owner_id, group_id;
+  struct NetworkStuff *network;
 };
 
-struct RecursiveDirectory {
-    struct RecursiveDirectory *next;
-    char name[FILEBUF_SIZE];
-    struct DateStamp date;
-    struct RecursiveDirectory *child;
+struct RecursiveDirectory
+{
+  struct RecursiveDirectory *next;
+  char name[FILEBUF_SIZE];
+  struct DateStamp date;
+  struct RecursiveDirectory *child;
 };
 
-struct Help {
-    struct Help *next;
-    char *lookup,*message;
+struct Help
+{
+  struct Help *next;
+  char *lookup, *message;
 };
 
-struct ProcessStart {
-    BPTR ps_NextSeg;
-    UWORD ps_JMP;
-    void *ps_EntryPoint;
+struct ProcessStart
+{
+  BPTR ps_NextSeg;
+  UWORD ps_JMP;
+  void *ps_EntryPoint;
 };
 
-struct dopusfuncpar {
-    int which,stack;
-    unsigned char key,qual;
-    char type,pri,delay;
+struct dopusfuncpar
+{
+  int which, stack;
+  unsigned char key, qual;
+  char type, pri, delay;
 };
 
-struct recpath {
-    char *path;
-    struct recpath *next;
+struct recpath
+{
+  char *path;
+  struct recpath *next;
 };
 
-struct dopustaskmsg {
-    struct Message msg;
-    int command;
-    int total,value;
-    int flag;
-    char *data;
+struct dopustaskmsg
+{
+  struct Message msg;
+  int command;
+  int total, value;
+  int flag;
+  char *data;
 };
 
-struct dopusconfigmsg {
-    struct Message msg;
-    int command;
-    char *buffer;
+struct dopusconfigmsg
+{
+  struct Message msg;
+  int command;
+  char *buffer;
 };
 
-struct configconfig {
-    struct Config *config;
-    struct dopusfiletype *firsttype;
-    struct DOpusRemember *typekey;
-    struct dopusgadgetbanks *firstbank;
-    int changed;
-    char configname[256];
-    struct Window *Window;
-    struct Screen *Screen;
-    struct dopushotkey *firsthotkey;
+struct configconfig
+{
+  struct Config *config;
+  struct dopusfiletype *firsttype;
+  struct DOpusRemember *typekey;
+  struct dopusgadgetbanks *firstbank;
+  int changed;
+  char configname[256];
+  struct Window *Window;
+  struct Screen *Screen;
+  struct dopushotkey *firsthotkey;
 };
 
-struct DirectoryWindow {
-    struct DirectoryWindow *next,*last;
-    int number,type;
-    struct Directory *firstentry;
-    struct Directory *firstfile;
-    struct Directory *firstdir;
-    char directory[256];
-    char diskname[32];
-    int total;
-    int filetot,dirtot,bytestot;
-    int filesel,dirsel,bytessel;
-    int offset,hoffset;
-    int oldoff,oldhoff;
-    int hlen;
+struct DirectoryWindow
+{
+  struct DirectoryWindow *next, *last;
+  int number, type;
+  struct Directory *firstentry;
+  struct Directory *firstfile;
+  struct Directory *firstdir;
+  char directory[256];
+  char diskname[32];
+  int total;
+  int filetot, dirtot, bytestot;
+  int filesel, dirsel, bytessel;
+  int offset, hoffset;
+  int oldoff, oldhoff;
+  int hlen;
 #ifdef __SASC__
-    bigint disktot,diskfree;
+  bigint disktot, diskfree;
 #else
-    long long disktot,diskfree;
+  long long disktot, diskfree;
 #endif
-    int diskblock;
-    char custhandler[32];
-    char realdevice[32];
-    char flags;
-    struct DateStamp dirstamp;
-    char volumename[32];
-    UWORD last_owner;
-    UWORD last_group;
-    char owner_name[32];
-    char group_name[32];
-    struct xadArchiveInfo *xai;
-    BPTR xadfh;
+  int diskblock;
+  char custhandler[32];
+  char realdevice[32];
+  char flags;
+  struct DateStamp dirstamp;
+  char volumename[32];
+  UWORD last_owner;
+  UWORD last_group;
+  char owner_name[32];
+  char group_name[32];
+  struct xadArchiveInfo *xai;
+  BPTR xadfh;
 };
 
-#define DWF_ABORTED  1
+#define DWF_ABORTED 1
 #define DWF_READONLY 2
-#define DWF_ARCHIVE  4
+#define DWF_ARCHIVE 4
 
-struct RLEinfo {
-    unsigned char *sourceptr;
-    UBYTE **destplanes;
-    USHORT imagebpr,imageheight,imagedepth;
-    USHORT destbpr,destheight,destdepth;
-    char masking,compression;
-    int offset;
+struct RLEinfo
+{
+  unsigned char *sourceptr;
+  UBYTE **destplanes;
+  USHORT imagebpr, imageheight, imagedepth;
+  USHORT destbpr, destheight, destdepth;
+  char masking, compression;
+  int offset;
 };
 
-struct args {
-    char argstring[256];
-    struct args *next;
+struct args
+{
+  char argstring[256];
+  struct args *next;
 };
 
-struct function_data {
-    struct args *arg_first,*arg_current,*arg_use;
-    struct DOpusRemember *arg_memkey;
-    struct recpath *reload_first,*reload_current,*recursive_path;
-    struct DOpusRemember *reload_memkey;
-    struct Directory *entry_current,*entry_first,entry_external;
-    int output_file,rereadsource,rereaddest;
-    int fileargpos,external_flag,activewin,inactivewin;
-    int function_count;
-    char scriptname[80],tempfile[80];
-    char source_path[256],dest_path[256];
-    char last_file[256];
-    struct DOpusFileReq file_request;
+struct function_data
+{
+  struct args *arg_first, *arg_current, *arg_use;
+  struct DOpusRemember *arg_memkey;
+  struct recpath *reload_first, *reload_current, *recursive_path;
+  struct DOpusRemember *reload_memkey;
+  struct Directory *entry_current, *entry_first, entry_external;
+  int output_file, rereadsource, rereaddest;
+  int fileargpos, external_flag, activewin, inactivewin;
+  int function_count;
+  char scriptname[80], tempfile[80];
+  char source_path[256], dest_path[256];
+  char last_file[256];
+  struct DOpusFileReq file_request;
 };
 
-struct complete_entry {
-    struct complete_entry *next;
-    struct complete_entry *last;
-    char name[FILEBUF_SIZE];
+struct complete_entry
+{
+  struct complete_entry *next;
+  struct complete_entry *last;
+  char name[FILEBUF_SIZE];
 };
 
-struct path_complete {
-    char match[FILEBUF_SIZE];
-    char path[256];
-    struct complete_entry *firstentry;
-    struct complete_entry *currententry;
-    struct DOpusRemember *memory;
+struct path_complete
+{
+  char match[FILEBUF_SIZE];
+  char path[256];
+  struct complete_entry *firstentry;
+  struct complete_entry *currententry;
+  struct DOpusRemember *memory;
 };
 
-struct RememberData {
-    char copyflags;
-    char deleteflags;
-    char errorflags;
-    char displaypos[2][16];
-    char generalflags;
-    char iconflags;
-    char existflags;
-    char sortflags;
-    char dynamicflags;
-    char outputcmd[80];
-    char output[80];
-    char scrdepth;
-    char screenflags;
-    int screenmode;
-    int scrw;
-    int scrh;
-    char dirflags;
-    char defaulttool[80];
-    char showdelay;
-    char viewbits;
-    char fadetime;
-    char hiddenbit;
-    char showpat[40];
-    char hidepat[40];
-    char icontype;
-    char scrclktype;
-    char showfree;
-    char fontsizes[NUMFONTS];
-    char fontbufs[NUMFONTS][40];
-    char dateformat;
-    int gadgetrows;
-    char displaylength[2][16];
-    char windowdelta;
-    char sortmethod[2];
-    char separatemethod[2];
-    short wbwinx,wbwiny;
-    short scr_winw,scr_winh;
-    char pubscreen_name[80];
-    char portname[30];
+struct RememberData
+{
+  char copyflags;
+  char deleteflags;
+  char errorflags;
+  char displaypos[2][16];
+  char generalflags;
+  char iconflags;
+  char existflags;
+  char sortflags;
+  char dynamicflags;
+  char outputcmd[80];
+  char output[80];
+  char scrdepth;
+  char screenflags;
+  int screenmode;
+  int scrw;
+  int scrh;
+  char dirflags;
+  char defaulttool[80];
+  char showdelay;
+  char viewbits;
+  char fadetime;
+  char hiddenbit;
+  char showpat[40];
+  char hidepat[40];
+  char icontype;
+  char scrclktype;
+  char showfree;
+  char fontsizes[NUMFONTS];
+  char fontbufs[NUMFONTS][40];
+  char dateformat;
+  int gadgetrows;
+  char displaylength[2][16];
+  char windowdelta;
+  char sortmethod[2];
+  char separatemethod[2];
+  short wbwinx, wbwiny;
+  short scr_winw, scr_winh;
+  char pubscreen_name[80];
+  char portname[30];
 };
 
-struct ColourTable {
-    ULONG red;
-    ULONG green;
-    ULONG blue;
-    unsigned char pen;
-    char alloc;
+struct ColourTable
+{
+  ULONG red;
+  ULONG green;
+  ULONG blue;
+  unsigned char pen;
+  char alloc;
 };
 
-struct makedirlist {
-    struct makedirlist *last,*next;
-    char *path;
+struct makedirlist
+{
+  struct makedirlist *last, *next;
+  char *path;
 };
 
 #include <dopus/dopusmessage.h>

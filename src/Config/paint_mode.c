@@ -30,91 +30,94 @@ the existing commercial status of Directory Opus 5.
 
 #include "config.h"
 
-get_paint_colours(fg,bg,type)
-int *fg,*bg,type;
+get_paint_colours(fg, bg, type) int *fg, *bg, type;
 {
-	struct DOpusListView dummylist;
-	struct Window *window;
-	struct IntuiMessage *msg;
-	ULONG class;
-	USHORT code;
-	int x,y,gadgetid;
+  struct DOpusListView dummylist;
+  struct Window *window;
+  struct IntuiMessage *msg;
+  ULONG class;
+  USHORT code;
+  int x, y, gadgetid;
 
-	dummylist.w=330;
-	dummylist.h=37;
+  dummylist.w = 330;
+  dummylist.h = 37;
 
-	listokaygad[1].NextGadget=NULL;
+  listokaygad[1].NextGadget = NULL;
 
-	setup_list_window(&requestwin,&dummylist,listokaygad,2);
+  setup_list_window(&requestwin, &dummylist, listokaygad, 2);
 
-	requestwin.Title=cfg_string[STR_PAINT_SELECT_COLOURS];
-	if (!(window=openwindow(&requestwin))) return(0);
-	AddGadgets(window,
-		listokaygad,
-		listviewgads,
-		2,
-		screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen,1);
-	setupcolourbox(window->RPort,dummylist.x+7,dummylist.y+13,*fg,*bg);
-	showfuncob(window->RPort,cfg_string[STR_EXAMPLE],*fg,*bg,type,dummylist.x+101,dummylist.y+3);
+  requestwin.Title = cfg_string[STR_PAINT_SELECT_COLOURS];
+  if (!(window = openwindow(&requestwin)))
+  {
+    return (0);
+  }
+  AddGadgets(window, listokaygad, listviewgads, 2, screen_pens[config->gadgettopcol].pen,
+             screen_pens[config->gadgetbotcol].pen, 1);
+  setupcolourbox(window->RPort, dummylist.x + 7, dummylist.y + 13, *fg, *bg);
+  showfuncob(window->RPort, cfg_string[STR_EXAMPLE], *fg, *bg, type, dummylist.x + 101, dummylist.y + 3);
 
-	busy();
+  busy();
 
-	FOREVER {
-		while (msg=(struct IntuiMessage *)GetMsg(window->UserPort)) {
-			class=msg->Class;
-			code=msg->Code;
-			x=msg->MouseX;
-			y=msg->MouseY;
-			if (class==IDCMP_GADGETUP)
-				gadgetid=((struct Gadget *)msg->IAddress)->GadgetID;
-			ReplyMsg((struct Message *)msg);
+  FOREVER
+  {
+    while (msg = (struct IntuiMessage *)GetMsg(window->UserPort))
+    {
+      class = msg->Class;
+      code  = msg->Code;
+      x     = msg->MouseX;
+      y     = msg->MouseY;
+      if (class == IDCMP_GADGETUP)
+      {
+        gadgetid = ((struct Gadget *)msg->IAddress)->GadgetID;
+      }
+      ReplyMsg((struct Message *)msg);
 
-			switch (class) {
-				case IDCMP_MOUSEBUTTONS:	
-					if (code==SELECTDOWN)
-						docolourgad(window->RPort,
-							dummylist.x+7,dummylist.y+13,
-							x,y,
-							cfg_string[STR_EXAMPLE],fg,bg,type);
-					break;
+      switch (class)
+      {
+      case IDCMP_MOUSEBUTTONS:
+        if (code == SELECTDOWN)
+        {
+          docolourgad(window->RPort, dummylist.x + 7, dummylist.y + 13, x, y, cfg_string[STR_EXAMPLE], fg, bg, type);
+        }
+        break;
 
-				case IDCMP_GADGETUP:
-					CloseWindow(window);
-					unbusy();
-					return(gadgetid);
-			}
-		}
-		Wait(1<<window->UserPort->mp_SigBit);
-	}
+      case IDCMP_GADGETUP:
+        CloseWindow(window);
+        unbusy();
+        return (gadgetid);
+      }
+    }
+    Wait(1 << window->UserPort->mp_SigBit);
+  }
 }
 
-void do3dbox(x,y,w,h)
-int x,y,w,h;
+void do3dbox(x, y, w, h) int x, y, w, h;
 {
-	Do3DBox(rp,x,y,w,h,screen_pens[config->gadgettopcol].pen,screen_pens[config->gadgetbotcol].pen);
+  Do3DBox(rp, x, y, w, h, screen_pens[config->gadgettopcol].pen, screen_pens[config->gadgetbotcol].pen);
 }
 
-void fix_slider(gad)
-struct Gadget *gad;
+void fix_slider(gad) struct Gadget *gad;
 {
-	gad->MutualExclude=screen_pens[0].pen;
-	((struct Image *)gad->GadgetRender)->PlaneOnOff=screen_pens[1].pen;
+  gad->MutualExclude                              = screen_pens[0].pen;
+  ((struct Image *)gad->GadgetRender)->PlaneOnOff = screen_pens[1].pen;
 }
 
 struct Window *openwindow(newwin)
 struct NewWindow *newwin;
 {
-	struct Window *win;
+  struct Window *win;
 
-	if (win=OpenWindow(newwin)) {
-		if (tfont) SetFont(win->RPort,tfont);
-		SetAPen(win->RPort,screen_pens[0].pen);
-		RectFill(win->RPort,
-			win->BorderLeft,win->BorderTop,
-			win->Width-win->BorderRight-1,
-			win->Height-win->BorderBottom-1);
-		SetAPen(win->RPort,screen_pens[1].pen);
-		SetBPen(win->RPort,screen_pens[0].pen);
-	}
-	return(win);
+  if (win = OpenWindow(newwin))
+  {
+    if (tfont)
+    {
+      SetFont(win->RPort, tfont);
+    }
+    SetAPen(win->RPort, screen_pens[0].pen);
+    RectFill(win->RPort, win->BorderLeft, win->BorderTop, win->Width - win->BorderRight - 1,
+             win->Height - win->BorderBottom - 1);
+    SetAPen(win->RPort, screen_pens[1].pen);
+    SetBPen(win->RPort, screen_pens[0].pen);
+  }
+  return (win);
 }

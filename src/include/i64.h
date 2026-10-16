@@ -29,11 +29,11 @@
 #ifndef I64_MATH
 #define I64_MATH
 
-typedef struct {
-    unsigned hi;  /* Most significant 32 bits */
-    unsigned lo;  /* Least significant 32 bits */
+typedef struct
+{
+  unsigned hi; /* Most significant 32 bits */
+  unsigned lo; /* Least significant 32 bits */
 } bigint;
-
 
 /* Compare n1 and n2.
  *    Returns  1 if n1 > n2
@@ -134,16 +134,15 @@ bigint i64_atoi(const char *str);
  */
 void i64_itoa(bigint n, char *str, int strSize);
 
-
 /* Following functions added by Paul Huxham 30/12/2000 */
 
 /* Set the value of a bigint from a long */
-bigint i64_set( long n1 );
+bigint i64_set(long n1);
 
 /* Set the value of a bigint from a ulong */
-bigint i64_uset( unsigned long n1 );
+bigint i64_uset(unsigned long n1);
 
 /* Multiply two ulongs together and return a bigint */
-bigint i64_uumul( unsigned long n1, unsigned long n2 );
+bigint i64_uumul(unsigned long n1, unsigned long n2);
 
 #endif

@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 #ifndef DISKOP_H
 #define DISKOP_H
 
-//#include <fctype.h>
+// #include <fctype.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
@@ -50,15 +50,15 @@ the existing commercial status of Directory Opus 5.
 #include <proto/all.h>
 #include <compiler.h>
 
-//#include "dopusbase.h"
-//#include "dopuspragmas.h"
-//#include "requesters.h"
-//#include "stringdata.h"
+// #include "dopusbase.h"
+// #include "dopuspragmas.h"
+// #include "requesters.h"
+// #include "stringdata.h"
 
 #include <proto/dopus.h>
 #include <dopus/dopusmessage.h>
 
-//#include "functions.h"
+// #include "functions.h"
 #include "diskstrings.h"
 
 extern struct DOpusBase *DOpusBase;
@@ -68,42 +68,45 @@ extern struct Library *IconBase;
 extern struct ExecBase *SysBase;
 extern struct DosLibrary *DOSBase;
 
-#define ERROR_FAILED  -1
-#define ERROR_MEMORY  -2
-#define ERROR_BITMAP  -3
-#define ERROR_VERIFY  -4
+#define ERROR_FAILED -1
+#define ERROR_MEMORY -2
+#define ERROR_BITMAP -3
+#define ERROR_VERIFY -4
 #define ERROR_ABORTED -5
 
-struct BitmapBlock {
-    ULONG Checksum;
-    ULONG Bitmap[127];
+struct BitmapBlock
+{
+  ULONG Checksum;
+  ULONG Bitmap[127];
 };
 
-struct BitmapExtension {
-    ULONG BitmapPointers[127];
-    ULONG   BitmapExtension;
+struct BitmapExtension
+{
+  ULONG BitmapPointers[127];
+  ULONG BitmapExtension;
 };
 
-struct RootDirectory {
-    ULONG   PrimaryType;
-    ULONG   HeaderKey;
-    ULONG   WhoKnows0;
-    ULONG   HashTableSize;
-    ULONG   WhoKnows1;
-    ULONG   Checksum;
-    ULONG HashTable[72];
-    ULONG   BitmapFlag;
-    ULONG   BitmapPointers[25];
-    ULONG   BitmapExtension;
-    struct DateStamp LastRootChange;
-    UBYTE   DiskName[32];
-    ULONG   WhoKnows2[2];
-    struct DateStamp LastDiskChange;
-    struct DateStamp CreationDate;
-    ULONG   NextHash;
-    ULONG   ParentDir;
-    ULONG   WhoKnows3;
-    ULONG   SecondaryType;
+struct RootDirectory
+{
+  ULONG PrimaryType;
+  ULONG HeaderKey;
+  ULONG WhoKnows0;
+  ULONG HashTableSize;
+  ULONG WhoKnows1;
+  ULONG Checksum;
+  ULONG HashTable[72];
+  ULONG BitmapFlag;
+  ULONG BitmapPointers[25];
+  ULONG BitmapExtension;
+  struct DateStamp LastRootChange;
+  UBYTE DiskName[32];
+  ULONG WhoKnows2[2];
+  struct DateStamp LastDiskChange;
+  struct DateStamp CreationDate;
+  ULONG NextHash;
+  ULONG ParentDir;
+  ULONG WhoKnows3;
+  ULONG SecondaryType;
 };
 
 extern ULONG BitTable[32];
@@ -132,13 +135,14 @@ extern struct TagItem install_cancel_gadget[];
 
 extern struct DiskObject trashcanicon_icon;
 
-extern ULONG bootblock_13[13],bootblock_20[24];
+extern ULONG bootblock_13[13], bootblock_20[24];
 
-struct DeviceHandle {
-    struct MsgPort *device_port;
-    struct IOExtTD *device_req;
-    struct FileSysStartupMsg *startup;
-    struct DosEnvec *dosenvec;
+struct DeviceHandle
+{
+  struct MsgPort *device_port;
+  struct IOExtTD *device_req;
+  struct FileSysStartupMsg *startup;
+  struct DosEnvec *dosenvec;
 };
 
 extern struct DefaultString default_strings[];
@@ -153,4 +157,3 @@ struct DeviceNode *find_device();
 char **get_device_list();
 
 #endif /* DISKOP_H */
-
