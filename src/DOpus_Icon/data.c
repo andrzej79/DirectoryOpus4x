@@ -50,4 +50,4 @@ char
     *specific_gadtext[5][6],       /* Icon-specific gadget labels */
     *icon_type_names[8];           /* Names of different icon types */
 
-unsigned char keys[] = { 0 };  /* Key equivalents */
+unsigned char keys[KEY_DEFTOOL+1];  /* Key equivalents (was keys[] = { 0 }: one byte for 15 keys) */
