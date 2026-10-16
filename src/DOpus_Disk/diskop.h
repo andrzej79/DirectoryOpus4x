@@ -48,6 +48,7 @@ the existing commercial status of Directory Opus 5.
 #include <devices/trackdisk.h>
 #include <datatypes/datatypesclass.h>
 #include <proto/all.h>
+#include <compiler.h>
 
 //#include "dopusbase.h"
 //#include "dopuspragmas.h"
@@ -145,6 +146,11 @@ extern struct DefaultString default_strings[];
 #define STRING_VERSION 1
 
 unsigned char getkeyshortcut(const char *);
+
+/* Functions returning pointers: declared so that they are not taken as int */
+struct Gadget *addreqgadgets();
+struct DeviceNode *find_device();
+char **get_device_list();
 
 #endif /* DISKOP_H */
 

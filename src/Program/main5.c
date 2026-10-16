@@ -29,7 +29,8 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-#define ASIO_REGARGS
+/* AsyncIO is built with stack arguments (see Makefile) */
+//#define ASIO_REGARGS
 #include <clib/asyncio_protos.h>
 //#include <inline/asyncio.h>
 
@@ -39,7 +40,7 @@ int *err/*,size*/;
 char *password;
 int encryptstate;
 {
-    struct FileInfoBlock __aligned cfinfo;
+    D_S(struct FileInfoBlock,cfinfo);
     char *buffer;
     int out,length,suc,readsize,size_read,size_write,size_total,ret=0,prog=0,buffer_size,size;
     int inhandle, outhandle;
@@ -67,21 +68,21 @@ int encryptstate;
 
     if (config->dynamicflags&UPDATE_PROGRESSIND_COPY) prog=1;
 
-    suc=lockandexamine(src,&cfinfo);
+    suc=lockandexamine(src,cfinfo);
 /*
     if (size==0) {
 kprintf("copy zero-length file\n");
         if (suc) {
 kprintf("source examined\n");
-            if (cfinfo.fib_Size==0) {
+            if (cfinfo->fib_Size==0) {
                 if ((out=Open(dst,MODE_NEWFILE))) Close(out);
                 else goto failed;
             }
-            if (config->copyflags&COPY_DATE) setdate(dst,&(cfinfo.fib_Date));
-            if (config->copyflags&COPY_PROT) SetProtection(dst,cfinfo.fib_Protection);
-            if (config->copyflags&COPY_NOTE) SetComment(dst,cfinfo.fib_Comment);
+            if (config->copyflags&COPY_DATE) setdate(dst,&(cfinfo->fib_Date));
+            if (config->copyflags&COPY_PROT) SetProtection(dst,cfinfo->fib_Protection);
+            if (config->copyflags&COPY_NOTE) SetComment(dst,cfinfo->fib_Comment);
 //            if (system_version2) {
-                owner_info=(cfinfo.fib_OwnerUID<<16)|cfinfo.fib_OwnerGID;
+                owner_info=(cfinfo->fib_OwnerUID<<16)|cfinfo->fib_OwnerGID;
                 if (owner_info) SetOwner(dst,owner_info);
 //            }
         }
@@ -94,13 +95,13 @@ kprintf("source examined\n");
         return(0);
     }
 
-    if (!(size=cfinfo.fib_Size)) {
+    if (!(size=cfinfo->fib_Size)) {
         if (!(out=Open(dst,MODE_NEWFILE))) goto failed;
         Close(out);
-        if (config->copyflags&COPY_DATE) setdate(dst,&(cfinfo.fib_Date));
-        if (config->copyflags&COPY_PROT) SetProtection(dst,cfinfo.fib_Protection);
-        if (config->copyflags&COPY_NOTE) SetComment(dst,cfinfo.fib_Comment);
-        SetOwner(dst,(cfinfo.fib_OwnerUID<<16)|cfinfo.fib_OwnerGID);
+        if (config->copyflags&COPY_DATE) setdate(dst,&(cfinfo->fib_Date));
+        if (config->copyflags&COPY_PROT) SetProtection(dst,cfinfo->fib_Protection);
+        if (config->copyflags&COPY_NOTE) SetComment(dst,cfinfo->fib_Comment);
+        SetOwner(dst,(cfinfo->fib_OwnerUID<<16)|cfinfo->fib_OwnerGID);
         return(1);
     }
 
@@ -224,16 +225,16 @@ kprintf("source examined\n");
     FreeMem(buffer,buffer_size);
 
     if (config->copyflags&COPY_DATE) {
-        setdate(dst,&(cfinfo.fib_Date));
-        dsp=&cfinfo.fib_Date;
+        setdate(dst,&(cfinfo->fib_Date));
+        dsp=&cfinfo->fib_Date;
     }
     else dsp=&ds;
     copy_datestamp(dsp,&dos_copy_date);
-    if (config->copyflags&COPY_PROT) SetProtection(dst,cfinfo.fib_Protection);
-    dos_copy_protection=cfinfo.fib_Protection;
+    if (config->copyflags&COPY_PROT) SetProtection(dst,cfinfo->fib_Protection);
+    dos_copy_protection=cfinfo->fib_Protection;
     if (config->copyflags&COPY_NOTE) {
-        SetComment(dst,cfinfo.fib_Comment);
-        strcpy(dos_copy_comment,cfinfo.fib_Comment);
+        SetComment(dst,cfinfo->fib_Comment);
+        strcpy(dos_copy_comment,cfinfo->fib_Comment);
     }
     else dos_copy_comment[0]=0;
     return(1);
@@ -431,21 +432,21 @@ struct Directory *dir;
 void filloutcopydatafile(fil)
 char *fil;
 {
-    struct FileInfoBlock __aligned fileinfo;
+    D_S(struct FileInfoBlock,fileinfo);
 
-    if (lockandexamine(fil,&fileinfo)) {
-        dos_copy_date.ds_Days=fileinfo.fib_Date.ds_Days;
-        dos_copy_date.ds_Minute=fileinfo.fib_Date.ds_Minute;
-        dos_copy_date.ds_Tick=fileinfo.fib_Date.ds_Tick;
-        dos_copy_protection=fileinfo.fib_Protection;
-        strcpy(dos_copy_comment,fileinfo.fib_Comment);
+    if (lockandexamine(fil,fileinfo)) {
+        dos_copy_date.ds_Days=fileinfo->fib_Date.ds_Days;
+        dos_copy_date.ds_Minute=fileinfo->fib_Date.ds_Minute;
+        dos_copy_date.ds_Tick=fileinfo->fib_Date.ds_Tick;
+        dos_copy_protection=fileinfo->fib_Protection;
+        strcpy(dos_copy_comment,fileinfo->fib_Comment);
     }
 }
 
 void update_buffer_stamp(win,true)
 int win,true;
 {
-    struct FileInfoBlock __aligned fib;
+    D_S(struct FileInfoBlock,fib);
     char dirbuf[256];
     struct DirectoryWindow *dirwin;
 
@@ -455,8 +456,8 @@ int win,true;
     strcpy(dirbuf,str_pathbuffer[win]);
     FOREVER {
         if (true) {
-            if (lockandexamine(dirbuf,&fib))
-                copy_datestamp(&fib.fib_Date,&dirwin->dirstamp);
+            if (lockandexamine(dirbuf,fib))
+                copy_datestamp(&fib->fib_Date,&dirwin->dirstamp);
             if (!(doparent(dirbuf)) ||
                 !(dirwin=findbuffer(dirbuf,win,0,1))) break;
         }

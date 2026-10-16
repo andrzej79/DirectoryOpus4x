@@ -42,6 +42,7 @@ the existing commercial status of Directory Opus 5.
 #include <workbench/workbench.h>
 #include <workbench/startup.h>
 #include <proto/all.h>
+#include <compiler.h>
 
 #include <proto/dopus.h>
 #include <dopus/dopusmessage.h>
@@ -82,3 +83,6 @@ struct DOpusStartup {
     int retcode;
 };
 
+
+/* Functions returning pointers: declared so that they are not taken as int */
+struct Gadget *addreqgadgets();

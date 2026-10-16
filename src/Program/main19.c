@@ -311,11 +311,11 @@ struct dopusfiletype *checkfiletype(fullname,ftype,funconly)
 char *fullname;
 int ftype,funconly;
 {
-    struct FileInfoBlock __aligned info;
+    D_S(struct FileInfoBlock,info);
     struct dopusfiletype *type;
     int file;
 
-    if (!(lockandexamine(fullname,&info))) return(NULL);
+    if (!(lockandexamine(fullname,info))) return(NULL);
     if (!(file=Open(fullname,MODE_OLDFILE))) return(NULL);
 
     type=dopus_firsttype;
@@ -323,7 +323,7 @@ int ftype,funconly;
         if (status_haveaborted) break;
         if (ftype==-2) {
             if (type->iconpath && type->recognition &&
-                (dochecktype(type,fullname,file,&info))) {
+                (dochecktype(type,fullname,file,info))) {
                 Close(file);
                 return(type);
             }
@@ -332,8 +332,8 @@ int ftype,funconly;
             if (!funconly || (type->function[ftype] && type->function[ftype][0])) {
 D(bug("type->function[ftype]: %s\n",type->function[ftype]));
 D(bug("type->recognition: %s\n",type->recognition));
-D(bug("dochecktype: %ld\n",dochecktype(type,fullname,file,&info)));
-                if (type->recognition && dochecktype(type,fullname,file,&info) &&
+D(bug("dochecktype: %ld\n",dochecktype(type,fullname,file,info)));
+                if (type->recognition && dochecktype(type,fullname,file,info) &&
                     (ftype==-1 || (type->function[ftype] && type->function[ftype][0]))) {
                     Close(file);
                     return(type);

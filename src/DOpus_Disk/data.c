@@ -30,7 +30,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "diskop.h"
 
-char *version="$VER: DOpus_Disk 2.4 (" __DATE__ ") made under GPL license by Jacek Rzeuski";
+char *version="$VER: DOpus_Disk 2.5 (" __DATE__ ") made under GPL license by Jacek Rzeuski";
 
 struct DOpusBase *DOpusBase = NULL;
 struct IntuitionBase *IntuitionBase = NULL;

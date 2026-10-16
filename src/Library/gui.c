@@ -36,13 +36,13 @@ void ShowRMBGadName(struct RastPort *,struct RMBGadget *,int);
 void HighlightRMBGad(struct RastPort *,struct RMBGadget *,int);
 int makeusstring(char *,char *,int *,int);
 
-__saveds DoAddGadgets(register struct Window *win __asm("a0"),
-    register struct Gadget *firstgad __asm("a1"),
-    register char **text __asm("a2"),
-    register int count __asm("d0"),
-    register int fg __asm("d1"),
-    register int bg __asm("d2"),
-    register int add __asm("d3"))
+int __saveds DoAddGadgets(REG(a0, struct Window *win),
+    REG(a1, struct Gadget *firstgad),
+    REG(a2, char **text),
+    REG(d0, int count),
+    REG(d1, int fg),
+    REG(d2, int bg),
+    REG(d3, int add))
 {
     int num=0,realcount=0,of,ob,a,x,y,b,c,up,xp,yp,bl,len,offset;
     char buf[80];
@@ -164,8 +164,8 @@ __saveds DoAddGadgets(register struct Window *win __asm("a0"),
     return(realcount);
 }
 
-__saveds DoDoRMBGadget(register struct RMBGadget *gad __asm("a0"),
-    register struct Window *window __asm("a1"))
+int __saveds DoDoRMBGadget(REG(a0, struct RMBGadget *gad),
+    REG(a1, struct Window *window))
 {
     ULONG class;
     USHORT code;
@@ -316,10 +316,10 @@ int *uspos,size;
     return(len);
 }
 
-void __saveds DoDoCycleGadget(register struct Gadget *gad __asm("a0"),
-    register struct Window *window __asm("a1"),
-    register char **choices __asm("a2"),
-    register int select __asm("d0"))
+void __saveds DoDoCycleGadget(REG(a0, struct Gadget *gad),
+    REG(a1, struct Window *window),
+    REG(a2, char **choices),
+    REG(d0, int select))
 {
     int op,a;
     struct RastPort *rp;
@@ -337,11 +337,11 @@ void __saveds DoDoCycleGadget(register struct Gadget *gad __asm("a0"),
     }
 }
 
-void __saveds DoUScoreText(register struct RastPort *rp __asm("a0"),
-    register char *buf __asm("a1"),
-    register int xp __asm("d0"),
-    register int yp __asm("d1"),
-    register int up __asm("d2"))
+void __saveds DoUScoreText(REG(a0, struct RastPort *rp),
+    REG(a1, char *buf),
+    REG(d0, int xp),
+    REG(d1, int yp),
+    REG(d2, int up))
 {
     int a,x,x1,y1;
 

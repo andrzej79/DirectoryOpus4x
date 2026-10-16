@@ -66,6 +66,7 @@ the existing commercial status of Directory Opus 5.
 #include <hardware/intbits.h>
 #include <datatypes/datatypesclass.h>
 #include <proto/all.h>
+#include <compiler.h>
 
 #include <proto/dopus.h>
 #include <proto/accounts.h>
@@ -94,7 +95,7 @@ the existing commercial status of Directory Opus 5.
 #define DOPUSLIB_REVISION 18
 
 #define DOPUS_VERSION  4
-#define DOPUS_REV      "16"
+#define DOPUS_REV      "17"
 
 #define DOPUS_REVISION DOPUS_REV
 
@@ -280,7 +281,7 @@ ULONG IDToGroup( unsigned long groupID, struct GroupInfo *group );
 #pragma libcall AccountsBase IDToGroup 54 8002
 */
 
-#ifdef __SASC_60
+#if defined(__SASC_60) || defined(__VBCC__)
 
 extern __chip USHORT
     pageflip_data1[5],

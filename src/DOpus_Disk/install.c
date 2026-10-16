@@ -385,7 +385,7 @@ int noboot,forceffs;
     ULONG dostype;
     ULONG *buffer,tracksize;
     BPTR lock;
-    struct InfoData __aligned data;
+    D_S(struct InfoData,data);
     int a,err=STR_SUCCESS,sum,lastsum;
     struct Requester busyreq;
 
@@ -402,10 +402,10 @@ int noboot,forceffs;
 
         if (check_disk(reqbase,handle.device_req,device,1)) {
             if (lock=Lock(device,ACCESS_READ)) {
-                Info(lock,&data);
+                Info(lock,data);
                 UnLock(lock);
 
-                dostype=data.id_DiskType;
+                dostype=data->id_DiskType;
 
                 border_text(reqbase,border,string_table[STR_INSTALL_INSTALLINGDISK]);
 

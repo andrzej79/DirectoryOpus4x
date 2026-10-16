@@ -30,13 +30,13 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopus.h"
 
-char *version="$VER: Directory Opus 4.16 (" __DATE__ ")";
+char *version="$VER: Directory Opus 4.17 (" __DATE__ ")";
 
 void about()
 {
     char buf[1024];
 
-    lsprintf(buf,globstring[STR_ABOUT],"Directory Opus 4.16","Jacek Rzeuski\nCopyright 1993-2000 Jonathan Potter");
+    lsprintf(buf,globstring[STR_ABOUT],"Directory Opus 4.17","Jacek Rzeuski\nModified by Andrzej Rogozynski\nCopyright 1993-2026 Jonathan Potter");
     simplerequest(buf,globstring[STR_CONTINUE],NULL);
 }
 

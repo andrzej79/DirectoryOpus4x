@@ -33,11 +33,11 @@ the existing commercial status of Directory Opus 5.
 void fill_out_border_data(short *,short *,int,int);
 void fill_out_border(struct Border *,int,int,short *,short *);
 
-void __saveds DoAddGadgetBorders(register struct DOpusRemember **key __asm("a0"),
-    register struct Gadget *gadget __asm("a1"),
-    register int count __asm("d0"),
-    register int shine __asm("d1"),
-    register int shadow __asm("d2"))
+void __saveds DoAddGadgetBorders(REG(a0, struct DOpusRemember **key),
+    REG(a1, struct Gadget *gadget),
+    REG(d0, int count),
+    REG(d1, int shine),
+    REG(d2, int shadow))
 {
     struct Border *selborder,*unselborder;
     int width,height;
@@ -72,14 +72,14 @@ void __saveds DoAddGadgetBorders(register struct DOpusRemember **key __asm("a0")
     }
 }
 
-void __saveds DoCreateGadgetBorders(register struct DOpusRemember **key __asm("a0"),
-    register int w __asm("d0"),
-    register int h __asm("d1"),
-    register struct Border **selborder __asm("a1"),
-    register struct Border **unselborder __asm("a2"),
-    register int dogear __asm("d2"),
-    register int shine __asm("d3"),
-    register int shadow __asm("d4"))
+void __saveds DoCreateGadgetBorders(REG(a0, struct DOpusRemember **key),
+    REG(d0, int w),
+    REG(d1, int h),
+    REG(a1, struct Border **selborder),
+    REG(a2, struct Border **unselborder),
+    REG(d2, int dogear),
+    REG(d3, int shine),
+    REG(d4, int shadow))
 {
     short *shine_data,*shadow_data;
 
@@ -142,8 +142,8 @@ short *shine,*shadow;
     border[1].XY=shadow;
 }
 
-void __saveds DoSelectGadget(register struct Window *window __asm("a0"),
-    register struct Gadget *gadget __asm("a1"))
+void __saveds DoSelectGadget(REG(a0, struct Window *window),
+    REG(a1, struct Gadget *gadget))
 {
     if (gadget->GadgetRender && gadget->SelectRender && !(gadget->Flags&GFLG_GADGIMAGE)) {
         DrawBorder(window->RPort,gadget->SelectRender,gadget->LeftEdge,gadget->TopEdge);

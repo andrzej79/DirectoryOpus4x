@@ -29,6 +29,8 @@ the existing commercial status of Directory Opus 5.
 */
 
 //#include "dopuslib.h"
+#include <compiler.h>
+#include <string.h>
 #include <proto/dos.h>
 
 /*#define upper(c) ((c>='a' && c<='z')?(c-32):c)
@@ -39,12 +41,12 @@ struct MatchData {
 };
 */
 
-extern __saveds DoMatchPattern(register unsigned char *pat __asm("a0"), register unsigned char *str __asm("a1"), register int cas __asm("d0"));
-extern void __saveds DoParsePattern(register unsigned char *pat __asm("a0"), register unsigned char *patbuf __asm("a1"), register int cas __asm("d0"));
+extern int __saveds DoMatchPattern(REG(a0, unsigned char *pat), REG(a1, unsigned char *str), REG(d0, int cas));
+extern void __saveds DoParsePattern(REG(a0, unsigned char *pat), REG(a1, unsigned char *patbuf), REG(d0, int cas));
 //extern int WildMatch(struct MatchData *),findendor(struct MatchData *,int);
 //extern struct DOpusBase *DOpusBase;
 
-__saveds DoMatchPattern(register unsigned char *pat __asm("a0"), register unsigned char *str __asm("a1"), register int cas __asm("d0"))
+int __saveds DoMatchPattern(REG(a0, unsigned char *pat), REG(a1, unsigned char *str), REG(d0, int cas))
 {
 //    if (DOSBase->dl_lib.lib_Version>35) {
         int suc,old;
@@ -70,7 +72,7 @@ __saveds DoMatchPattern(register unsigned char *pat __asm("a0"), register unsign
 */
 }
 
-void __saveds DoParsePattern(register unsigned char *pat __asm("a0"), register unsigned char *patbuf __asm("a1"), register int cas __asm("d0"))
+void __saveds DoParsePattern(REG(a0, unsigned char *pat), REG(a1, unsigned char *patbuf), REG(d0, int cas))
 {
 //    if (DOSBase->dl_lib.lib_Version>35) {
         int len,old;

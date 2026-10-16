@@ -42,7 +42,7 @@ long long *total;
 int *block;
 #endif
 {
-    struct InfoData __aligned infodata;
+    D_S(struct InfoData,infodata);
     BPTR mylock,testlock;
 #ifdef __SASC__
     bigint free, temp1, ret;
@@ -65,7 +65,7 @@ int *block;
         return(0);
 #endif
     }
-    Info(mylock,&infodata);
+    Info(mylock,infodata);
     if (ramdisk_lock) {
         testlock=DupLock(mylock);
         testlock=getrootlock(testlock);
@@ -85,9 +85,9 @@ int *block;
 
             *total = free;
 
-            temp1 = i64_set( infodata.id_BytesPerBlock );
+            temp1 = i64_set( infodata->id_BytesPerBlock );
 
-//          *block=free/infodata.id_BytesPerBlock;
+//          *block=free/infodata->id_BytesPerBlock;
             i64_udiv( free, temp1, &quot, &rema );
 
             *block = quot.lo;
@@ -98,26 +98,26 @@ int *block;
         }
     }
 
-    *total = i64_uumul( infodata.id_NumBlocks, infodata.id_BytesPerBlock );
-//  *total=((long long)infodata.id_BytesPerBlock)*infodata.id_NumBlocks;
+    *total = i64_uumul( infodata->id_NumBlocks, infodata->id_BytesPerBlock );
+//  *total=((long long)infodata->id_BytesPerBlock)*infodata->id_NumBlocks;
 
-    temp1 = i64_uumul( infodata.id_NumBlocksUsed, infodata.id_BytesPerBlock );
+    temp1 = i64_uumul( infodata->id_NumBlocksUsed, infodata->id_BytesPerBlock );
 
     free = i64_sub( *total, temp1 );
-//  free=*total-(infodata.id_BytesPerBlock*((long long)infodata.id_NumBlocksUsed));
+//  free=*total-(infodata->id_BytesPerBlock*((long long)infodata->id_NumBlocksUsed));
 
 #else
         if (free>-1) {
             *total=free;
-            *block=free/infodata.id_BytesPerBlock;
+            *block=free/infodata->id_BytesPerBlock;
             UnLock(mylock);
             return(free);
         }
     }
-    *total=((long long)infodata.id_BytesPerBlock)*infodata.id_NumBlocks;
-    free=*total-(infodata.id_BytesPerBlock*((long long)infodata.id_NumBlocksUsed));
+    *total=((long long)infodata->id_BytesPerBlock)*infodata->id_NumBlocks;
+    free=*total-(infodata->id_BytesPerBlock*((long long)infodata->id_NumBlocksUsed));
 #endif
-    *block=infodata.id_NumBlocks-infodata.id_NumBlocksUsed;
+    *block=infodata->id_NumBlocks-infodata->id_NumBlocksUsed;
     UnLock(mylock);
     return(free);
 }

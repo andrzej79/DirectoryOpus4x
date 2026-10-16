@@ -36,7 +36,7 @@ the existing commercial status of Directory Opus 5.
 void makedir(rexx)
 int rexx;
 {
-    struct FileInfoBlock __aligned fileinfo;
+    D_S(struct FileInfoBlock,fileinfo);
     int len,a,success,win,err;
     char dirname[FILEBUF_SIZE],new_directory[256];
     BPTR lock;
@@ -99,14 +99,14 @@ int rexx;
             continue;
         }
 
-        Examine(lock,&fileinfo);
+        Examine(lock,fileinfo);
         UnLock(lock);
 
         if (win>-1) {
-            addfile(dopus_curwin[win],win,fileinfo.fib_FileName,-1,
-                fileinfo.fib_DirEntryType,&fileinfo.fib_Date,
-                NULL,fileinfo.fib_Protection,0,TRUE,NULL,NULL,
-                fileinfo.fib_OwnerUID,fileinfo.fib_OwnerGID);
+            addfile(dopus_curwin[win],win,fileinfo->fib_FileName,-1,
+                fileinfo->fib_DirEntryType,&fileinfo->fib_Date,
+                NULL,fileinfo->fib_Protection,0,TRUE,NULL,NULL,
+                fileinfo->fib_OwnerUID,fileinfo->fib_OwnerGID);
             seename(win);
             update_buffer_stamp(win,1);
         }
@@ -115,12 +115,12 @@ int rexx;
         if (config->iconflags&ICONFLAG_MAKEDIRICON) {
             strcat(new_directory,".info");
             if ((iconwrite(ICONTYPE_DRAWER,new_directory))==1 &&
-                (lockandexamine(new_directory,&fileinfo))) {
+                (lockandexamine(new_directory,fileinfo))) {
                 if (win>-1) {
-                    addfile(dopus_curwin[win],win,fileinfo.fib_FileName,
-                        fileinfo.fib_Size,fileinfo.fib_DirEntryType,&fileinfo.fib_Date,
-                        fileinfo.fib_Comment,fileinfo.fib_Protection,0,TRUE,NULL,NULL,
-                        fileinfo.fib_OwnerUID,fileinfo.fib_OwnerGID);
+                    addfile(dopus_curwin[win],win,fileinfo->fib_FileName,
+                        fileinfo->fib_Size,fileinfo->fib_DirEntryType,&fileinfo->fib_Date,
+                        fileinfo->fib_Comment,fileinfo->fib_Protection,0,TRUE,NULL,NULL,
+                        fileinfo->fib_OwnerUID,fileinfo->fib_OwnerGID);
                     seename(win);
                     update_buffer_stamp(win,1);
                 }
@@ -228,7 +228,7 @@ char *name;
 char *getarexxpath(rexx,win,num,argnum)
 int rexx,win,num,argnum;
 {
-    struct FileInfoBlock __aligned fblock;
+    D_S(struct FileInfoBlock,fblock);
     int a,b;
     char *ptr;
     APTR save;
@@ -240,13 +240,13 @@ int rexx,win,num,argnum;
             save=main_proc->pr_WindowPtr;
             main_proc->pr_WindowPtr=(APTR)-1;
             dos_global_entry.subtype=0;
-            if (lockandexamine(rexx_args[argnum],&fblock)) {
-                dos_global_entry.protection=fblock.fib_Protection;
+            if (lockandexamine(rexx_args[argnum],fblock)) {
+                dos_global_entry.protection=fblock->fib_Protection;
                 dos_global_entry.comment=dos_copy_comment;
-                strcpy(dos_copy_comment,fblock.fib_Comment);
+                strcpy(dos_copy_comment,fblock->fib_Comment);
                 dos_global_entry.dispstr=NULL;
                 getprot(dos_global_entry.protection,dos_global_entry.protbuf);
-                CopyMem(&fblock.fib_Date,&dos_global_entry.date,sizeof(struct DateStamp));
+                CopyMem(&fblock->fib_Date,&dos_global_entry.date,sizeof(struct DateStamp));
                 seedate(&dos_global_entry.date,dos_global_entry.datebuf,1);
                 dos_global_entry.selected=0;
             }

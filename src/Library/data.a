@@ -24,7 +24,7 @@
 ; The release of Directory Opus 4 under the GPL in NO WAY affects
 ; the existing commercial status of Directory Opus 5.
 
-    section .data_chip,data
+    section .data_chip,data,chip
 
     XDEF _pdb_cycletop
     XDEF _pdb_cyclebot

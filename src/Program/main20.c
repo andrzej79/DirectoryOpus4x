@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <proto/inovamusic.h>
 #include <proto/screennotify.h>
-#include <clib/pm_protos.h>
+#include <proto/pm.h>
 #include <proto/sysinfo.h>
 #include <proto/locale.h>
 
@@ -101,7 +101,7 @@ D(bug("Freeing special dirs\n"));
     /*if (WorkbenchBase)*/ CloseLibrary(WorkbenchBase);
     /*if (CxBase)*/ CloseLibrary(CxBase);
     /*if (RexxSysBase)*/ CloseLibrary((struct Library *)RexxSysBase);
-    /*if (UtilityBase)*/ CloseLibrary((struct Library *)UtilityBase);
+    /*if (UtilityBase)*/ CloseLibrary(UtilityBase);
     CloseLibrary(CyberGfxBase);
     CLOSE_PM_LIB;
     CloseLibrary((struct Library *)xfdMasterBase);
@@ -120,7 +120,7 @@ D(bug("Freeing special dirs\n"));
         FlushModule();
         CloseLibrary(MUSICBase);
     }
-    CloseLibrary(LocaleBase);
+    CloseLibrary((struct Library *)LocaleBase);
 
     /*if (DOpusBase)*/ CloseLibrary((struct Library *) DOpusBase);
 

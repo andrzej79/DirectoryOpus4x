@@ -34,7 +34,7 @@ void do_path_completion(win,qual)
 int win;
 USHORT qual;
 {
-    struct FileInfoBlock __aligned finfo;
+    D_S(struct FileInfoBlock,finfo);
     char path[256],match[FILEBUF_SIZE],*ptr;
     BPTR lock;
     struct complete_entry *entry,*curentry,*addpos;
@@ -76,15 +76,15 @@ USHORT qual;
 
         busy();
         if (lock=Lock(path,ACCESS_READ)) {
-            Examine(lock,&finfo);
-            if (finfo.fib_DirEntryType>0) {
-                while (ExNext(lock,&finfo)) {
+            Examine(lock,finfo);
+            if (finfo->fib_DirEntryType>0) {
+                while (ExNext(lock,finfo)) {
                     if (status_haveaborted) break;
-                    if (finfo.fib_DirEntryType>0 &&
-                        (!match[0] || LStrnCmpI(finfo.fib_FileName,match,strlen(match))==0)) {
+                    if (finfo->fib_DirEntryType>0 &&
+                        (!match[0] || LStrnCmpI(finfo->fib_FileName,match,strlen(match))==0)) {
                         if (entry=LAllocRemember(&completion[win].memory,
                             sizeof(struct complete_entry),MEMF_CLEAR)) {
-                            strcpy(entry->name,finfo.fib_FileName);
+                            strcpy(entry->name,finfo->fib_FileName);
                             addpos=completion[win].firstentry;
                             curentry=NULL;
                             while (addpos) {

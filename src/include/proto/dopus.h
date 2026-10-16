@@ -5,9 +5,11 @@
 
 #include <clib/dopus_protos.h>
 
-#ifdef __GNUC__
+#if defined(__VBCC__)
+#include <inline/dopus_protos.h>
+#elif defined(__GNUC__)
 #include <inline/dopus.h>
-#endif /* __GNUC__ */
+#endif
 
 #ifndef __NOLIBBASE__
 extern struct DOpusBase *

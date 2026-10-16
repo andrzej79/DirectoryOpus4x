@@ -30,10 +30,10 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopuslib.h"
 
-__saveds DoSendPacket(register struct MsgPort *port __asm("a0"),
-    register int action __asm("d0"),
-    register ULONG *args __asm("a1"),
-    register int nargs __asm("d1"))
+int __saveds DoSendPacket(REG(a0, struct MsgPort *port),
+    REG(d0, int action),
+    REG(a1, ULONG *args),
+    REG(d1, int nargs))
 {
     struct StandardPacket *packet;
     struct MsgPort *repport;
@@ -76,9 +76,9 @@ struct DOpusPool
   APTR chip;
  };
 
-ULONG __saveds DoAllocRemember(register struct DOpusRemember **key __asm("a0"),
-    register ULONG size __asm("d0"),
-    register ULONG type __asm("d1"))
+ULONG __saveds DoAllocRemember(REG(a0, struct DOpusRemember **key),
+    REG(d0, ULONG size),
+    REG(d1, ULONG type))
 {
     APTR *pool;
     ULONG *mem;
@@ -124,7 +124,7 @@ ULONG __saveds DoAllocRemember(register struct DOpusRemember **key __asm("a0"),
 */
 }
 
-void __saveds DoFreeRemember(register struct DOpusRemember **key __asm("a0"))
+void __saveds DoFreeRemember(REG(a0, struct DOpusRemember **key))
 {
     struct DOpusPool *pool = (struct DOpusPool *)(*key);
     if (*key)
@@ -149,8 +149,8 @@ void __saveds DoFreeRemember(register struct DOpusRemember **key __asm("a0"))
 */
 }
 
-void __saveds DoFreeRemEntry(register struct DOpusRemember **key __asm("a0"),
-    register char *pointer __asm("a1"))
+void __saveds DoFreeRemEntry(REG(a0, struct DOpusRemember **key),
+    REG(a1, char *pointer))
 {
     struct DOpusPool *pool;
     ULONG *ptr = (ULONG *)pointer;
@@ -185,22 +185,22 @@ void __saveds DoFreeRemEntry(register struct DOpusRemember **key __asm("a0"),
 */
 }
 
-__saveds struct IORequest *DoCreateExtIO(register struct MsgPort *port __asm("a0"), register int size __asm("d0"))
+__saveds struct IORequest *DoCreateExtIO(REG(a0, struct MsgPort *port), REG(d0, int size))
  {
   return CreateExtIO(port,size);
  }
 
-__saveds void DoDeleteExtIO(register struct IORequest *extio __asm("a0"))
+__saveds void DoDeleteExtIO(REG(a0, struct IORequest *extio))
  {
   DeleteExtIO(extio);
  }
 
-__saveds struct MsgPort *DoCreatePort(register char *name __asm("a0"), register int pri __asm("d0"))
+__saveds struct MsgPort *DoCreatePort(REG(a0, char *name), REG(d0, int pri))
  {
   return CreatePort(name,pri);
  }
 
-__saveds void DoDeletePort(register struct MsgPort *port __asm("a0"))
+__saveds void DoDeletePort(REG(a0, struct MsgPort *port))
  {
   DeletePort(port);
  }

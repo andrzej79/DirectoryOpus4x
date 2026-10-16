@@ -31,7 +31,7 @@ the existing commercial status of Directory Opus 5.
 #include "dopus.h"
 #include <newmouse.h>
 //#define NO_INLINE_STDARG
-#include <clib/pm_protos.h>
+#include <proto/pm.h>
 #include <libraries/screennotify.h>
 
 extern struct IntuiMessage *getintuimsg();
@@ -46,9 +46,9 @@ enum SortBy {
 
 /* based on code by Henrik Isaksson */
 
-__saveds ULONG MenuHandlerFunc(register struct Hook *hook __asm("a0"),
-                               register struct PopupMenu *pm __asm("a2"),
-                               register APTR msg __asm("a1"))
+__saveds ULONG MenuHandlerFunc(REG(a0, struct Hook *hook),
+                               REG(a2, struct PopupMenu *pm),
+                               REG(a1, APTR msg))
 {
  if(pm->ID == sbReverse)
   {

@@ -66,6 +66,7 @@ the existing commercial status of Directory Opus 5.
 #include <datatypes/datatypesclass.h>
 */
 #include <proto/all.h>
+#include <compiler.h>
 #include <proto/dopus.h>
 
 extern struct ExecBase *SysBase;
@@ -77,303 +78,306 @@ extern struct Library *LayersBase;
 
 /* dosstuff.c */
 
-__saveds DoAssign(register char *name __asm("a0"),
-    register char *dir __asm("a1"));
+/* functions.a: RawDoFmt() into a buffer, arguments on the stack */
+void LSprintf(char *buf, char *fmt, ...);
 
-char *__saveds DoBaseName(register char *path __asm("a0"));
+int __saveds DoAssign(REG(a0, char *name),
+    REG(a1, char *dir));
 
-__saveds DoCompareLock(register BPTR l1 __asm("a0"),
-    register BPTR l2 __asm("a1"));
+__saveds char *DoBaseName(REG(a0, char *path));
 
-__saveds DoPathName(register BPTR lock __asm("a0"),
-    register char *buf __asm("a1"),
-    register int len __asm("d0"));
+int __saveds DoCompareLock(REG(a0, BPTR l1),
+    REG(a1, BPTR l2));
 
-__saveds DoSendPacket(register struct MsgPort *port __asm("a0"),
-    register int action __asm("d0"),
-    register ULONG *args __asm("a1"),
-    register int nargs __asm("d1"));
+int __saveds DoPathName(REG(a0, BPTR lock),
+    REG(a1, char *buf),
+    REG(d0, int len));
 
-__saveds DoTackOn(register char *path __asm("a0"),
-    register char *file __asm("a1"),
-    register int len __asm("d0"));
+int __saveds DoSendPacket(REG(a0, struct MsgPort *port),
+    REG(d0, int action),
+    REG(a1, ULONG *args),
+    REG(d1, int nargs));
 
-__saveds DoStampToStr(register struct DOpusDateTime *dt __asm("a0"));
+int __saveds DoTackOn(REG(a0, char *path),
+    REG(a1, char *file),
+    REG(d0, int len));
 
-__saveds DoStrToStamp(register struct DOpusDateTime *dt __asm("a0"));
+int __saveds DoStampToStr(REG(a0, struct DOpusDateTime *dt));
 
-ULONG __saveds DoAllocRemember(register struct DOpusRemember **key __asm("a0"),
-    register ULONG size __asm("d0"),
-    register ULONG type __asm("d1"));
+int __saveds DoStrToStamp(REG(a0, struct DOpusDateTime *dt));
 
-void __saveds DoFreeRemember(register struct DOpusRemember **key __asm("a0"));
+ULONG __saveds DoAllocRemember(REG(a0, struct DOpusRemember **key),
+    REG(d0, ULONG size),
+    REG(d1, ULONG type));
 
-void __saveds DoFreeRemEntry(register struct DOpusRemember **key __asm("a0"),
-    register char *pointer __asm("a1"));
+void __saveds DoFreeRemember(REG(a0, struct DOpusRemember **key));
 
-__saveds DoCompareDate(register struct DateStamp *date __asm("a0"),
-    register struct DateStamp *date2 __asm("a1"));
+void __saveds DoFreeRemEntry(REG(a0, struct DOpusRemember **key),
+    REG(a1, char *pointer));
 
-void __saveds DoDoArrow(register struct RastPort * __asm("a0"),
-    register int __asm("d0"),
-    register int __asm("d1"),
-    register int __asm("d2"),
-    register int __asm("d3"),
-    register int __asm("d4"),
-    register int __asm("d5"),
-    register int __asm("d6"));
+int __saveds DoCompareDate(REG(a0, struct DateStamp *date),
+    REG(a1, struct DateStamp *date2));
 
-__saveds DoStrCombine(register char *buf __asm("a0"),
-    register char *one __asm("a1"),
-    register char *two __asm("a2"),
-    register int lim __asm("d0"));
+void __saveds DoDoArrow(REG(a0, struct RastPort *),
+    REG(d0, int),
+    REG(d1, int),
+    REG(d2, int),
+    REG(d3, int),
+    REG(d4, int),
+    REG(d5, int),
+    REG(d6, int));
 
-__saveds DoStrConcat(register char *buf __asm("a0"),
-    register char *cat __asm("a1"),
-    register int lim __asm("d0"));
+int __saveds DoStrCombine(REG(a0, char *buf),
+    REG(a1, char *one),
+    REG(a2, char *two),
+    REG(d0, int lim));
 
-void __saveds DoDecode_RLE(register char *source __asm("a0"),
-    register char *dest __asm("a1"),
-    register int size __asm("d0"));
+int __saveds DoStrConcat(REG(a0, char *buf),
+    REG(a1, char *cat),
+    REG(d0, int lim));
+
+void __saveds DoDecode_RLE(REG(a0, char *source),
+    REG(a1, char *dest),
+    REG(d0, int size));
 
 /* dosstuff2.c */
 
-__saveds DoSearchPathList(register char * __asm("a0"),
-    register char * __asm("a1"),
-    register int __asm("d0"));
+int __saveds DoSearchPathList(REG(a0, char *),
+    REG(a1, char *),
+    REG(d0, int));
 
-__saveds DoCheckExist(register char * __asm("a0"),
-    register int * __asm("a1"));
+int __saveds DoCheckExist(REG(a0, char *),
+    REG(a1, int *));
 
-__saveds DoRawkeyToStr(register USHORT __asm("d0"),
-    register USHORT __asm("d1"),
-    register char * __asm("a0"),
-    register char * __asm("a1"),
-    register int __asm("d2"));
+int __saveds DoRawkeyToStr(REG(d0, USHORT),
+    REG(d1, USHORT),
+    REG(a0, char *),
+    REG(a1, char *),
+    REG(d2, int));
 
-__saveds DoDoRMBGadget(register struct RMBGadget * __asm("a0"),
-    register struct Window * __asm("a1"));
+int __saveds DoDoRMBGadget(REG(a0, struct RMBGadget *),
+    REG(a1, struct Window *));
 
-__saveds DoAddGadgets(register struct Window * __asm("a0"),
-    register struct Gadget * __asm("a1"),
-    register char ** __asm("a2"),
-    register int __asm("d0"),
-    register int __asm("d1"),
-    register int __asm("d2"),
-    register int __asm("d3"));
+int __saveds DoAddGadgets(REG(a0, struct Window *),
+    REG(a1, struct Gadget *),
+    REG(a2, char **),
+    REG(d0, int),
+    REG(d1, int),
+    REG(d2, int),
+    REG(d3, int));
 
-__saveds DoCheckNumGad(register struct Gadget * __asm("a0"),
-    register struct Window * __asm("a1"),
-    register int __asm("d0"),
-    register int __asm("d1"));
+int __saveds DoCheckNumGad(REG(a0, struct Gadget *),
+    REG(a1, struct Window *),
+    REG(d0, int),
+    REG(d1, int));
 
-__saveds DoCheckHexGad(register struct Gadget * __asm("a0"),
-    register struct Window * __asm("a1"),
-    register int __asm("d0"),
-    register int __asm("d1"));
+int __saveds DoCheckHexGad(REG(a0, struct Gadget *),
+    REG(a1, struct Window *),
+    REG(d0, int),
+    REG(d1, int));
 
-__saveds DoAtoh(register unsigned char * __asm("a0"),
-    register int __asm("d0"));
+int __saveds DoAtoh(REG(a0, unsigned char *),
+    REG(d0, int));
 
-__saveds DoDoSimpleRequest(register struct Window * __asm("a0"),
-    register struct DOpusSimpleRequest * __asm("a1"));
+int __saveds DoDoSimpleRequest(REG(a0, struct Window *),
+    REG(a1, struct DOpusSimpleRequest *));
 
-void __saveds DoDoCycleGadget(register struct Gadget * __asm("a0"),
-    register struct Window * __asm("a1"),
-    register char ** __asm("a2"),
-    register int __asm("d0"));
+void __saveds DoDoCycleGadget(REG(a0, struct Gadget *),
+    REG(a1, struct Window *),
+    REG(a2, char **),
+    REG(d0, int));
 
-void __saveds DoDrawRadioButton(register struct RastPort * __asm("a0"),
-    register int __asm("d0"),
-    register int __asm("d1"),
-    register int __asm("d2"),
-    register int __asm("d3"),
-    register int __asm("d4"),
-    register int __asm("d5"));
+void __saveds DoDrawRadioButton(REG(a0, struct RastPort *),
+    REG(d0, int),
+    REG(d1, int),
+    REG(d2, int),
+    REG(d3, int),
+    REG(d4, int),
+    REG(d5, int));
 
-struct Image * __saveds DoGetButtonImage(register int __asm("d0"),
-    register int __asm("d1"),
-    register int __asm("d2"),
-    register int __asm("d3"),
-    register int __asm("d4"),
-    register int __asm("d5"),
-    register struct DOpusRemember ** __asm("a0"));
+__saveds struct Image *DoGetButtonImage(REG(d0, int),
+    REG(d1, int),
+    REG(d2, int),
+    REG(d3, int),
+    REG(d4, int),
+    REG(d5, int),
+    REG(a0, struct DOpusRemember **));
 
-struct Image *__saveds DoGetCheckImage(register int fg __asm("d0"),
-    register int bg __asm("d1"),
-    register int pen __asm("d2"),
-    register struct DOpusRemember **key __asm("a0"));
+__saveds struct Image *DoGetCheckImage(REG(d0, int fg),
+    REG(d1, int bg),
+    REG(d2, int pen),
+    REG(a0, struct DOpusRemember **key));
 
-void __saveds DoUScoreText(register struct RastPort * __asm("a0"),
-    register char * __asm("a1"),
-    register int __asm("d0"),
-    register int __asm("d1"),
-    register int __asm("d2"));
+void __saveds DoUScoreText(REG(a0, struct RastPort *),
+    REG(a1, char *),
+    REG(d0, int),
+    REG(d1, int),
+    REG(d2, int));
 
-void __saveds DoDo3DFrame(register struct RastPort * __asm("a0"),
-    register int __asm("d0"),
-    register int __asm("d1"),
-    register int __asm("d2"),
-    register int __asm("d3"),
-    register char * __asm("a1"),
-    register int __asm("d4"),
-    register int __asm("d5"));
+void __saveds DoDo3DFrame(REG(a0, struct RastPort *),
+    REG(d0, int),
+    REG(d1, int),
+    REG(d2, int),
+    REG(d3, int),
+    REG(a1, char *),
+    REG(d4, int),
+    REG(d5, int));
 
-void __saveds DoDoGlassImage(register struct RastPort *rp __asm("a0"),
-    register struct Gadget *gadget __asm("a1"),
-    register int shine __asm("d0"),
-    register int shadow __asm("d1"),
-    register int type __asm("d2"));
+void __saveds DoDoGlassImage(REG(a0, struct RastPort *rp),
+    REG(a1, struct Gadget *gadget),
+    REG(d0, int shine),
+    REG(d1, int shadow),
+    REG(d2, int type));
 
 /* dosstuff3.c */
 
-__saveds DoReadConfig(register char * __asm("a0"),
-    register struct ConfigStuff * __asm("a1"));
+int __saveds DoReadConfig(REG(a0, char *),
+    REG(a1, struct ConfigStuff *));
 
-__saveds DoSaveConfig(register char * __asm("a0"),
-    register struct ConfigStuff * __asm("a1"));
+int __saveds DoSaveConfig(REG(a0, char *),
+    REG(a1, struct ConfigStuff *));
 
-__saveds DoDefaultConfig(register struct ConfigStuff * __asm("a0"));
+int __saveds DoDefaultConfig(REG(a0, struct ConfigStuff *));
 
-__saveds DoGetDevices(register struct ConfigStuff * __asm("a0"));
+int __saveds DoGetDevices(REG(a0, struct ConfigStuff *));
 
-void __saveds DoAssignGadget(register struct ConfigStuff * __asm("a0"),
-    register int __asm("d0"),
-    register int __asm("d1"),
-    register char * __asm("a1"),
-    register char * __asm("a2"));
+void __saveds DoAssignGadget(REG(a0, struct ConfigStuff *),
+    REG(d0, int),
+    REG(d1, int),
+    REG(a1, char *),
+    REG(a2, char *));
 
-void __saveds DoAssignMenu(register struct ConfigStuff * __asm("a0"),
-    register int __asm("d0"),
-    register char * __asm("a1"),
-    register char * __asm("a2"));
+void __saveds DoAssignMenu(REG(a0, struct ConfigStuff *),
+    REG(d0, int),
+    REG(a1, char *),
+    REG(a2, char *));
 
-void __saveds DoFreeConfig(register struct ConfigStuff * __asm("a0"));
+void __saveds DoFreeConfig(REG(a0, struct ConfigStuff *));
 
-__saveds DoCheckConfig(register struct ConfigStuff * __asm("a0"));
+int __saveds DoCheckConfig(REG(a0, struct ConfigStuff *));
 
-__saveds DoFindSystemFile(register char * __asm("a0"),
-    register char * __asm("a1"),
-    register int __asm("d0"),
-    register int __asm("d1"));
+int __saveds DoFindSystemFile(REG(a0, char *),
+    REG(a1, char *),
+    REG(d0, int),
+    REG(d1, int));
 
 /* filereq.c */
 
-__saveds DoFileRequest(register struct DOpusFileReq * __asm("a0"));
+int __saveds DoFileRequest(REG(a0, struct DOpusFileReq *));
 
-void __saveds DoSetBusyPointer(register struct Window * __asm("a0"));
+void __saveds DoSetBusyPointer(REG(a0, struct Window *));
 
 /* listview.c */
 
-__saveds DoAddListView(register struct DOpusListView * __asm("a0"),
-    register int __asm("d0"));
+int __saveds DoAddListView(REG(a0, struct DOpusListView *),
+    REG(d0, int));
 
-void __saveds DoFixSliderBody(register struct Window *win __asm("a0"),
-  register struct Gadget *gad __asm("a1"),
-  register int count __asm("d0"),
-  register int lines __asm("d1"),
-  register int show __asm("d2"));
+void __saveds DoFixSliderBody(REG(a0, struct Window *win),
+  REG(a1, struct Gadget *gad),
+  REG(d0, int count),
+  REG(d1, int lines),
+  REG(d2, int show));
 
-void __saveds DoFixSliderPot(register struct Window *win __asm("a0"),
-  register struct Gadget *gad __asm("a1"),
-  register int off __asm("d0"),
-  register int count __asm("d1"),
-  register int lines __asm("d2"),
-  register int show __asm("d3"));
+void __saveds DoFixSliderPot(REG(a0, struct Window *win),
+  REG(a1, struct Gadget *gad),
+  REG(d0, int off),
+  REG(d1, int count),
+  REG(d2, int lines),
+  REG(d3, int show));
 
-void __saveds DoShowSlider(register struct Window * __asm("a0"),
-    register struct Gadget * __asm("a1"));
+void __saveds DoShowSlider(REG(a0, struct Window *),
+    REG(a1, struct Gadget *));
 
-__saveds DoGetSliderPos(register struct Gadget *gad __asm("a0"),
-  register int count __asm("d0"),
-  register int lines __asm("d1"));
+int __saveds DoGetSliderPos(REG(a0, struct Gadget *gad),
+  REG(d0, int count),
+  REG(d1, int lines));
 
-struct DOpusListView *__saveds DoListViewIDCMP(
-    register struct DOpusListView * __asm("a0"),
-    register struct IntuiMessage * __asm("a1"));
+__saveds struct DOpusListView *DoListViewIDCMP(
+    REG(a0, struct DOpusListView *),
+    REG(a1, struct IntuiMessage *));
 
-__saveds DoRefreshListView(register struct DOpusListView * __asm("a0"),
-    register int __asm("d0"));
+int __saveds DoRefreshListView(REG(a0, struct DOpusListView *),
+    REG(d0, int));
 
-__saveds DoRemoveListView(register struct DOpusListView * __asm("a0"),
-    register int __asm("d0"));
+int __saveds DoRemoveListView(REG(a0, struct DOpusListView *),
+    REG(d0, int));
 
 /* wildcard.c */
 
 
-__saveds DoMatchPattern(register unsigned char *pat __asm("a0"),
-    register unsigned char *str __asm("a1"),
-    register int cas __asm("d0"));
+int __saveds DoMatchPattern(REG(a0, unsigned char *pat),
+    REG(a1, unsigned char *str),
+    REG(d0, int cas));
 
-void __saveds DoParsePattern(register unsigned char *pat __asm("a0"),
-    register unsigned char *patbuf __asm("a1"),
-    register int cas __asm("d0"));
+void __saveds DoParsePattern(REG(a0, unsigned char *pat),
+    REG(a1, unsigned char *patbuf),
+    REG(d0, int cas));
 
 /* requesters.c */
 
-struct Window *__saveds R_OpenRequester(
-    register struct RequesterBase * __asm("a0"));
+__saveds struct Window *R_OpenRequester(
+    REG(a0, struct RequesterBase *));
 
 void __saveds R_CloseRequester(
-    register struct RequesterBase * __asm("a0"));
+    REG(a0, struct RequesterBase *));
 
 APTR __saveds R_AddRequesterObject(
-    register struct RequesterBase * __asm("a0"),
-    register struct TagItem * __asm("a1"));
+    REG(a0, struct RequesterBase *),
+    REG(a1, struct TagItem *));
 
 void __saveds R_RefreshRequesterObject(
-    register struct RequesterBase * __asm("a0"),
-    register struct RequesterObject * __asm("a1"));
+    REG(a0, struct RequesterBase *),
+    REG(a1, struct RequesterObject *));
 
-void __saveds R_ObjectText(register struct RequesterBase *reqbase __asm("a0"),
-    register short left __asm("d0"),
-    register short top __asm("d1"),
-    register short width __asm("d2"),
-    register short height __asm("d3"),
-    register char *text __asm("a1"),
-    register unsigned short textpos __asm("d4"));
+void __saveds R_ObjectText(REG(a0, struct RequesterBase *reqbase),
+    REG(d0, short left),
+    REG(d1, short top),
+    REG(d2, short width),
+    REG(d3, short height),
+    REG(a1, char *text),
+    REG(d4, unsigned short textpos));
 
 /* language.c */
 
-__saveds DoReadStringFile(
-    register struct StringData * __asm("a0"),
-    register char * __asm("a1"));
+int __saveds DoReadStringFile(
+    REG(a0, struct StringData *),
+    REG(a1, char *));
 
 void __saveds DoFreeStringFile(
-    register struct StringData * __asm("a0"));
+    REG(a0, struct StringData *));
 
 /* borders.c */
 
-void __saveds DoAddGadgetBorders(register struct DOpusRemember ** __asm("a0"),
-    register struct Gadget * __asm("a1"),
-    register int __asm("d0"),
-    register int __asm("d1"),
-    register int __asm("d2"));
+void __saveds DoAddGadgetBorders(REG(a0, struct DOpusRemember **),
+    REG(a1, struct Gadget *),
+    REG(d0, int),
+    REG(d1, int),
+    REG(d2, int));
 
-void __saveds DoCreateGadgetBorders(register struct DOpusRemember ** __asm("a0"),
-    register int __asm("d0"),
-    register int __asm("d1"),
-    register struct Border ** __asm("a1"),
-    register struct Border ** __asm("a2"),
-    register int __asm("d2"),
-    register int __asm("d3"),
-    register int __asm("d4"));
+void __saveds DoCreateGadgetBorders(REG(a0, struct DOpusRemember **),
+    REG(d0, int),
+    REG(d1, int),
+    REG(a1, struct Border **),
+    REG(a2, struct Border **),
+    REG(d2, int),
+    REG(d3, int),
+    REG(d4, int));
 
-void __saveds DoSelectGadget(register struct Window * __asm("a0"),
-    register struct Gadget * __asm("a1"));
+void __saveds DoSelectGadget(REG(a0, struct Window *),
+    REG(a1, struct Gadget *));
 
 /* menus.c */
 
-__saveds DoFSSetMenuStrip(register struct Window * __asm("a0"),
-    register struct Menu * __asm("a1"));
+int __saveds DoFSSetMenuStrip(REG(a0, struct Window *),
+    REG(a1, struct Menu *));
 
 /* functions.a */
 
-void SwapMem(register char * __asm("a0"), register char * __asm("a1"), register int __asm("d0"));
-struct IORequest *DoCreateExtIO(register struct MsgPort *port __asm("a0"), register int size __asm("d0"));
-void DoDeleteExtIO(register struct IORequest *extio __asm("a0"));
-struct MsgPort *DoCreatePort(register char *name __asm("a0"), register int pri __asm("d0"));
-void DoDeletePort(register struct MsgPort *port __asm("a0"));
+void SwapMem(REG(a0, char *), REG(a1, char *), REG(d0, int));
+struct IORequest *DoCreateExtIO(REG(a0, struct MsgPort *port), REG(d0, int size));
+void DoDeleteExtIO(REG(a0, struct IORequest *extio));
+struct MsgPort *DoCreatePort(REG(a0, char *name), REG(d0, int pri));
+void DoDeletePort(REG(a0, struct MsgPort *port));
 
 
 

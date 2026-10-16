@@ -68,8 +68,8 @@ D(bug("filetype %s matched\n",type->type));
         par.delay=type->delay[FTFUNC_DOUBLECLICK];
         par.key=par.qual=0; par.type=3;
 
-        if ((stricmp(type->type,"Default")==0) ||
-            (stricmp(type->type,globstring[STR_FTYPE_DEFAULT])==0)) dodef=1;
+        if ((Stricmp(type->type,"Default")==0) ||
+            (Stricmp(type->type,globstring[STR_FTYPE_DEFAULT])==0)) dodef=1;
         else {
             char title[256];
 

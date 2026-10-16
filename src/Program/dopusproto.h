@@ -35,10 +35,10 @@ void kprintf(char *,...);
 
 void lsprintf (char *,char *,...);
 /* void Keyhandler(void); */
-int countlines(register struct ViewData * __asm("a0"));
-int smartcountlines(register struct ViewData * __asm("a0"));
-int ansicountlines(register struct ViewData * __asm("a0"));
-void removetabs(register struct ViewData * __asm("a0"));
+int countlines(REG(a0, struct ViewData *));
+int smartcountlines(REG(a0, struct ViewData *));
+int ansicountlines(REG(a0, struct ViewData *));
+void removetabs(REG(a0, struct ViewData *));
 int getusage(void);
 void dprintf (char *,char *,...);
 int filteroff(void);
@@ -553,7 +553,7 @@ CxObj *set_dopus_filter(CxObj *,struct MsgPort *,char *,USHORT,USHORT,int,int);
 void set_hotkey(CxObj *,USHORT,USHORT);
 void dummy_idcmp(struct MsgPort *,ULONG,USHORT,APTR,int,int);
 void __saveds clocktask(void);
-struct InputEvent *__saveds keyhandler(register struct InputEvent * __asm("a0"),register APTR __asm("a1"));
+__saveds struct InputEvent *keyhandler(REG(a0, struct InputEvent *),REG(a1, APTR));
 void openprogresswindow(char *,int,int,int);
 void progresstext(int,int,int,char *);
 void progressbar(int,int,int,int);

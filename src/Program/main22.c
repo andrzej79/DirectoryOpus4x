@@ -54,8 +54,8 @@ int function,flags;
 char *sourcedir,*destdir;
 int act,inact,rexx;
 {
-    struct InfoData __aligned infodata;
-    struct FileInfoBlock __aligned fileinfo;
+    D_S(struct InfoData,infodata);
+    D_S(struct FileInfoBlock,fileinfo);
     int askeach=0,autoskip=0,a,b,special=0,candoicon=1,old,specflags,noshow=0,err;
     int sourcewild=0,destwild=0,firstset=0,breakout,rexarg,protstuff[2];
     int pt=1,okayflag,show,lastfile,flag,exist,byte,count,data,mask=0,temp;
@@ -373,12 +373,12 @@ int act,inact,rexx;
             count=1;
             main_proc->pr_WindowPtr=(APTR)-1;
             if (filelock=Lock(destdir,ACCESS_READ)) {
-                Info(filelock,&infodata);
+                Info(filelock,infodata);
                 UnLock(filelock);
-                blocksize=infodata.id_BytesPerBlock;
+                blocksize=infodata->id_BytesPerBlock;
             }
             else blocksize=512;
-//kprintf("infodata: %lx\tdestdir: %s\tblocksize: %ld\n",&infodata,destdir,blocksize);
+//kprintf("infodata: %lx\tdestdir: %s\tblocksize: %ld\n",infodata,destdir,blocksize);
             if (config->errorflags&ERROR_ENABLE_DOS) main_proc->pr_WindowPtr=(APTR)Window;
             total=-1;
             break;
@@ -517,7 +517,7 @@ functionloop:
                     }
                     else {
                         StrCombine(tbuf,sourcedir,oldiconname,256);
-                        if (lockandexamine(tbuf,&fileinfo)) b=fileinfo.fib_Size;
+                        if (lockandexamine(tbuf,fileinfo)) b=fileinfo->fib_Size;
                     }
                     if (b>-1) {
                         a=(b+(blocksize-1))/blocksize;
@@ -895,16 +895,16 @@ functionloop:
                                 myabort();
                                 break;
                             }
-                            else if (lockandexamine(destname,&fileinfo)) {
+                            else if (lockandexamine(destname,fileinfo)) {
                                 addfile(dwindow,inact,
-                                    fileinfo.fib_FileName,
-                                    fileinfo.fib_Size,
-                                    fileinfo.fib_DirEntryType,
-                                    &fileinfo.fib_Date,
-                                    fileinfo.fib_Comment,
-                                    fileinfo.fib_Protection,
+                                    fileinfo->fib_FileName,
+                                    fileinfo->fib_Size,
+                                    fileinfo->fib_DirEntryType,
+                                    &fileinfo->fib_Date,
+                                    fileinfo->fib_Comment,
+                                    fileinfo->fib_Protection,
                                     file->subtype,1,NULL,NULL,
-                                    fileinfo.fib_OwnerUID,fileinfo.fib_OwnerGID);
+                                    fileinfo->fib_OwnerUID,fileinfo->fib_OwnerGID);
                                 if ((a=delfile(sourcename,file->name,globstring[STR_DELETING],1,1))==-2) {
                                     if (!(a=recursedir(sourcename,NULL,R_DELETE,0))) a=1;
                                     else if (a==-10) {
@@ -1052,17 +1052,17 @@ functionloop:
                 }
                 if (exist && (tempfile=findfile(dwindow,namebuf,NULL)))
                     removefile(tempfile,dwindow,inact,0);
-                if (lockandexamine(destname,&fileinfo)) {
-                    if (fileinfo.fib_DirEntryType<0) byte=fileinfo.fib_Size;
+                if (lockandexamine(destname,fileinfo)) {
+                    if (fileinfo->fib_DirEntryType<0) byte=fileinfo->fib_Size;
                     addfile(dwindow,inact,
-                        fileinfo.fib_FileName,
+                        fileinfo->fib_FileName,
                         byte,
-                        fileinfo.fib_DirEntryType,
-                        &fileinfo.fib_Date,
-                        fileinfo.fib_Comment,
-                        fileinfo.fib_Protection,
+                        fileinfo->fib_DirEntryType,
+                        &fileinfo->fib_Date,
+                        fileinfo->fib_Comment,
+                        fileinfo->fib_Protection,
                         file->subtype,1,NULL,NULL,
-                        fileinfo.fib_OwnerUID,fileinfo.fib_OwnerGID);
+                        fileinfo->fib_OwnerUID,fileinfo->fib_OwnerGID);
                     if (config->copyflags&COPY_ARC && !(file->protection&FIBF_ARCHIVE)) {
                         if (SetProtection(sourcename,file->protection|FIBF_ARCHIVE)) {
                             file->protection|=FIBF_ARCHIVE;
@@ -1285,10 +1285,10 @@ functionloop:
                 }
                 if (autoskip) break;
                 if ((iconwrite(data,destname))!=-1) {
-                    if (lockandexamine(destname,&fileinfo)) {
-                        addfile(swindow,act,buf2,fileinfo.fib_Size,-1,&fileinfo.fib_Date,
-                            fileinfo.fib_Comment,fileinfo.fib_Protection,0,1,NULL,NULL,
-                            fileinfo.fib_OwnerUID,fileinfo.fib_OwnerGID);
+                    if (lockandexamine(destname,fileinfo)) {
+                        addfile(swindow,act,buf2,fileinfo->fib_Size,-1,&fileinfo->fib_Date,
+                            fileinfo->fib_Comment,fileinfo->fib_Protection,0,1,NULL,NULL,
+                            fileinfo->fib_OwnerUID,fileinfo->fib_OwnerGID);
                         show=act;
                         okayflag=1;
                     }
@@ -1699,10 +1699,10 @@ functionloop:
                 main_proc->pr_WindowPtr=(APTR)-1;
                 if (!(filelock=Lock(destdir,ACCESS_READ))) value=0;
                 else {
-                    Info(filelock,&infodata);
+                    Info(filelock,infodata);
                     if (ramdisk_lock && CompareLock(filelock,ramdisk_lock)!=LOCK_DIFFERENT)
                         value=AvailMem(0);
-                    else value=(infodata.id_NumBlocks-infodata.id_NumBlocksUsed)*blocksize;
+                    else value=(infodata->id_NumBlocks-infodata->id_NumBlocksUsed)*blocksize;
                     UnLock(filelock);
                 }
                 if (config->errorflags&ERROR_ENABLE_DOS) main_proc->pr_WindowPtr=(APTR)Window;

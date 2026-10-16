@@ -1,0 +1,12 @@
+# Build output
+build/
+# Third-party Amiga SDK files, from tools/fetch_sdk.sh
+sdk/
+# FTP login for make ftp - never commit
+ftp.local
+# The original Aminet source archive (its contents are in src/)
+/DOpus416JRsrc.lha
+# Python bytecode
+__pycache__/
+# macOS Finder metadata
+.DS_Store

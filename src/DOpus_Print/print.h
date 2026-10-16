@@ -43,6 +43,7 @@ the existing commercial status of Directory Opus 5.
 #include <devices/prtbase.h>
 #include <datatypes/datatypesclass.h>
 #include <proto/all.h>
+#include <compiler.h>
 
 #include <proto/dopus.h>
 #include <dopus/dopusmessage.h>
@@ -126,3 +127,6 @@ typedef struct MyPrinterData {
 extern struct DefaultString default_strings[];
 
 #define STRING_VERSION 1
+
+/* Functions returning pointers: declared so that they are not taken as int */
+struct Gadget *addreqgadgets();

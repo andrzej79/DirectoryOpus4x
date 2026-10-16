@@ -1,0 +1,210 @@
+#!/usr/bin/env python3
+"""Generate vbcc inline headers for an Amiga shared library from its FD file
+and its clib prototypes.
+
+  fd2vbcc.py <lib_lib.fd> <clib/lib_protos.h> <out/inline/lib_protos.h> \
+             [--proto <out/proto/lib.h> --base-type "struct Library"]
+
+Every function in the FD gets an inline stub that loads the library base into
+a6 and jumps to its LVO, with the arguments in the registers the FD names:
+
+  ULONG __ppLoadData(__reg("a6") void *, __reg("a0") char * p1, ...)="\tjsr\t-30(a6)";
+  #define ppLoadData(p1, ...) __ppLoadData(PPBase, (p1), ...)
+
+A varargs prototype in the clib file (Foo(..., ULONG tag1, ...)) whose
+tag-list twin FooA() is in the FD gets a stub that passes the address of the
+stacked arguments in FooA()'s last register (the same trick the vbcc headers
+of xadmaster.library use).  The types come from the clib prototypes; a
+function missing from them is left out with a warning.
+
+With --stubs <file.c> the varargs functions become real functions in that
+file instead (amiga.lib style: FooA(..., (struct TagItem *)&tag1)).  Needed
+when callers build a call from macros that leave the argument list open,
+like popupmenu.library's PMMenu(...) ... End, which vbcc's preprocessor
+cannot expand when Foo is itself a macro.
+"""
+import argparse
+import os
+import re
+import sys
+
+
+def parse_fd(path):
+    base, bias, funcs, public = None, 30, [], True
+    for raw in open(path, encoding='latin-1'):
+        line = raw.strip()
+        if not line or line.startswith('*'):
+            continue
+        if line.startswith('##'):
+            words = line[2:].split()
+            if words[0] == 'base':
+                base = words[1].lstrip('_')
+            elif words[0] == 'bias':
+                bias = int(words[1])
+            elif words[0] == 'public':
+                public = True
+            elif words[0] == 'private':
+                public = False
+            elif words[0] == 'end':
+                break
+            continue
+        m = re.match(r'(\w+)\s*\(([^)]*)\)\s*\(([^)]*)\)', line)
+        if not m:
+            sys.exit('%s: cannot parse FD line: %s' % (path, line))
+        name, regs = m.group(1), m.group(3)
+        regs = [r.strip().lower() for r in re.split(r'[,/]', regs) if r.strip()]
+        if public:
+            funcs.append((name, bias, regs))
+        bias += 6
+    if base is None:
+        sys.exit('%s: no ##base' % path)
+    return base, funcs
+
+
+def split_params(s):
+    out, depth, cur = [], 0, ''
+    for c in s:
+        if c == '(':
+            depth += 1
+        elif c == ')':
+            depth -= 1
+        if c == ',' and depth == 0:
+            out.append(cur.strip())
+            cur = ''
+        else:
+            cur += c
+    if cur.strip():
+        out.append(cur.strip())
+    return out
+
+
+def parse_protos(path):
+    text = open(path, encoding='latin-1').read()
+    text = re.sub(r'/\*.*?\*/', ' ', text, flags=re.S)
+    text = re.sub(r'//[^\n]*', ' ', text)
+    text = '\n'.join(l for l in text.split('\n') if not l.strip().startswith('#'))
+    text = re.sub(r'extern\s*"C"\s*\{', ' ', text)
+    text = text.replace('}', ' ')
+    protos = {}
+    for decl in text.split(';'):
+        decl = ' '.join(decl.split())
+        m = re.match(r'^(?:extern\s+)?(.+?)\s*\b(\w+)\s*\((.*)\)$', decl)
+        if not m:
+            continue
+        ret, name, params = m.group(1).strip(), m.group(2), m.group(3).strip()
+        if ret.endswith('*') or ret.endswith(' '):
+            ret = ret.rstrip()
+        params = [] if params in ('', 'void', 'VOID') else split_params(params)
+        protos[name] = (ret, params)
+    return protos
+
+
+def param_type(p):
+    """'struct Window *wnd' -> 'struct Window *', 'ULONG' -> 'ULONG'."""
+    if '(' in p:
+        # function pointer: 'BOOL (*func)()' -> 'BOOL (*)()'
+        return re.sub(r'\(\s*\*\s*\w*\s*\)', '(*)', p)
+    m = re.match(r'^(.*?[\s*])(\w+)$', p)
+    if m and m.group(1).strip() and m.group(2) not in (
+            'int', 'long', 'char', 'short', 'void', 'ULONG', 'LONG', 'UWORD', 'WORD',
+            'UBYTE', 'BYTE', 'BOOL', 'APTR', 'STRPTR', 'BPTR', 'Tag', 'CONST_STRPTR'):
+        return m.group(1).rstrip()
+    return p
+
+
+def decl(t, n):
+    if '(*)' in t:
+        return t.replace('(*)', '(*%s)' % n, 1)
+    return '%s%s%s' % (t, '' if t.endswith('*') else ' ', n)
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument('fd')
+    ap.add_argument('clib')
+    ap.add_argument('out')
+    ap.add_argument('--proto')
+    ap.add_argument('--base-type', default='struct Library')
+    ap.add_argument('--clib-include', help='name used in #include <...> for the clib file')
+    ap.add_argument('--stubs', help='write varargs functions as C stubs to this file')
+    a = ap.parse_args()
+
+    base, funcs = parse_fd(a.fd)
+    protos = parse_protos(a.clib)
+    stem = os.path.basename(a.out)[:-len('_protos.h')]
+    guard = '_VBCCINLINE_%s_H' % stem.upper()
+    fdnames = {f[0]: f for f in funcs}
+
+    out = ['/* Generated by tools/fd2vbcc.py from %s - do not edit */' % os.path.basename(a.fd),
+           '#ifndef %s' % guard, '#define %s' % guard, '',
+           '#ifndef EXEC_TYPES_H', '#include <exec/types.h>', '#endif', '']
+    for name, lvo, regs in funcs:
+        if name not in protos:
+            print('fd2vbcc: %s: no prototype, skipped' % name, file=sys.stderr)
+            continue
+        ret, params = protos[name]
+        if len(params) != len(regs):
+            sys.exit('fd2vbcc: %s: %d params in prototype, %d registers in FD' % (name, len(params), len(regs)))
+        args = ['__reg("a6") void *'] + ['__reg("%s") %s' % (r, decl(param_type(p), 'p%d' % i))
+                                          for i, (p, r) in enumerate(zip(params, regs))]
+        names = ['p%d' % i for i in range(len(params))]
+        out.append('%s __%s(%s)="\\tjsr\\t-%d(a6)";' % (ret, name, ', '.join(args), lvo))
+        out.append('#define %s(%s) __%s(%s)' % (name, ', '.join(names), name,
+                                                ', '.join([base] + ['(%s)' % n for n in names])))
+        out.append('')
+
+    # varargs twins
+    stubs = []
+    for name, (ret, params) in protos.items():
+        if not params or params[-1] != '...' or name + 'A' not in fdnames:
+            continue
+        _, lvo, regs = fdnames[name + 'A']
+        fixed = params[:-2]           # everything before 'ULONG tag1, ...'
+        if len(fixed) != len(regs) - 1:
+            print('fd2vbcc: %s: cannot map varargs, skipped' % name, file=sys.stderr)
+            continue
+        args = ['__reg("a6") void *'] + ['__reg("%s") %s' % (r, decl(param_type(p), 'p%d' % i))
+                                          for i, (p, r) in enumerate(zip(fixed, regs))]
+        args += [decl(param_type(params[-2]), 'tag1'), '...']
+        names = ['p%d' % i for i in range(len(fixed))]
+        if a.stubs:
+            atype = param_type(protos[name + 'A'][1][-1])
+            sargs = [decl(param_type(p), n) for p, n in zip(fixed, names)]
+            sargs += [decl(param_type(params[-2]), 'tag1'), '...']
+            stubs.append('%s %s(%s)\n{\n    %s%sA(%s);\n}\n' % (
+                ret, name, ', '.join(sargs), '' if ret in ('void', 'VOID') else 'return ',
+                name, ', '.join(names + ['(%s)&tag1' % atype])))
+            continue
+        out.append('#if !defined(NO_INLINE_STDARG) && (__STDC__ == 1L) && (__STDC_VERSION__ >= 199901L)')
+        out.append('%s __%s(%s)="\\tmovea.l\\ta7,%s\\n\\tjsr\\t-%d(a6)";' % (ret, name, ', '.join(args), regs[-1], lvo))
+        out.append('#define %s(%s) __%s(%s)' % (name, ', '.join(names + ['...']), name,
+                                                ', '.join([base] + ['(%s)' % n for n in names] + ['__VA_ARGS__'])))
+        out.append('#endif')
+        out.append('')
+    out.append('#endif /* %s */' % guard)
+    os.makedirs(os.path.dirname(a.out), exist_ok=True)
+    open(a.out, 'w').write('\n'.join(out) + '\n')
+
+    if a.stubs:
+        clib = a.clib_include or 'clib/%s' % os.path.basename(a.clib)
+        os.makedirs(os.path.dirname(a.stubs), exist_ok=True)
+        open(a.stubs, 'w').write('/* Generated by tools/fd2vbcc.py from %s - do not edit */\n'
+                                 '/* varargs stubs: the tags are on the stack, pass their address */\n\n'
+                                 '#include <exec/types.h>\n#include <intuition/intuition.h>\n#include <proto/%s.h>\n\n'
+                                 % (os.path.basename(a.fd), stem) + '\n'.join(stubs))
+
+    if a.proto:
+        clib = a.clib_include or 'clib/%s' % os.path.basename(a.clib)
+        pguard = 'PROTO_%s_H' % stem.upper()
+        p = ['/* Generated by tools/fd2vbcc.py - do not edit */',
+             '#ifndef %s' % pguard, '#define %s' % pguard, '',
+             '#include <exec/types.h>', '#include <%s>' % clib, '',
+             '#ifndef __NOLIBBASE__', 'extern %s *%s;' % (a.base_type, base), '#endif', '',
+             '#ifdef __VBCC__', '#include <inline/%s_protos.h>' % stem, '#endif', '',
+             '#endif /* %s */' % pguard]
+        os.makedirs(os.path.dirname(a.proto), exist_ok=True)
+        open(a.proto, 'w').write('\n'.join(p) + '\n')
+
+
+if __name__ == '__main__':
+    main()

@@ -912,7 +912,7 @@ struct DOpusRemember **key;
 {
     char *tempbuf;
     BPTR lock;
-    struct FileInfoBlock __aligned fib;
+    D_S(struct FileInfoBlock,fib);
     char pattern[30],buf[30];
     APTR wsave;
     int a,num,def;
@@ -929,11 +929,11 @@ struct DOpusRemember **key;
 
     for (a=0;a<3;a++) {                              // JRZ was: 2
         if (lock=Lock(lock_dirs[a],ACCESS_READ)) {
-            Examine(lock,&fib);
-            while (ExNext(lock,&fib)) {
-                if (fib.fib_DirEntryType<0 &&
-                    LMatchPatternI(pattern,fib.fib_FileName)) {
-                    strcpy(buf,&fib.fib_FileName[3]);
+            Examine(lock,fib);
+            while (ExNext(lock,fib)) {
+                if (fib->fib_DirEntryType<0 &&
+                    LMatchPatternI(pattern,fib->fib_FileName)) {
+                    strcpy(buf,&fib->fib_FileName[3]);
                     buf[(strlen(buf)-4)]=0;
                     strcpy(&tempbuf[num*25],buf);
                     if ((++num)>99) break;

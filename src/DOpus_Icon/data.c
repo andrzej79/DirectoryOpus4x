@@ -30,7 +30,7 @@ the existing commercial status of Directory Opus 5.
 
 #include "iconinfo.h"
 
-char *version="$VER: DOpus_Icon 1.7h (" __DATE__ ") made under GPL license by Jacek Rzeuski";
+char *version="$VER: DOpus_Icon 1.7i (" __DATE__ ") made under GPL license by Jacek Rzeuski";
 
 struct DOpusBase *DOpusBase;
 struct IntuitionBase *IntuitionBase;

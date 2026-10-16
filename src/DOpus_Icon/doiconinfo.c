@@ -241,8 +241,8 @@ char *name;
     USHORT code;
     int a,b,x,y,gadgetid,ret,gotid=0,newdef,ttcount=0,curtt=-1,compflag=0,newtt=0;
     BPTR lock;
-    struct InfoData __aligned infodata;
-    struct FileInfoBlock __aligned fileinfo;
+    D_S(struct InfoData,infodata);
+    D_S(struct FileInfoBlock,fileinfo);
     struct RequesterBase icon_req;
     struct StringExtend stringex;
     struct Window *window;
@@ -305,14 +305,14 @@ char *name;
     }
 
     if (lock=Lock(namebuf,ACCESS_READ)) {
-        Examine(lock,&fileinfo);
-        Info(lock,&infodata);
+        Examine(lock,fileinfo);
+        Info(lock,infodata);
         UnLock(lock);
 
         strcpy(inamebuf,BaseName(namebuf));
 
         if (dobj->do_Type!=WBDISK)
-            CopyMem((char *)&(fileinfo.fib_Date),
+            CopyMem((char *)&(fileinfo->fib_Date),
                 (char *)&(datetime.dat_Stamp),
                 sizeof(struct DateStamp));
 
@@ -454,7 +454,7 @@ char *name;
                 iconinfo_protectbit_gadgets[a][2].ti_Data=a+10;
                 iconinfo_protectbit_gadgets[a][4].ti_Data=15+(a*12);
                 iconinfo_protectbit_gadgets[a][5].ti_Data=STR_SCRIPT+a;
-                if (fileinfo.fib_Protection&protect_flags[a]) {
+                if (fileinfo->fib_Protection&protect_flags[a]) {
                     if (protect_flags[a]>15) iconinfo_protectbit_gadgets[a][7].ti_Data=TRUE;
                 }
                 else if (protect_flags[a]<16) iconinfo_protectbit_gadgets[a][7].ti_Data=TRUE;
@@ -487,7 +487,7 @@ char *name;
             temp_gadgets[0]=iconinfo_comment_gadget;
             if (commentgad=addreqgadgets(&icon_req,temp_gadgets)) {
                 comment_buf=((struct StringInfo *)commentgad->SpecialInfo)->Buffer;
-                strcpy(comment_buf,fileinfo.fib_Comment);
+                strcpy(comment_buf,fileinfo->fib_Comment);
             }
         }
         if (dobj->do_Type==WBDISK || dobj->do_Type==WBPROJECT) {
@@ -555,16 +555,16 @@ char *name;
 
     switch (dobj->do_Type) {
         case WBDISK:
-            lsprintf(buf,"%ld",infodata.id_NumBlocks);
+            lsprintf(buf,"%ld",infodata->id_NumBlocks);
             UScoreText(rp,buf,102+textxoff,40+textyoff,-1);
-            lsprintf(buf,"%ld",infodata.id_NumBlocksUsed);
+            lsprintf(buf,"%ld",infodata->id_NumBlocksUsed);
             UScoreText(rp,buf,102+textxoff,50+textyoff,-1);
-            lsprintf(buf,"%ld",infodata.id_NumBlocks-infodata.id_NumBlocksUsed);
+            lsprintf(buf,"%ld",infodata->id_NumBlocks-infodata->id_NumBlocksUsed);
             UScoreText(rp,buf,102+textxoff,60+textyoff,-1);
-            lsprintf(buf,"%ld",infodata.id_BytesPerBlock);
+            lsprintf(buf,"%ld",infodata->id_BytesPerBlock);
             UScoreText(rp,buf,102+textxoff,70+textyoff,-1);
 
-            switch (infodata.id_DiskState) {
+            switch (infodata->id_DiskState) {
                 case ID_VALIDATING:
                     strcpy(buf,string_table[STR_VALIDATING]);
                     break;
@@ -583,13 +583,13 @@ char *name;
         case WBTOOL:
             Move(rp,102+textxoff,40+textyoff);
             if (gotid) {
-                lsprintf(buf,"%ld",fileinfo.fib_NumBlocks);
+                lsprintf(buf,"%ld",fileinfo->fib_NumBlocks);
                 Text(rp,buf,strlen(buf));
             }
             else Text(rp,"---",3);
             Move(rp,102+textxoff,50+textyoff);
             if (gotid) {
-                lsprintf(buf,"%ld",fileinfo.fib_Size);
+                lsprintf(buf,"%ld",fileinfo->fib_Size);
                 Text(rp,buf,strlen(buf));
             }
             else Text(rp,"---",3);

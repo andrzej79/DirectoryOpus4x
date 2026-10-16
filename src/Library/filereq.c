@@ -85,7 +85,7 @@ static struct NewWindow defaultwindow={
 
 extern char nullstring[];
 
-__saveds DoFileRequest(register struct DOpusFileReq *freq __asm("a0"))
+int __saveds DoFileRequest(REG(a0, struct DOpusFileReq *freq))
 {
     struct Library *AslBase;
 

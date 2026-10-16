@@ -81,7 +81,7 @@ getdir(dir,win,incmess)
 struct DirectoryWindow *dir;
 int win,incmess;
 {
-        struct FileInfoBlock __aligned fileinfo;
+        D_S(struct FileInfoBlock,fileinfo);
         int tot=1,a,use_exall=0,exall_entry,exall_continue,exall_bufsize,subtype;
         BPTR mylock;
         char buf[256];
@@ -140,8 +140,8 @@ int win,incmess;
                 strcpy(dir->directory,str_pathbuffer[win]);
         }
 
-        Examine(mylock,&fileinfo);
-        if (fileinfo.fib_DirEntryType<0) {
+        Examine(mylock,fileinfo);
+        if (fileinfo->fib_DirEntryType<0) {
                 UnLock(mylock);
                 if (OpenXADlib()) if (readarchive(dir, win))
                  {
@@ -163,7 +163,7 @@ int win,incmess;
                 else dostatustext(globstring[STR_READING_DIRECTORY]);
                 busy();
         }
-        copy_datestamp(&fileinfo.fib_Date,&dir->dirstamp);
+        copy_datestamp(&fileinfo->fib_Date,&dir->dirstamp);
 
         if (config->dirflags&DIRFLAGS_EXALL && system_version2>=OSVER_40) {
                 if (exall_control=AllocDosObject(DOS_EXALLCONTROL,NULL)) {
@@ -186,7 +186,7 @@ int win,incmess;
         }
 
         FOREVER {
-                fileinfo.fib_OwnerUID=fileinfo.fib_OwnerGID=0;
+                fileinfo->fib_OwnerUID=fileinfo->fib_OwnerGID=0;
                 if (use_exall) {
                         if (exall_entry>=exall_control->eac_Entries || !exall_current) {
                                 if (!exall_continue) break;
@@ -196,67 +196,69 @@ int win,incmess;
                                 continue;
                         }
                         if (exall_current->ed_Name)
-                                strcpy(fileinfo.fib_FileName,exall_current->ed_Name);
-                        else fileinfo.fib_FileName[0]=0;
+                                strcpy(fileinfo->fib_FileName,exall_current->ed_Name);
+                        else fileinfo->fib_FileName[0]=0;
 
-                        fileinfo.fib_DirEntryType=exall_current->ed_Type;
-                        fileinfo.fib_Size=exall_current->ed_Size;
-                        fileinfo.fib_Protection=exall_current->ed_Prot;
-                        fileinfo.fib_Date.ds_Days=exall_current->ed_Days;
-                        fileinfo.fib_Date.ds_Minute=exall_current->ed_Mins;
-                        fileinfo.fib_Date.ds_Tick=exall_current->ed_Ticks;
+                        fileinfo->fib_DirEntryType=exall_current->ed_Type;
+                        fileinfo->fib_Size=exall_current->ed_Size;
+                        fileinfo->fib_Protection=exall_current->ed_Prot;
+                        fileinfo->fib_Date.ds_Days=exall_current->ed_Days;
+                        fileinfo->fib_Date.ds_Minute=exall_current->ed_Mins;
+                        fileinfo->fib_Date.ds_Tick=exall_current->ed_Ticks;
                         if (exall_current->ed_Comment)
 /*
-                                BtoCStr((BSTR)exall_current->ed_Comment,fileinfo.fib_Comment,79);
+                                BtoCStr((BSTR)exall_current->ed_Comment,fileinfo->fib_Comment,79);
 */
-                                strcpy(fileinfo.fib_Comment,exall_current->ed_Comment);
-                        else fileinfo.fib_Comment[0]=0;
+                                strcpy(fileinfo->fib_Comment,exall_current->ed_Comment);
+                        else fileinfo->fib_Comment[0]=0;
                         ++exall_entry;
                         exall_current=exall_current->ed_Next;
                 }
                 else {
-                        if (!(ExNext(mylock,&fileinfo))) break;
+                        if (!(ExNext(mylock,fileinfo))) break;
                 }
 
-                subtype=fileinfo.fib_DirEntryType;
-//D(bug("name: %s\ttype: %ld\n",fileinfo.fib_FileName,fileinfo.fib_DirEntryType));
+                subtype=fileinfo->fib_DirEntryType;
+//D(bug("name: %s\ttype: %ld\n",fileinfo->fib_FileName,fileinfo->fib_DirEntryType));
                 if (subtype == ST_SOFTLINK)
                  {
-                  struct FileInfoBlock __aligned fib = fileinfo;
+                  D_S(struct FileInfoBlock,fib);
                   struct DevProc *dp;
                   BPTR ld, lf;
                   char linkbuf[512];
 
+                  *fib = *fileinfo;
+
                   NameFromLock(mylock,linkbuf,512);
                   do
                    {
-D(bug("SoftLink! path: %s/%s\n",linkbuf,fib.fib_FileName));
+D(bug("SoftLink! path: %s/%s\n",linkbuf,fib->fib_FileName));
                     ld = Lock(linkbuf,ACCESS_READ);
                     if (dp = GetDeviceProc(linkbuf,NULL))
                      {
 //D(bug("DeviceProc: %lX\n",dp));
-                      if (ReadLink(dp->dvp_Port,ld,fib.fib_FileName,buf,256))
+                      if (ReadLink(dp->dvp_Port,ld,fib->fib_FileName,buf,256))
                        {
                         AddPart(linkbuf,buf,512);
 D(bug("Resolved: %s\n",linkbuf));
                         if (lf = Lock(linkbuf,ACCESS_READ))
                          {
-                          if (Examine(lf,&fib))
+                          if (Examine(lf,fib))
                            {
-                            switch (fib.fib_DirEntryType)
+                            switch (fib->fib_DirEntryType)
                              {
                               case ST_ROOT:
                               case ST_USERDIR:
                               case ST_LINKDIR:
-                                fileinfo.fib_DirEntryType = ENTRY_DIRECTORY;
+                                fileinfo->fib_DirEntryType = ENTRY_DIRECTORY;
                                 break;
                               case ST_SOFTLINK:
                                 NameFromLock(lf,linkbuf,512);
                                 *PathPart(linkbuf) = 0;
                                 break;
                               default:
-                                fileinfo.fib_DirEntryType = ENTRY_FILE;
-//                                  fileinfo.fib_Size = fib.fib_Size;
+                                fileinfo->fib_DirEntryType = ENTRY_FILE;
+//                                  fileinfo->fib_Size = fib->fib_Size;
                                 break;
                              }
                            }
@@ -265,14 +267,14 @@ D(bug("Resolved: %s\n",linkbuf));
                         else
                          {
 // D(bug("Lock() failed!\n"));
-                          fileinfo.fib_DirEntryType = fib.fib_DirEntryType = ENTRY_FILE;
-                          fileinfo.fib_Size = 0;
+                          fileinfo->fib_DirEntryType = fib->fib_DirEntryType = ENTRY_FILE;
+                          fileinfo->fib_Size = 0;
                          }
                        }
                       FreeDeviceProc(dp);
                       if (ld) UnLock(ld);
                      }
-                   } while (fib.fib_DirEntryType == ST_SOFTLINK);
+                   } while (fib->fib_DirEntryType == ST_SOFTLINK);
                  }
                 if (status_haveaborted && Window) {
                         myabort();
@@ -280,11 +282,11 @@ D(bug("Resolved: %s\n",linkbuf));
                         tot=-1;
                         break;
                 }
-                if (!(addfile(dir,win,fileinfo.fib_FileName,
-                        (fileinfo.fib_DirEntryType>0)?-1:fileinfo.fib_Size,
-                        fileinfo.fib_DirEntryType,
-                        &fileinfo.fib_Date,fileinfo.fib_Comment,fileinfo.fib_Protection,subtype,
-                        FALSE,NULL,NULL,fileinfo.fib_OwnerUID,fileinfo.fib_OwnerGID))) {
+                if (!(addfile(dir,win,fileinfo->fib_FileName,
+                        (fileinfo->fib_DirEntryType>0)?-1:fileinfo->fib_Size,
+                        fileinfo->fib_DirEntryType,
+                        &fileinfo->fib_Date,fileinfo->fib_Comment,fileinfo->fib_Protection,subtype,
+                        FALSE,NULL,NULL,fileinfo->fib_OwnerUID,fileinfo->fib_OwnerGID))) {
                         if (Window) doerror(IoErr());
                         tot=0;
                         break;

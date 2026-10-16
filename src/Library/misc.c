@@ -30,11 +30,11 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopuslib.h"
 
-__saveds DoRawkeyToStr(register USHORT code __asm("d0"),
-    register USHORT qual __asm("d1"),
-    register char *buf __asm("a0"),
-    register char *kbuf __asm("a1"),
-    register int len __asm("d2"))
+int __saveds DoRawkeyToStr(REG(d0, USHORT code),
+    REG(d1, USHORT qual),
+    REG(a0, char *buf),
+    REG(a1, char *kbuf),
+    REG(d2, int len))
 {
     struct InputEvent inev;
     struct MsgPort *port;
@@ -108,10 +108,10 @@ __saveds DoRawkeyToStr(register USHORT code __asm("d0"),
     return(1);
 }
 
-__saveds DoCheckNumGad(register struct Gadget *gad __asm("a0"),
-    register struct Window *win __asm("a1"),
-    register int min __asm("d0"),
-    register int max __asm("d1"))
+int __saveds DoCheckNumGad(REG(a0, struct Gadget *gad),
+    REG(a1, struct Window *win),
+    REG(d0, int min),
+    REG(d1, int max))
 {
     struct StringInfo *sinfo;
     int a,b;
@@ -128,10 +128,10 @@ __saveds DoCheckNumGad(register struct Gadget *gad __asm("a0"),
     return(0);
 }
 
-__saveds DoCheckHexGad(register struct Gadget *gad __asm("a0"),
-    register struct Window *win __asm("a1"),
-    register int min __asm("d0"),
-    register int max __asm("d1"))
+int __saveds DoCheckHexGad(REG(a0, struct Gadget *gad),
+    REG(a1, struct Window *win),
+    REG(d0, int min),
+    REG(d1, int max))
 {
     struct StringInfo *sinfo;
     int a,b;
@@ -152,9 +152,9 @@ __saveds DoCheckHexGad(register struct Gadget *gad __asm("a0"),
     return(0);
 }
 
-void __saveds DoDecode_RLE(register char *source __asm("a0"),
-    register char *dest __asm("a1"),
-    register int size __asm("d0"))
+void __saveds DoDecode_RLE(REG(a0, char *source),
+    REG(a1, char *dest),
+    REG(d0, int size))
 {
     register int a;
     register char copy,count;
@@ -180,7 +180,7 @@ static struct TagItem
 //extern USHORT __chip busydata13[];
 //extern USHORT __chip busydata20[];
 
-void __saveds DoSetBusyPointer(register struct Window *wind __asm("a0"))
+void __saveds DoSetBusyPointer(REG(a0, struct Window *wind))
 {
 //    if (IntuitionBase->LibNode.lib_Version>38)
         SetWindowPointerA(wind,busytags);

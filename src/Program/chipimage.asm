@@ -31,7 +31,7 @@
     XDEF _null_pointer
     XDEF _beepwave
 
-    section .data_chip, DATA
+    section .data_chip,data,chip
 
 _uniconifydata:
     dc.w $3f80,$a0a0,$2080,$a0a0,$3f80,$8020,$0000,$8020,$0000,$aaa0

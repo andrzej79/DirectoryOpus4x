@@ -3,6 +3,7 @@
 #include <exec/memory.h>
 #include <iff/pchg.h>
 #include <clib/pchglib_protos.h>
+#include <compiler.h>
 
 #if INCLUDE_VERSION<36
 FAILURE!! Amiga includes version<36
@@ -38,11 +39,7 @@ struct CompVars {
     UWORD TreeCode[511];
 };
 
-#ifdef __GNUC__
-VOID PCHG_BuildFreqTable(register APTR Source __asm("a0"), register ULONG Length __asm("d0"), register ULONG *FreqTable __asm("a1"));
-#else
-VOID __asm PCHG_BuildFreqTable(register __a0 APTR Source, register __d0 ULONG Length, register __a1 ULONG *FreqTable);
-#endif
+VOID PCHG_BuildFreqTable(REG(a0, APTR Source), REG(d0, ULONG Length), REG(a1, ULONG *FreqTable));
 
 /* This function takes a tree represented with TreeNode structures,
 and sets the Code and CodeLength fields of its internal nodes. If

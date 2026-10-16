@@ -61,8 +61,8 @@ recursedir(fdir,fdest,dowhat,fdata)
 char *fdir,*fdest;
 int dowhat,fdata;
 {
-    struct FileInfoBlock __aligned myfinfo;
-    struct FileInfoBlock __aligned enfinfo;
+    D_S(struct FileInfoBlock,myfinfo);
+    D_S(struct FileInfoBlock,enfinfo);
     BPTR mylock;
     char *name,*dir,*dest,*dname,*ddir,*adir,*adest,*ndir,*ndest;
     int suc,cont,ret,a,err,w1=1-data_active_window,adata,depth,b,rtry,data,*pstuff,blocks;
@@ -101,7 +101,7 @@ D(bug("recursedir: %s\n",fdir));
      {
       lister = *dopus_curwin[data_active_window];
       for(entry = lister.firstentry; entry && (!(entry->selected)); entry=entry->next);
-      if (entry) arcfillfib(&myfinfo,entry);
+      if (entry) arcfillfib(myfinfo,entry);
 
       mylock = NULL;
      }
@@ -111,7 +111,7 @@ D(bug("recursedir: %s\n",fdir));
           doerror(IoErr());
           return(-1);
       }
-      Examine(mylock,&myfinfo);
+      Examine(mylock,myfinfo);
      }
     if (!(name=LAllocRemember(&recurserem,2560,MEMF_CLEAR))) {
         doerror(IoErr());
@@ -124,14 +124,14 @@ D(bug("recursedir: %s\n",fdir));
 
     if (dowhat&R_COPY) {
         strcpy(ddir,dest);
-        if (!(a=copymakedir(&recurserem,&first_makedir,dest,&myfinfo)) || a==-1) {
+        if (!(a=copymakedir(&recurserem,&first_makedir,dest,myfinfo)) || a==-1) {
             if (mylock) UnLock(mylock);
             if (a==0) ret=-3;
             else ret=-10;
             goto goaway;
         }
     }
-    if (mylock) cont=ExNext(mylock,&myfinfo);
+    if (mylock) cont=ExNext(mylock,myfinfo);
     else
      {
       lister.firstentry=lister.firstfile=lister.firstdir=NULL;
@@ -142,7 +142,7 @@ D(bug("recursedir: %s\n",fdir));
       strcat(lister.directory,"/");
       readarchive(&lister,0);
 D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",entry->name));
-      arcfillfib(&myfinfo,entry = lister.firstentry);
+      arcfillfib(myfinfo,entry = lister.firstentry);
       cont = lister.total;
      }
 
@@ -163,7 +163,7 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                   lister = current_recurse->lister;
                   for (cont = lister.total, t_entry = lister.firstentry; t_entry != entry; cont--, t_entry = t_entry->next);
                  }
-                myfinfo=current_recurse->info;
+                *myfinfo=current_recurse->info;
                 strcpy(dir,current_recurse->dir);
                 strcpy(dest,current_recurse->dest);
                 data=current_recurse->data;
@@ -172,7 +172,7 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                 current_recurse=current_recurse->last;
 
                 strcpy(name,dir);
-                TackOn(name,myfinfo.fib_FileName,512);
+                TackOn(name,myfinfo->fib_FileName,512);
 
                 if (dowhat&R_GETNAMES) {
                     cur_recurse=(struct RecursiveDirectory *)data2;
@@ -183,8 +183,8 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                 if (dowhat&R_COPY) {
                     strcpy(ddir,dest);
                     if (config->copyflags&COPY_DATE) {
-                        TackOn(ddir,myfinfo.fib_FileName,512);
-                        setdate(ddir,&myfinfo.fib_Date);
+                        TackOn(ddir,myfinfo->fib_FileName,512);
+                        setdate(ddir,&myfinfo->fib_Date);
                         strcpy(ddir,dest);
                     }
                 }
@@ -195,7 +195,7 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                         if (!(SetComment(name,dest))) {
                             err=IoErr();
                             doerror(err);
-                            a=checkerror(globstring[STR_COMMENTING],myfinfo.fib_FileName,err);
+                            a=checkerror(globstring[STR_COMMENTING],myfinfo->fib_FileName,err);
                             if (a==1) continue;
                         }
                         break;
@@ -205,12 +205,12 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
 
                 if (dowhat&R_PROTECT) {
                     pstuff=(int *)data;
-                    b=getnewprot(myfinfo.fib_Protection,pstuff[0],pstuff[1]);
+                    b=getnewprot(myfinfo->fib_Protection,pstuff[0],pstuff[1]);
                     FOREVER {
                         if (!(SetProtection(name,b))) {
                             err=IoErr();
                             doerror(err);
-                            a=checkerror(globstring[STR_PROTECTING],myfinfo.fib_FileName,err);
+                            a=checkerror(globstring[STR_PROTECTING],myfinfo->fib_FileName,err);
                             if (a==1) continue;
                         }
                         break;
@@ -222,7 +222,7 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                     FOREVER {
                         if ((err=setdate(name,(struct DateStamp *)data))!=1) {
                             doerror(err);
-                            a=checkerror(globstring[STR_DATESTAMPING],myfinfo.fib_FileName,err);
+                            a=checkerror(globstring[STR_DATESTAMPING],myfinfo->fib_FileName,err);
                             if (a==1) continue;
                         }
                         break;
@@ -230,11 +230,11 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                     if (a==3) break;
                 }
 
-                if (mylock) cont=ExNext(mylock,&myfinfo);
+                if (mylock) cont=ExNext(mylock,myfinfo);
                 else
                  {
                   entry = entry->next;
-                  if (entry) arcfillfib(&myfinfo,entry);
+                  if (entry) arcfillfib(myfinfo,entry);
                   cont--;
                  }
                 if (dowhat&R_DELETE && depth>0) {
@@ -253,21 +253,21 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
             }
             else break;
         }
-        CopyMem((char *)&myfinfo,(char *)&enfinfo,sizeof(struct FileInfoBlock));
+        CopyMem((char *)myfinfo,(char *)enfinfo,sizeof(struct FileInfoBlock));
 
         strcpy(name,dir);
-        TackOn(name,enfinfo.fib_FileName,512);
+        TackOn(name,enfinfo->fib_FileName,512);
 
-//D(bug("direntrytype: %ld\n",enfinfo.fib_DirEntryType));
-        if (enfinfo.fib_DirEntryType>0) {
+//D(bug("direntrytype: %ld\n",enfinfo->fib_DirEntryType));
+        if (enfinfo->fib_DirEntryType>0) {
             ++dos_global_blocksneeded;
-            if (enfinfo.fib_DirEntryType!=4) {
+            if (enfinfo->fib_DirEntryType!=4) {
                 adir=NULL;
                 dofilename(name);
                 if (dowhat&R_GETNAMES) {
                     if (new_rec=LAllocRemember(&recurse_dir_key,sizeof(struct RecursiveDirectory),MEMF_CLEAR)) {
-                        strcpy(new_rec->name,enfinfo.fib_FileName);
-                        CopyMem((char *)&enfinfo.fib_Date,(char *)&new_rec->date,sizeof(struct DateStamp));
+                        strcpy(new_rec->name,enfinfo->fib_FileName);
+                        CopyMem((char *)&enfinfo->fib_Date,(char *)&new_rec->date,sizeof(struct DateStamp));
                         if (addparent_recurse) {
                             addparent_recurse->child=new_rec;
                             cur_lastparent=addparent_recurse;
@@ -309,13 +309,13 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                 strcpy(dname,dest);
                 if (dowhat&R_COPY) {
 
-                    dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,-2,0,enfinfo.fib_FileName,1);
+                    dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,-2,0,enfinfo->fib_FileName,1);
 
-                    TackOn(dname,enfinfo.fib_FileName,512);
+                    TackOn(dname,enfinfo->fib_FileName,512);
 D(bug("name: %s\n",dname));
                     adir=dir; adest=dest; adata=data; ndir=name; ndest=dname;
                     strcpy(ddir,dname);
-                    if ((a=copymakedir(&recurserem,&first_makedir,ddir,&enfinfo))==-1) {
+                    if ((a=copymakedir(&recurserem,&first_makedir,ddir,enfinfo))==-1) {
                         ret=-10;
                         break;
                     }
@@ -342,7 +342,7 @@ delloop:
                     adata2=data2; adata3=data3;
                 }
                 if (adir) {
-                    if (!(addrecurse(&recurserem,adir,adest,adata,adata2,adata3,mylock,&enfinfo,entry,&lister))) {
+                    if (!(addrecurse(&recurserem,adir,adest,adata,adata2,adata3,mylock,enfinfo,entry,&lister))) {
                         if (mylock) cont=0;
                         continue;
                     }
@@ -358,7 +358,7 @@ delloop:
                       strcat(lister.directory,"/");
                       readarchive(&lister,0);
 D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",entry->name));
-                      arcfillfib(&myfinfo,entry = lister.firstentry);
+                      arcfillfib(myfinfo,entry = lister.firstentry);
                       cont = lister.total;
                      }
                     else
@@ -367,8 +367,8 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                           cont=0;
                           continue;
                       }
-                      Examine(mylock,&myfinfo);
-                      cont=ExNext(mylock,&myfinfo);
+                      Examine(mylock,myfinfo);
+                      cont=ExNext(mylock,myfinfo);
                      }
                     ++depth;
                     if (depth>recurse_max_depth) recurse_max_depth=depth;
@@ -376,11 +376,11 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                 }
             }
         }
-        if (enfinfo.fib_DirEntryType<0) {
+        if (enfinfo->fib_DirEntryType<0) {
             a=0;
-            dos_global_bytecount+=enfinfo.fib_Size;
+            dos_global_bytecount+=enfinfo->fib_Size;
             if (dowhat&R_GETBYTES && data) {
-                blocks=(enfinfo.fib_Size+(data-1))/data;
+                blocks=(enfinfo->fib_Size+(data-1))/data;
                 dos_global_blocksneeded+=blocks+(blocks/72)+1;
             }
 
@@ -398,26 +398,26 @@ D(for(entry = lister.firstentry; entry; entry=entry->next) bug("entry: %s\n",ent
                 }
             }
             if (!str_filter_parsed[0] ||
-                LMatchPatternI(str_filter_parsed,enfinfo.fib_FileName)) {
+                LMatchPatternI(str_filter_parsed,enfinfo->fib_FileName)) {
                 if (dowhat&R_COPY) {
                     strcpy(dname,ddir);
-                    TackOn(dname,enfinfo.fib_FileName,512);
+                    TackOn(dname,enfinfo->fib_FileName,512);
 
-                    dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,-2,0,enfinfo.fib_FileName,1);
+                    dotaskmsg(hotkeymsg_port,PROGRESS_UPDATE,-2,0,enfinfo->fib_FileName,1);
 D(bug("file: %s\n",name));
 if (entry)
  {
   char tempname[FILEBUF_SIZE];
 
   strcpy(name,"T:");
-  if (! unarcfiledir(&lister,name,tempname,enfinfo.fib_FileName)) continue;
+  if (! unarcfiledir(&lister,name,tempname,enfinfo->fib_FileName)) continue;
   AddPart(name,tempname,256);
 }
                     a=0;
                     FOREVER {
                         if (!(a=copyfile(name,dname,&err,/*-1,*/NULL,0))) {
                             doerror(err);
-                            a=checkerror(globstring[STR_COPYING],enfinfo.fib_FileName,err);
+                            a=checkerror(globstring[STR_COPYING],enfinfo->fib_FileName,err);
                             if (a==1) continue;
                             if (a!=3) seename(data_active_window);
                         }
@@ -428,10 +428,10 @@ if (entry)
                         }
                         else {
                             if (dowhat==R_COPY) {
-                                if (config->copyflags&COPY_ARC && !(enfinfo.fib_Protection&FIBF_ARCHIVE))
-                                    SetProtection(name,enfinfo.fib_Protection|FIBF_ARCHIVE);
+                                if (config->copyflags&COPY_ARC && !(enfinfo->fib_Protection&FIBF_ARCHIVE))
+                                    SetProtection(name,enfinfo->fib_Protection|FIBF_ARCHIVE);
                             }
-                            dos_global_copiedbytes+=enfinfo.fib_Size;
+                            dos_global_copiedbytes+=enfinfo->fib_Size;
                         }
                         if (config->dynamicflags&1) seename(data_active_window);
                         break;
@@ -446,7 +446,7 @@ if (entry) DeleteFile(name);
                     }
                 }
                 if (dowhat&R_DELETE) {
-                    if ((a=delfile(name,enfinfo.fib_FileName,globstring[STR_DELETING],
+                    if ((a=delfile(name,enfinfo->fib_FileName,globstring[STR_DELETING],
                         glob_unprotect_all,1))==-1) {
                         myabort();
                         ret=-10;
@@ -454,14 +454,14 @@ if (entry) DeleteFile(name);
                     }
                     if (a==2) glob_unprotect_all=1;
                     if (config->dynamicflags&1) seename(data_active_window);
-                    dos_global_deletedbytes+=enfinfo.fib_Size;
+                    dos_global_deletedbytes+=enfinfo->fib_Size;
                 }
                 if (dowhat&R_COMMENT) {
                     FOREVER {
                         if (!(SetComment(name,dest))) {
                             err=IoErr();
                             doerror(err);
-                            a=checkerror(globstring[STR_COMMENTING],enfinfo.fib_FileName,err);
+                            a=checkerror(globstring[STR_COMMENTING],enfinfo->fib_FileName,err);
                             if (a==1) continue;
                         }
                         break;
@@ -473,12 +473,12 @@ if (entry) DeleteFile(name);
                 }
                 if (dowhat&R_PROTECT) {
                     pstuff=(int *)data;
-                    b=getnewprot(enfinfo.fib_Protection,pstuff[0],pstuff[1]);
+                    b=getnewprot(enfinfo->fib_Protection,pstuff[0],pstuff[1]);
                     FOREVER {
                         if (!(SetProtection(name,b))) {
                             err=IoErr();
                             doerror(err);
-                            a=checkerror(globstring[STR_PROTECTING],enfinfo.fib_FileName,err);
+                            a=checkerror(globstring[STR_PROTECTING],enfinfo->fib_FileName,err);
                             if (a==1) continue;
                         }
                         break;
@@ -493,7 +493,7 @@ if (entry) DeleteFile(name);
                         if ((err=setdate(name,(struct DateStamp *)data))!=1) {
                             err=IoErr();
                             doerror(err);
-                            a=checkerror(globstring[STR_DATESTAMPING],enfinfo.fib_FileName,err);
+                            a=checkerror(globstring[STR_DATESTAMPING],enfinfo->fib_FileName,err);
                             if (a==1) continue;
                         }
                         break;
@@ -504,7 +504,7 @@ if (entry) DeleteFile(name);
                     }
                 }
                 if (dowhat&R_HUNT) {
-                    suc=huntfile(enfinfo.fib_FileName,name,&a);
+                    suc=huntfile(enfinfo->fib_FileName,name,&a);
                     ret+=a;
                     if (suc) {
                         if (suc==-1) {
@@ -536,11 +536,11 @@ skipgetnam:
                 }
             }
         }
-        if (mylock) cont=ExNext(mylock,&myfinfo);
+        if (mylock) cont=ExNext(mylock,myfinfo);
         else
          {
           entry = entry->next;
-          if (entry) arcfillfib(&myfinfo,entry);
+          if (entry) arcfillfib(myfinfo,entry);
           cont--;
          }
 

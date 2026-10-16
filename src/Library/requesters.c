@@ -51,8 +51,7 @@ struct TextAttr
 
 /* Open requester */
 
-struct Window * __saveds
-R_OpenRequester(register struct RequesterBase *reqbase __asm("a0"))
+__saveds struct Window *R_OpenRequester(REG(a0, struct RequesterBase *reqbase))
 {
     struct NewWindow newwin;
     struct Screen *screen,screendata;
@@ -260,7 +259,7 @@ R_OpenRequester(register struct RequesterBase *reqbase __asm("a0"))
 }
 
 void __saveds
-R_CloseRequester(register struct RequesterBase *reqbase __asm("a0"))
+R_CloseRequester(REG(a0, struct RequesterBase *reqbase))
 {
     if (reqbase->rb_window) {
         CloseWindow(reqbase->rb_window);
@@ -272,8 +271,8 @@ R_CloseRequester(register struct RequesterBase *reqbase __asm("a0"))
 }
 
 APTR __saveds
-R_AddRequesterObject(register struct RequesterBase *reqbase __asm("a0"),
-    register struct TagItem *taglist __asm("a1"))
+R_AddRequesterObject(REG(a0, struct RequesterBase *reqbase),
+    REG(a1, struct TagItem *taglist))
 {
     struct RequesterObject *object=NULL,*tempobject;
     struct PrivateData *private;
@@ -668,8 +667,8 @@ R_AddRequesterObject(register struct RequesterBase *reqbase __asm("a0"),
 }
 
 void __saveds
-R_RefreshRequesterObject(register struct RequesterBase *reqbase __asm("a0"),
-    register struct RequesterObject *object __asm("a1"))
+R_RefreshRequesterObject(REG(a0, struct RequesterBase *reqbase),
+    REG(a1, struct RequesterObject *object))
 {
     USHORT count;
     struct RastPort *rp;
@@ -781,13 +780,13 @@ R_RefreshRequesterObject(register struct RequesterBase *reqbase __asm("a0"),
     }
 }
 
-void __saveds R_ObjectText(register struct RequesterBase *reqbase __asm("a0"),
-    register short left __asm("d0"),
-    register short top __asm("d1"),
-    register short width __asm("d2"),
-    register short height __asm("d3"),
-    register char *text __asm("a1"),
-    register unsigned short textpos __asm("d4"))
+void __saveds R_ObjectText(REG(a0, struct RequesterBase *reqbase),
+    REG(d0, short left),
+    REG(d1, short top),
+    REG(d2, short width),
+    REG(d3, short height),
+    REG(a1, char *text),
+    REG(d4, unsigned short textpos))
 {
     struct RastPort *rp;
     short x,y,text_width,text_height,cx,cy,len,got_uscore=-1,uscoreok=1;

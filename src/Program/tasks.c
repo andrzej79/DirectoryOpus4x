@@ -642,7 +642,7 @@ int x,y,val,total;
     RectFill(prp,x,y,x+w-1,y+prp->Font->tf_YSize-1);
 }
 
-struct InputEvent * __saveds keyhandler(register struct InputEvent *oldevent __asm("a0"),register APTR userdata __asm("a1"))
+__saveds struct InputEvent *keyhandler(REG(a0, struct InputEvent *oldevent),REG(a1, APTR userdata))
 {
     int wakeup=0;
     struct dopushotkey *hotkey;

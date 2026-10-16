@@ -152,7 +152,7 @@ char *argv[];
     WorkbenchBase=OpenLibrary("workbench.library",37);
     CxBase=OpenLibrary("commodities.library",37);
     RexxSysBase=(struct RxsLib *)OpenLibrary("rexxsyslib.library",0);
-    UtilityBase=(struct UtilityBase *)OpenLibrary("utility.library",37);
+    UtilityBase=OpenLibrary("utility.library",37);
     CyberGfxBase=OpenLibrary("cybergraphics.library",40);
     PopupMenuBase=(struct PopupMenuBase *)OpenLibrary(POPUPMENU_NAME, 9);
 
@@ -171,7 +171,7 @@ char *argv[];
 //    PPBase=(struct PPBase *)open_dopus_library("powerpacker.library",0);
     MUSICBase=(struct MusicBase *)open_dopus_library("inovamusic.library",0);
     ScreenNotifyBase=OpenLibrary("screennotify.library",0);
-    LocaleBase = OpenLibrary("locale.library",38);
+    LocaleBase = (struct LocaleBase *)OpenLibrary("locale.library",38);
 
     /* Restore window pointer now that we've got our libraries */
 
@@ -1686,6 +1686,7 @@ struct Library *OpenXADlib(void)
    }
   return (struct Library *)xadMasterBase;
  }
+#undef atoi  /* a macro in vbcc's stdlib.h */
 int atoi(const char *str)
 {
   int ret;

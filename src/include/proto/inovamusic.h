@@ -5,9 +5,11 @@
 
 #include <clib/inovamusic_protos.h>
 
-#ifdef __GNUC__
+#if defined(__VBCC__)
+#include <inline/inovamusic_protos.h>
+#elif defined(__GNUC__)
 #include <inline/inovamusic.h>
-#endif /* __GNUC__ */
+#endif
 
 #ifndef __NOLIBBASE__
 extern struct MusicBase *

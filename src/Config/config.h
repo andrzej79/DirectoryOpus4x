@@ -53,6 +53,7 @@ the existing commercial status of Directory Opus 5.
 #include <workbench/workbench.h>
 #include <workbench/startup.h>
 #include <proto/all.h>
+#include <compiler.h>
 
 #include <proto/dopus.h>
 #undef CONFIG_VERSION
@@ -607,9 +608,10 @@ extern char
 
 extern struct StringInfo namesinfo,funcsinfo;
 
-#ifdef __SASC_60
+#if defined(__SASC_60) || defined(__VBCC__)
 extern __chip USHORT
     glass_data[2][18],uparrow_data[6],downarrow_data[6],
+    leftarrow_data[6],rightarrow_data[6],
     pageflip_data1[5],pageflip_data2[3];
 #else
 extern USHORT

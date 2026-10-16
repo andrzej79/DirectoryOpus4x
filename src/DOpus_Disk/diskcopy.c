@@ -418,8 +418,8 @@ char *name;
 {
     char infobuf[60],sizebuf[20];
     BPTR lock;
-    struct FileInfoBlock __aligned fib;
-    struct InfoData __aligned info;
+    D_S(struct FileInfoBlock,fib);
+    D_S(struct InfoData,info);
     struct Process *myproc;
     APTR wsave;
 
@@ -431,12 +431,12 @@ char *name;
 
     if (name) {
         if (lock=Lock(name,ACCESS_READ)) {
-            Info(lock,&info);
-            Examine(lock,&fib);
+            Info(lock,info);
+            Examine(lock,fib);
             UnLock(lock);
 
-            getsizestring(sizebuf,((long long)info.id_NumBlocksUsed)*info.id_BytesPerBlock);
-            lsprintf(infobuf,string_table[STR_DISKCOPY_INFODISPLAY],fib.fib_FileName,sizebuf);
+            getsizestring(sizebuf,((long long)info->id_NumBlocksUsed)*info->id_BytesPerBlock);
+            lsprintf(infobuf,string_table[STR_DISKCOPY_INFODISPLAY],fib->fib_FileName,sizebuf);
 
             border_text(reqbase,border,infobuf);
         }
@@ -763,17 +763,17 @@ char *disk;
         myproc->pr_WindowPtr=(APTR)-1;
 
         if (lock=Lock(disk,ACCESS_READ)) {
-            struct FileInfoBlock __aligned info;
+            D_S(struct FileInfoBlock,info);
             char namebuf[FILEBUF_SIZE];
             struct MsgPort *port;
 
-            Examine(lock,&info);
+            Examine(lock,info);
             UnLock(lock);
 
-            BumpRevision(namebuf,info.fib_FileName);
+            BumpRevision(namebuf,info->fib_FileName);
 
             if (port=(struct MsgPort *)DeviceProc(disk)) {
-                char __aligned bstr_name[FILEBUF_SIZE+4];
+                char a_bstr_name[FILEBUF_SIZE+4+3], *bstr_name=(char *)(((LONG)a_bstr_name+3)&~3);
                 ULONG arg;
 
                 bstr_name[0]=strlen(namebuf);

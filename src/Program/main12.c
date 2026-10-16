@@ -87,7 +87,7 @@ static short
 void dodiskinfo(path)
 char *path;
 {
-    struct InfoData __aligned infodata;
+    D_S(struct InfoData,infodata);
     struct RastPort *dirp;
     long i;
 #ifdef __SASC__
@@ -135,9 +135,9 @@ getnewdisk:
                     }
                 }
                 Permit();
-                Info(lock,&infodata);
+                Info(lock,infodata);
                 UnLock(lock);
-                switch (infodata.id_DiskType) {
+                switch (infodata->id_DiskType) {
                     case ID_UNREADABLE_DISK:
                         strcpy(disktxt[1],globstring[STR_UNREADABLE_DISK]);
                         break;
@@ -152,51 +152,51 @@ getnewdisk:
                         strcpy(disktxt[1],diskname);
                         disktxt[1][(strlen(disktxt[1])-1)]=0;
 #ifdef __SASC__
-                        a = i64_uumul( infodata.id_NumBlocks, infodata.id_BytesPerBlock );
+                        a = i64_uumul( infodata->id_NumBlocks, infodata->id_BytesPerBlock );
                         i64_itoa( a, buf1, 40 );
                         b=strlen(buf1);
 #else
-                        a=((long long)infodata.id_NumBlocks)*infodata.id_BytesPerBlock;
+                        a=((long long)infodata->id_NumBlocks)*infodata->id_BytesPerBlock;
                         uquadtostr(buf1,a); b=strlen(buf1);
 #endif
-                        lsprintf(buf,"%ld",infodata.id_NumBlocks);
+                        lsprintf(buf,"%ld",infodata->id_NumBlocks);
                         lsprintf(formstr,"%%%lds %s; %%%ldld %s; %%s",
                             b,globstring[STR_DISKINFO_BYTES],
                             strlen(buf),globstring[STR_DISKINFO_BLOCKS]);
                         getsizestring(buf,a);
-                        lsprintf(disktxt[2],formstr,buf1,infodata.id_NumBlocks,buf);
+                        lsprintf(disktxt[2],formstr,buf1,infodata->id_NumBlocks,buf);
 #ifdef __SASC__
-                        a = i64_uumul( infodata.id_NumBlocksUsed, infodata.id_BytesPerBlock );
+                        a = i64_uumul( infodata->id_NumBlocksUsed, infodata->id_BytesPerBlock );
                         getsizestring(buf,a);
                         i64_itoa( a, buf1, 40 );
 #else
-                        a=((long long)infodata.id_NumBlocksUsed)*infodata.id_BytesPerBlock;
+                        a=((long long)infodata->id_NumBlocksUsed)*infodata->id_BytesPerBlock;
                         getsizestring(buf,a);
                         uquadtostr(buf1,a);
 #endif
-                        lsprintf(disktxt[3],formstr,buf1,infodata.id_NumBlocksUsed,buf);
+                        lsprintf(disktxt[3],formstr,buf1,infodata->id_NumBlocksUsed,buf);
 #ifdef __SASC__
-                        a = i64_uumul( ( infodata.id_NumBlocks-infodata.id_NumBlocksUsed ), infodata.id_BytesPerBlock );
+                        a = i64_uumul( ( infodata->id_NumBlocks-infodata->id_NumBlocksUsed ), infodata->id_BytesPerBlock );
                         getsizestring(buf,a);
                         i64_itoa( a, buf1, 40 );
 #else
-                        a=(infodata.id_NumBlocks-infodata.id_NumBlocksUsed)*((long long)infodata.id_BytesPerBlock);
+                        a=(infodata->id_NumBlocks-infodata->id_NumBlocksUsed)*((long long)infodata->id_BytesPerBlock);
                         getsizestring(buf,a);
                         uquadtostr(buf1,a);
 #endif
-                        lsprintf(disktxt[4],formstr,buf1,(infodata.id_NumBlocks-infodata.id_NumBlocksUsed),buf);
+                        lsprintf(disktxt[4],formstr,buf1,(infodata->id_NumBlocks-infodata->id_NumBlocksUsed),buf);
 
-                        if (infodata.id_NumBlocks) f = ((infodata.id_NumBlocksUsed*100.0)/infodata.id_NumBlocks);
+                        if (infodata->id_NumBlocks) f = ((infodata->id_NumBlocksUsed*100.0)/infodata->id_NumBlocks);
                         else f=100.0;
                         getfloatstr(f,buf); getfloatstr(100.0-f,buf1);
                         lsprintf(disktxt[5],"%s%% %s; %s%% %s",
                             buf,globstring[STR_DISKINFO_FULL],
                             buf1,globstring[STR_DISKINFO_SFREE]);
                         lsprintf(disktxt[6],"%ld %s",
-                            infodata.id_BytesPerBlock,
+                            infodata->id_BytesPerBlock,
                             globstring[STR_DISKINFO_BYTESPERBLOCK]);
-                        lsprintf(disktxt[7],"%ld",infodata.id_NumSoftErrors);
-                        switch (infodata.id_DiskState) {
+                        lsprintf(disktxt[7],"%ld",infodata->id_NumSoftErrors);
+                        switch (infodata->id_DiskState) {
                             case ID_VALIDATING:
                                 strcpy(disktxt[8],globstring[STR_VALIDATING]);
                                 break;
@@ -223,26 +223,26 @@ getnewdisk:
                              {
                               if (fssm = BADDR(((struct DeviceNode *)dl)->dn_Startup))
                                {
-                                if (de = BADDR(fssm->fssm_Environ)) infodata.id_DiskType = de->de_DosType;
+                                if (de = BADDR(fssm->fssm_Environ)) infodata->id_DiskType = de->de_DosType;
                                }
-                              else infodata.id_DiskType = 0x3F3F3F3F;
+                              else infodata->id_DiskType = 0x3F3F3F3F;
                              }
                             UnLockDosList(LDF_DEVICES | LDF_READ);
                            }
                          }
 // end
 /* old code
-                        disktxt[10][0]=(char)((infodata.id_DiskType>>24)&0xff);
-                        disktxt[10][1]=(char)((infodata.id_DiskType>>16)&0xff);
-                        disktxt[10][2]=(char)((infodata.id_DiskType>>8)&0xff);
-                        disktxt[10][3]=(char)(infodata.id_DiskType&0xff)+'0';
+                        disktxt[10][0]=(char)((infodata->id_DiskType>>24)&0xff);
+                        disktxt[10][1]=(char)((infodata->id_DiskType>>16)&0xff);
+                        disktxt[10][2]=(char)((infodata->id_DiskType>>8)&0xff);
+                        disktxt[10][3]=(char)(infodata->id_DiskType&0xff)+'0';
 */
 // new code
-                        *((ULONG *)disktxt[10]) = infodata.id_DiskType;
+                        *((ULONG *)disktxt[10]) = infodata->id_DiskType;
                         if (disktxt[10][3] < 32) disktxt[10][3] += '0';
 // end
                         disktxt[10][4]=0;
-                        switch (infodata.id_DiskType) {
+                        switch (infodata->id_DiskType) {
                             case ID_DOS_DISK:
                                 strcat(disktxt[10]," (OFS)");
                                 break;

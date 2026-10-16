@@ -48,8 +48,8 @@ int view_valid(struct DOpusListView *,int);
 
 char nullstring[]="                                                                                                                                ";
 
-__saveds DoAddListView(register struct DOpusListView *view __asm("a0"),
-  register int count __asm("d0"))
+int __saveds DoAddListView(REG(a0, struct DOpusListView *view),
+  REG(d0, int count))
 {
   struct RastPort *rp;
   int a,addcount=0;
@@ -159,11 +159,11 @@ __saveds DoAddListView(register struct DOpusListView *view __asm("a0"),
   return(addcount);
 }
 
-void __saveds DoFixSliderBody(register struct Window *win __asm("a0"),
-  register struct Gadget *gad __asm("a1"),
-  register int count __asm("d0"),
-  register int lines __asm("d1"),
-  register int show __asm("d2"))
+void __saveds DoFixSliderBody(REG(a0, struct Window *win),
+  REG(a1, struct Gadget *gad),
+  REG(d0, int count),
+  REG(d1, int lines),
+  REG(d2, int show))
 {
   USHORT body,gh,ih,min;
   struct Image *image;
@@ -213,12 +213,12 @@ void __saveds DoFixSliderBody(register struct Window *win __asm("a0"),
   }
 }
 
-void __saveds DoFixSliderPot(register struct Window *win __asm("a0"),
-  register struct Gadget *gad __asm("a1"),
-  register int off __asm("d0"),
-  register int count __asm("d1"),
-  register int lines __asm("d2"),
-  register int show __asm("d3"))
+void __saveds DoFixSliderPot(REG(a0, struct Window *win),
+  REG(a1, struct Gadget *gad),
+  REG(d0, int off),
+  REG(d1, int count),
+  REG(d2, int lines),
+  REG(d3, int show))
 {
   USHORT vert,vh,gh,ih,te,oh;
   float div;
@@ -263,8 +263,8 @@ void __saveds DoFixSliderPot(register struct Window *win __asm("a0"),
   }
 }
 
-void __saveds DoShowSlider(register struct Window *win __asm("a0"),
-  register struct Gadget *gad __asm("a1"))
+void __saveds DoShowSlider(REG(a0, struct Window *win),
+  REG(a1, struct Gadget *gad))
 {
   int ob,ot,y,old_pen,old_mode;
   struct Image *image;
@@ -400,9 +400,9 @@ struct DOpusListView *view;
   restorepens(view);
 }
 
-__saveds DoGetSliderPos(register struct Gadget *gad __asm("a0"),
-  register int count __asm("d0"),
-  register int lines __asm("d1"))
+int __saveds DoGetSliderPos(REG(a0, struct Gadget *gad),
+  REG(d0, int count),
+  REG(d1, int lines))
 {
   int i;
   USHORT vertpot;
@@ -423,10 +423,9 @@ __saveds DoGetSliderPos(register struct Gadget *gad __asm("a0"),
   return(i);
 }
 
-struct DOpusListView * __saveds
-  DoListViewIDCMP(
-    register struct DOpusListView *view __asm("a0"),
-    register struct IntuiMessage *imsg __asm("a1"))
+__saveds struct DOpusListView *  DoListViewIDCMP(
+    REG(a0, struct DOpusListView *view),
+    REG(a1, struct IntuiMessage *imsg))
 {
   int gadgetid,list,x,y,rep,xo,histate=0,offset,itemnum,newoffset,lastout=0,temp;
   ULONG class,idcmpflags;
@@ -720,8 +719,8 @@ struct DOpusListView *view;
   SetDrMd(view->window->RPort,view->odm);
 }
 
-__saveds DoRefreshListView(register struct DOpusListView *view __asm("a0"),
-  register int count __asm("d0"))
+int __saveds DoRefreshListView(REG(a0, struct DOpusListView *view),
+  REG(d0, int count))
 {
   int realcount=0;
 
@@ -747,8 +746,8 @@ __saveds DoRefreshListView(register struct DOpusListView *view __asm("a0"),
   return(realcount);
 }
 
-__saveds DoRemoveListView(register struct DOpusListView *view __asm("a0"),
-  register int count __asm("d0"))
+int __saveds DoRemoveListView(REG(a0, struct DOpusListView *view),
+  REG(d0, int count))
 {
   int realcount=0;
 

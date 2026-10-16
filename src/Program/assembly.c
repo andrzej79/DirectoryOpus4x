@@ -3,7 +3,7 @@
 #include "view.h"
 
 
-void stuffChar(register char c __asm("d0"), register char ** buf __asm("a3"))
+void stuffChar(REG(d0, char c), REG(a3, char ** buf))
 {
     *(*buf) ++ = c;
 }
@@ -13,7 +13,7 @@ void lsprintf(char *str, char *fmt, ...)
     RawDoFmt(fmt,&fmt+1,stuffChar, &str);
 }
 
-int countlines(register struct ViewData *vd __asm("a0"))
+int countlines(REG(a0, struct ViewData *vd))
 {
     register int charcount, linecount;
     register int size, tabsize;
@@ -95,7 +95,7 @@ int countlines(register struct ViewData *vd __asm("a0"))
     return linecount;
 }
 
-int smartcountlines(register struct ViewData *vd __asm("a0"))
+int smartcountlines(REG(a0, struct ViewData *vd))
 {
     unsigned int d1_size, d7_sizebak;
 
@@ -217,7 +217,7 @@ int smartcountlines(register struct ViewData *vd __asm("a0"))
             //_ansicountlines:
                 //movem.l d2-d7/a2,-(sp)
 
-int ansicountlines( register struct ViewData *viewdata __asm("a0") )
+int ansicountlines( REG(a0, struct ViewData *viewdata) )
 {
   register char *a0_buf, *a1_lws;
   int d0_linecount, d1_size, d2_mll, d3_charcount;

@@ -290,7 +290,7 @@ struct DirectoryWindow *findbuffer(dirbuf,win,canchecklocks,onlyreturn)
 char *dirbuf;
 int win,canchecklocks,onlyreturn;
 {
-    struct FileInfoBlock __aligned fblock;
+    D_S(struct FileInfoBlock,fblock);
     int a,founddir=0,ret=0,try,checklocks=0;
     struct DirectoryWindow *dir;
     BPTR lock=0,testlock;
@@ -323,8 +323,8 @@ int win,canchecklocks,onlyreturn;
                     if (!founddir) continue;
                 }
                 if (founddir || (Stricmp(tempbuf,dir->directory))==0) {
-                    if (!(lockandexamine(tempbuf,&fblock)) ||
-                        (CompareDate(&fblock.fib_Date,&dir->dirstamp)!=0)) continue;
+                    if (!(lockandexamine(tempbuf,fblock)) ||
+                        (CompareDate(&fblock->fib_Date,&dir->dirstamp)!=0)) continue;
                     if (!onlyreturn) go_to_buffer(win,dir);
                     ret=1;
                     break;
@@ -550,11 +550,11 @@ int win;
             (dopus_curwin[win]->firstentry->type==ENTRY_DEVICE) ||
             (dopus_curwin[win]->flags & DWF_ARCHIVE))) return;
         else {
-            struct FileInfoBlock __aligned testinfo;
+            D_S(struct FileInfoBlock,testinfo);
 
             main_proc->pr_WindowPtr=(APTR)-1;
-            if (lockandexamine(dopus_curwin[win]->directory,&testinfo)) {
-                if (CompareDate(&dopus_curwin[win]->dirstamp,&testinfo.fib_Date)<0)
+            if (lockandexamine(dopus_curwin[win]->directory,testinfo)) {
+                if (CompareDate(&dopus_curwin[win]->dirstamp,&testinfo->fib_Date)<0)
                     reread=1;
                 else if (!(config->dirflags&DIRFLAGS_EXPANDPATHS) &&
                     dopus_curwin[win]->volumename[0]) {

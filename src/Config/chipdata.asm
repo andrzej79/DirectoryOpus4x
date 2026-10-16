@@ -6,7 +6,7 @@
     XDEF _downarrow_data
 
 
-    section .data_chip,DATA
+    section .data_chip,data,chip
 
 _pageflip_data1:
     dc.w $4000,$a000,$9000,$8800,$fc00

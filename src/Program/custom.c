@@ -1051,16 +1051,16 @@ struct Directory *reload_file(win,name)
 int win;
 char *name;
 {
-    struct FileInfoBlock __aligned fileinfo;
+    D_S(struct FileInfoBlock,fileinfo);
     struct Directory *cust,*ret=NULL;
 
-    if ((lockandexamine(name,&fileinfo))) {
-        if ((cust=findfile(dopus_curwin[win],fileinfo.fib_FileName,NULL)))
+    if ((lockandexamine(name,fileinfo))) {
+        if ((cust=findfile(dopus_curwin[win],fileinfo->fib_FileName,NULL)))
             removefile(cust,dopus_curwin[win],win,FALSE);
         ret=(struct Directory *)addfile(dopus_curwin[win],
-            win,fileinfo.fib_FileName,fileinfo.fib_Size,
-            fileinfo.fib_DirEntryType,&(fileinfo.fib_Date),fileinfo.fib_Comment,
-            fileinfo.fib_Protection,0,FALSE,NULL,NULL,fileinfo.fib_OwnerUID,fileinfo.fib_OwnerGID);
+            win,fileinfo->fib_FileName,fileinfo->fib_Size,
+            fileinfo->fib_DirEntryType,&(fileinfo->fib_Date),fileinfo->fib_Comment,
+            fileinfo->fib_Protection,0,FALSE,NULL,NULL,fileinfo->fib_OwnerUID,fileinfo->fib_OwnerGID);
     }
     else {
         if ((cust=findfile(dopus_curwin[win],BaseName(name),NULL)))
@@ -1073,7 +1073,7 @@ openscriptfile(par,funcdata)
 struct dopusfuncpar *par;
 struct function_data *funcdata;
 {
-    struct FileInfoBlock __aligned fileinfo;
+    D_S(struct FileInfoBlock,fileinfo);
     char buf[512],buf2[512];
     BPTR lock;
     int a;
@@ -1102,13 +1102,13 @@ struct function_data *funcdata;
     else strcpy(buf,"RAM:");
 
     if (lock=Lock(buf,ACCESS_READ)) {
-        Examine(lock,&fileinfo);
-        if (ExNext(lock,&fileinfo)) {
+        Examine(lock,fileinfo);
+        if (ExNext(lock,fileinfo)) {
             FOREVER {
-                if (LStrnCmp(fileinfo.fib_FileName,"dopustemp",9)==0)
-                    lsprintf(funcdata->scriptname,"%s%s",buf,fileinfo.fib_FileName);
+                if (LStrnCmp(fileinfo->fib_FileName,"dopustemp",9)==0)
+                    lsprintf(funcdata->scriptname,"%s%s",buf,fileinfo->fib_FileName);
                 else funcdata->scriptname[0]=0;
-                a=ExNext(lock,&fileinfo);
+                a=ExNext(lock,fileinfo);
                 if (funcdata->scriptname[0]) DeleteFile(funcdata->scriptname);
                 if (!a) break;
             }
@@ -1368,20 +1368,20 @@ filloutdummy(name,fbuf)
 char *name;
 struct Directory *fbuf;
 {
-    struct FileInfoBlock __aligned fib;
+    D_S(struct FileInfoBlock,fib);
 
-    if (!(lockandexamine(name,&fib))) return(0);
+    if (!(lockandexamine(name,fib))) return(0);
     fbuf->last=fbuf->next=NULL;
-    strcpy(fbuf->name,fib.fib_FileName);
-    fbuf->type=fib.fib_DirEntryType;
+    strcpy(fbuf->name,fib->fib_FileName);
+    fbuf->type=fib->fib_DirEntryType;
     if (fbuf->type>=0) fbuf->size=-1;
-    else fbuf->size=fib.fib_Size;
+    else fbuf->size=fib->fib_Size;
     fbuf->subtype=0;
-    fbuf->protection=fib.fib_Protection;
+    fbuf->protection=fib->fib_Protection;
     fbuf->comment=fbuf->dispstr=NULL;
     getprot(fbuf->protection,fbuf->protbuf);
-    seedate(&fib.fib_Date,fbuf->datebuf,1);
-    CopyMem((char *)&fib.fib_Date,&fbuf->date,sizeof(struct DateStamp));
+    seedate(&fib->fib_Date,fbuf->datebuf,1);
+    CopyMem((char *)&fib->fib_Date,&fbuf->date,sizeof(struct DateStamp));
     fbuf->selected=1;
     return(1);
 }

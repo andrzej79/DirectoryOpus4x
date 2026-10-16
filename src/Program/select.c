@@ -408,7 +408,7 @@ int win,o;
                     {
                      if (temp->subtype == ST_SOFTLINK)
                       {
-                       struct FileInfoBlock __aligned fib;
+                       D_S(struct FileInfoBlock,fib);
                        struct DevProc *dp;
                        BPTR ld, lf;
                        char linkbuf[512],buf[256];
@@ -429,23 +429,23 @@ int win,o;
                               {
 //D(bug("Locked\n"));
                                NameFromLock(lf,linkbuf,512);
-                               if (Examine(lf,&fib))
+                               if (Examine(lf,fib))
                                 {
-//D(bug("Examined: type: %ld, name: %s\n",fib.fib_DirEntryType,fib.fib_FileName));
-                                 if (fib.fib_DirEntryType == ST_SOFTLINK) *PathPart(linkbuf) = 0;
+//D(bug("Examined: type: %ld, name: %s\n",fib->fib_DirEntryType,fib->fib_FileName));
+                                 if (fib->fib_DirEntryType == ST_SOFTLINK) *PathPart(linkbuf) = 0;
                                 }
                                UnLock(lf);
                               }
                              else
                               {
 //D(bug("Lock() failed!\n"));
-                               fib.fib_DirEntryType = ST_USERDIR;
+                               fib->fib_DirEntryType = ST_USERDIR;
                               }
                             }
                            FreeDeviceProc(dp);
                            if (ld) UnLock(ld);
                           }
-                        } while (fib.fib_DirEntryType == ST_SOFTLINK);
+                        } while (fib->fib_DirEntryType == ST_SOFTLINK);
                        strcpy(str_pathbuffer[win],linkbuf);
                       }
                      else

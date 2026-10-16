@@ -368,7 +368,7 @@ getroot(name,ds)
 char *name;
 struct DateStamp *ds;
 {
-    struct InfoData __aligned info;
+    D_S(struct InfoData,info);
     BPTR lock1;
     struct FileLock *lock2;
     char *p;
@@ -382,9 +382,9 @@ struct DateStamp *ds;
     p=(char *) BADDR(dl->dl_Name);
     if (p) LStrnCpy(name,p+1,*p);
     if (ds) CopyMem((char *)&dl->dl_VolumeDate,(char *)ds,sizeof(struct DateStamp));
-    Info(lock1,&info);
+    Info(lock1,info);
     UnLock(lock1);
-    return(info.id_DiskState);
+    return(info->id_DiskState);
 }
 
 BPTR getrootlock(lock1)

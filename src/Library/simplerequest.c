@@ -34,8 +34,8 @@ char *get_uscore_text(struct DOpusRemember **,char *,int);
 
 static char *contstring[]={"_Continue"};
 
-__saveds DoDoSimpleRequest(register struct Window *window __asm("a0"),
-    register struct DOpusSimpleRequest *simple __asm("a1"))
+int __saveds DoDoSimpleRequest(REG(a0, struct Window *window),
+    REG(a1, struct DOpusSimpleRequest *simple))
 {
     int
         textlen,a,b,c,cw,cy,cb,sw,height,maxlen,llen,num,gwidth=0,gspace,gx,ty,ac,ogy,

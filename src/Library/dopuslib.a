@@ -239,13 +239,13 @@ romtag:
     dc.l init
 
 VERSION  equ 22
-REVISION equ 18
+REVISION equ 19
 
 dopusname:
     DOPUSNAME
 
 idstring:
-    dc.b 'dopus.library 22.18 (3 Jun 2001) made under GPL license by Jacek Rzeuski',13,10,0
+    dc.b 'dopus.library 22.19 (17 Oct 2026) made under GPL license by Jacek Rzeuski',13,10,0
 
 dosname:
     dc.b 'dos.library',0
@@ -259,7 +259,7 @@ utilityname:
     dc.b 'utility.library',0
 mathieeesingbasname:
     dc.b 'mathieeesingbas.library',0
-    ds.w 0
+    even                ; was "ds.w 0": aligns in PhxAss, not in vasm
 
 init:
     dc.l DOpusBase_SIZEOF

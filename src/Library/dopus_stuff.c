@@ -41,8 +41,8 @@ void freestring(char *);
 
 void __stdargs _XCEXIT(long lcode) { }
 
-__saveds DoReadConfig(register char *name __asm("a0"),
-    register struct ConfigStuff *cstuff __asm("a1"))
+int __saveds DoReadConfig(REG(a0, char *name),
+    REG(a1, struct ConfigStuff *cstuff))
 {
     int a,in,size,pos,b,bk,gad,mv;
     USHORT ver,mag;
@@ -459,8 +459,8 @@ char *str;
     return(newstr);
 }
 
-__saveds DoSaveConfig(register char *name __asm("a0"),
-    register struct ConfigStuff *cstuff __asm("a1"))
+int __saveds DoSaveConfig(REG(a0, char *name),
+    REG(a1, struct ConfigStuff *cstuff))
 {
     int a,out,ret=0;
     struct dopusfiletype *type;
@@ -710,7 +710,7 @@ static short
         {0,0,0,0},
         {0,0,0,0}};
 
-__saveds DoDefaultConfig(register struct ConfigStuff *cstuff __asm("a0"))
+int __saveds DoDefaultConfig(REG(a0, struct ConfigStuff *cstuff))
 {
     int a,b,h,i;
     struct Config *config;
@@ -830,7 +830,6 @@ __saveds DoDefaultConfig(register struct ConfigStuff *cstuff __asm("a0"))
     config->generalscreenflags=SCR_GENERAL_TINYGADS|
                                                             SCR_GENERAL_INDICATERMB|
                                                             SCR_GENERAL_REQDRAG|
-                                                            SCR_GENERAL_NEWLOOKMENU|
                                                             SCR_GENERAL_WINBORDERS;
 
     CopyMem((char *)defaultpalette,(char *)config->new_palette,sizeof(defaultpalette));
@@ -986,7 +985,7 @@ int size;
     return(pos);
 }
 
-__saveds DoGetDevices(register struct ConfigStuff *cstuff __asm("a0"))
+int __saveds DoGetDevices(REG(a0, struct ConfigStuff *cstuff))
 {
     struct DeviceList *devlist;
     struct RootNode *rootnode;
@@ -1057,11 +1056,11 @@ __saveds DoGetDevices(register struct ConfigStuff *cstuff __asm("a0"))
 
 }
 
-void __saveds DoAssignGadget(register struct ConfigStuff *cstuff __asm("a0"),
-    register int bk __asm("d0"),
-    register int gad __asm("d1"),
-    register char *name __asm("a1"),
-    register char *func __asm("a2"))
+void __saveds DoAssignGadget(REG(a0, struct ConfigStuff *cstuff),
+    REG(d0, int bk),
+    REG(d1, int gad),
+    REG(a1, char *name),
+    REG(a2, char *func))
 {
     struct dopusgadgetbanks *bank,*temp;
     int a;
@@ -1090,10 +1089,10 @@ void __saveds DoAssignGadget(register struct ConfigStuff *cstuff __asm("a0"),
     }
 }
 
-void __saveds DoAssignMenu(register struct ConfigStuff *cstuff __asm("a0"),
-    register int men __asm("d0"),
-    register char *name __asm("a1"),
-    register char *func __asm("a2"))
+void __saveds DoAssignMenu(REG(a0, struct ConfigStuff *cstuff),
+    REG(d0, int men),
+    REG(a1, char *name),
+    REG(a2, char *func))
 {
     struct Config *config;
 
@@ -1154,7 +1153,7 @@ struct dopusfiletype *temp;
     }
 }
 
-void __saveds DoFreeConfig(register struct ConfigStuff *cstuff __asm("a0"))
+void __saveds DoFreeConfig(REG(a0, struct ConfigStuff *cstuff))
 {
     int a;
     struct Config *config;
@@ -1209,7 +1208,7 @@ char *str;
     if (str) FreeMem(str,strlen(str)+1);
 }
 
-__saveds DoCheckConfig(register struct ConfigStuff *cstuff __asm("a0"))
+int __saveds DoCheckConfig(REG(a0, struct ConfigStuff *cstuff))
 {
     struct Config *config;
 
@@ -1238,10 +1237,10 @@ char *look_dirs[]={
     "PROGDIR:Requesters/","S:",   "DOpus:Requesters/"
 };
 
-__saveds DoFindSystemFile(register char *name __asm("a0"),
-    register char *buf __asm("a1"),
-    register int size __asm("d0"),
-    register int type __asm("d1"))
+int __saveds DoFindSystemFile(REG(a0, char *name),
+    REG(a1, char *buf),
+    REG(d0, int size),
+    REG(d1, int type))
 {
     char temp[256];
 

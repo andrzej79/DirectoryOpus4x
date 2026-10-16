@@ -55,14 +55,14 @@ struct MusicBase *MUSICBase = NULL;         /* music.library */
 struct Library *CxBase = NULL;              /* commodities.library */
 struct RxsLib *RexxSysBase = NULL;          /* rexxsyslib.library */
 struct Library *AccountsBase = NULL;        /* accounts.library */
-struct UtilityBase *UtilityBase = NULL;     /* utility.library */
+struct Library *UtilityBase = NULL;         /* utility.library */
 struct Library *ScreenNotifyBase = NULL;    /* screennotify.library */
 struct Library *CyberGfxBase = NULL;        /* cybergraphics.library */
 struct PopupMenuBase *PopupMenuBase = NULL; /* popupmenu.library */
 struct xfdMasterBase *xfdMasterBase = NULL; /* xfdmaster.library */
 struct xadMasterBase *xadMasterBase = NULL; /* xadmaster.library */
 struct Library *SysInfoBase = NULL;         /* sysinfo.library */
-struct Library *LocaleBase = NULL;          /* locale.library */
+struct LocaleBase *LocaleBase = NULL;       /* locale.library */
 
 /* Intuition objects */
 

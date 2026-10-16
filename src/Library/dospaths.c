@@ -35,8 +35,8 @@ struct PathList {
     char path[FILEBUF_SIZE];
 };
 
-__saveds DoAssign(register char *name __asm("a0"),
-    register char *dir __asm("a1"))
+int __saveds DoAssign(REG(a0, char *name),
+    REG(a1, char *dir))
 {
     struct RootNode *root;
     struct DosInfo *dosinfo;
@@ -113,7 +113,7 @@ __saveds DoAssign(register char *name __asm("a0"),
     return(ASSIGN_NODEV);
 }
 
-char * __saveds DoBaseName(register char *path __asm("a0"))
+__saveds char *DoBaseName(REG(a0, char *path))
 {
     return FilePart(path);
 /*
@@ -128,25 +128,25 @@ char * __saveds DoBaseName(register char *path __asm("a0"))
 */
 }
 
-__saveds DoPathName(register BPTR lock __asm("a0"),
-    register char *buf __asm("a1"),
-    register int len __asm("d0"))
+int __saveds DoPathName(REG(a0, BPTR lock),
+    REG(a1, char *buf),
+    REG(d0, int len))
 {
     struct PathList *list=NULL,*temp,*first=NULL;
-    struct FileInfoBlock __aligned finfo;
+    D_S(struct FileInfoBlock,finfo);
     BPTR templock;
     struct DOpusRemember *key=NULL;
     int a,it;
 
     buf[0]=it=0;
     do {
-        Examine(lock,&finfo);
+        Examine(lock,finfo);
         if (!(temp=(struct PathList *)
             DoAllocRemember(&key,sizeof(struct PathList),MEMF_CLEAR))) break;
         if (!first) first=temp;
         temp->last=list;
         list=temp;
-        strcpy(list->path,finfo.fib_FileName);
+        strcpy(list->path,finfo->fib_FileName);
         templock=lock;
         lock=ParentDir(lock);
         if (it) UnLock(templock);
@@ -164,9 +164,9 @@ __saveds DoPathName(register BPTR lock __asm("a0"),
     return((int)strlen(buf));
 }
 
-__saveds DoTackOn(register char *path __asm("a0"),
-    register char *file __asm("a1"),
-    register int len __asm("d0"))
+int __saveds DoTackOn(REG(a0, char *path),
+    REG(a1, char *file),
+    REG(d0, int len))
 {
     int a;
 
@@ -176,8 +176,8 @@ __saveds DoTackOn(register char *path __asm("a0"),
     return((int)strlen(path));
 }
 
-__saveds DoCompareLock(register BPTR l1 __asm("a0"),
-    register BPTR l2 __asm("a1"))
+int __saveds DoCompareLock(REG(a0, BPTR l1),
+    REG(a1, BPTR l2))
 {
     return SameLock(l1,l2);
 /*
@@ -206,9 +206,9 @@ static char *pathlists[7]={
     "Workbench","Initial CLI","Shell Process","New CLI",
     "AmigaShell","New_WShell","Background CLI"};
 
-__saveds DoSearchPathList(register char *name __asm("a0"),
-    register char *buf __asm("a1"),
-    register int len __asm("d0"))
+int __saveds DoSearchPathList(REG(a0, char *name),
+    REG(a1, char *buf),
+    REG(d0, int len))
 {
     struct Process *proc,*myproc;
     struct CommandLineInterface *cli;
@@ -254,12 +254,12 @@ __saveds DoSearchPathList(register char *name __asm("a0"),
     return(pass);
 }
 
-__saveds DoCheckExist(register char *name __asm("a0"),
-    register int *size __asm("a1"))
+int __saveds DoCheckExist(REG(a0, char *name),
+    REG(a1, int *size))
 {
     int a=0;
     BPTR mylock;
-    struct FileInfoBlock __aligned myfinfo;
+    D_S(struct FileInfoBlock,myfinfo);
     struct Process *myproc;
     APTR wsave;
 
@@ -267,10 +267,10 @@ __saveds DoCheckExist(register char *name __asm("a0"),
     wsave=myproc->pr_WindowPtr;
     myproc->pr_WindowPtr=(APTR)-1;
     if (mylock=Lock(name,ACCESS_READ)) {
-        Examine(mylock,&myfinfo);
+        Examine(mylock,myfinfo);
         UnLock(mylock);
-        a=myfinfo.fib_DirEntryType;
-        if (size) *size=myfinfo.fib_Size;
+        a=myfinfo->fib_DirEntryType;
+        if (size) *size=myfinfo->fib_Size;
     }
     myproc->pr_WindowPtr=wsave;
     return(a);

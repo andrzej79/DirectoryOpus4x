@@ -30,10 +30,10 @@ the existing commercial status of Directory Opus 5.
 
 #include "dopuslib.h"
 
-__saveds DoStrCombine(register char *buf __asm("a0"),
-    register char *one __asm("a1"),
-    register char *two __asm("a2"),
-    register int lim __asm("d0"))
+int __saveds DoStrCombine(REG(a0, char *buf),
+    REG(a1, char *one),
+    REG(a2, char *two),
+    REG(d0, int lim))
 {
     register int a;
 
@@ -42,9 +42,9 @@ __saveds DoStrCombine(register char *buf __asm("a0"),
     return(StrConcat(buf,two,lim));
 }
 
-__saveds DoStrConcat(register char *buf __asm("a0"),
-    register char *cat __asm("a1"),
-    register int lim __asm("d0"))
+int __saveds DoStrConcat(REG(a0, char *buf),
+    REG(a1, char *cat),
+    REG(d0, int lim))
 {
     register int a,b;
 
@@ -58,8 +58,8 @@ __saveds DoStrConcat(register char *buf __asm("a0"),
     return(0);
 }
 
-__saveds DoAtoh(register unsigned char *buf __asm("a0"),
-    register int len __asm("d0"))
+int __saveds DoAtoh(REG(a0, unsigned char *buf),
+    REG(d0, int len))
 {
     int a,c,d,e,f;
 

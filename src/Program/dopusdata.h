@@ -52,13 +52,13 @@ extern struct MusicBase *MUSICBase;              /* music.library */
 extern struct Library *CxBase;                   /* commodities.library */
 extern struct RxsLib *RexxSysBase;               /* rexxsyslib.library */
 extern struct Library *AccountsBase;             /* accounts.library */
-extern struct UtilityBase *UtilityBase;          /* utility.library */
+extern struct Library *UtilityBase;              /* utility.library */
 extern struct Library *CyberGfxBase;             /* cybergraphics.library */
 extern struct PopupMenuBase *PopupMenuBase;      /* popupmenu.library */
 extern struct xfdMasterBase *xfdMasterBase;      /* xfdmaster.library */
 extern struct xadMasterBase *xadMasterBase;      /* xadmaster.library */
 extern struct Library *SysInfoBase;              /* sysinfo.library */
-extern struct Library *LocaleBase;               /* locale.library */
+extern struct LocaleBase *LocaleBase;            /* locale.library */
 
 extern struct DosLibrary *DOSBase;               /* dos.library */
 extern struct ExecBase *SysBase;                 /* exec.library */

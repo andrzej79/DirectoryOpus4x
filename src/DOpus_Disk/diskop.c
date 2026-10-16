@@ -492,8 +492,8 @@ struct RequesterBase *reqbase;
 char *device,*action;
 {
     BPTR lock;
-    struct InfoData __aligned info;
-    struct FileInfoBlock __aligned fib;
+    D_S(struct InfoData,info);
+    D_S(struct FileInfoBlock,fib);
     struct Process *myproc;
     APTR wsave;
     char blank=0,*message,diskname[40],sizebuf[20];
@@ -506,16 +506,16 @@ char *device,*action;
     myproc->pr_WindowPtr=(APTR)-1;
 
     if (lock=Lock(device,ACCESS_READ)) {
-        Info(lock,&info);
-        switch (info.id_DiskType) {
+        Info(lock,info);
+        switch (info->id_DiskType) {
             case ID_UNREADABLE_DISK:
             case ID_NOT_REALLY_DOS:
                 blank=1;
                 break;
             default:
-                Examine(lock,&fib);
-                strcpy(diskname,fib.fib_FileName);
-                if (!(ExNext(lock,&fib))) blank=1;
+                Examine(lock,fib);
+                strcpy(diskname,fib->fib_FileName);
+                if (!(ExNext(lock,fib))) blank=1;
                 break;
         }
         UnLock(lock);
@@ -525,7 +525,7 @@ char *device,*action;
     myproc->pr_WindowPtr=wsave;
 
     if (!blank && action) {
-        getsizestring(sizebuf,((long long)info.id_NumBlocksUsed)*info.id_BytesPerBlock);
+        getsizestring(sizebuf,((long long)info->id_NumBlocksUsed)*info->id_BytesPerBlock);
 
         lsprintf(message,string_table[STR_DISK_NOT_BLANK],
             device,diskname,sizebuf,action);

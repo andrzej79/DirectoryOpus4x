@@ -36,8 +36,8 @@ typedef struct {
     ULONG ckSize;
 } ChunkHeader;
 
-__saveds DoReadStringFile(register struct StringData *stringdata __asm("a0"),
-    register char *filename __asm("a1"))
+int __saveds DoReadStringFile(REG(a0, struct StringData *stringdata),
+    REG(a1, char *filename))
 {
     int a;
     struct DefaultString *defstr;
@@ -167,7 +167,7 @@ D(bug("Loading .catalog strings\n"));
     return(1);
 }
 
-void __saveds DoFreeStringFile(register struct StringData *stringdata __asm("a0"))
+void __saveds DoFreeStringFile(REG(a0, struct StringData *stringdata))
 {
     if (stringdata) {
         if (stringdata->string_buffer) {

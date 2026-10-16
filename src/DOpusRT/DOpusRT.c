@@ -41,6 +41,7 @@ the existing commercial status of Directory Opus 5.
 #include <graphics/gfxbase.h>
 #include <devices/input.h>
 #include <proto/all.h>
+#include <compiler.h>
 
 #include <proto/dopus.h>
 
@@ -55,7 +56,7 @@ BPTR FindPath(char *);
 
 void InputHandler(void);
 
-char *version="$VER: DOpusRT 4.6 (" __DATE__ ") by Jacek Rzeuski";
+char *version="$VER: DOpusRT 4.7 (" __DATE__ ") by Jacek Rzeuski";
 
 char
     *pathlists[7]={
@@ -75,7 +76,7 @@ char *argv[];
     struct MsgPort *port,*port1;
     struct Process *myproc;
     struct Message msg;
-    struct InfoData __aligned ind;
+    D_S(struct InfoData,ind);
     struct Window *win;
     struct CommandLineInterface *cli;
     void *cont;
@@ -96,9 +97,9 @@ char *argv[];
 
     win=NULL;
     if ((cont=myproc->pr_ConsoleTask)) {
-        arg=(ULONG)(&ind)>>2;
+        arg=(ULONG)(ind)>>2;
         if (SendPacket(cont,ACTION_DISK_INFO,&arg,1))
-            win=(struct Window *)ind.id_VolumeNode;
+            win=(struct Window *)ind->id_VolumeNode;
     }
     out=Output();
 

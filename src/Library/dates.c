@@ -49,7 +49,7 @@ char
 
 char mondays[12]={31,28,31,30,31,30,31,31,30,31,30,31};
 
-__saveds DoStampToStr(register struct DOpusDateTime *dt __asm("a0"))
+int __saveds DoStampToStr(REG(a0, struct DOpusDateTime *dt))
 {
     int day,mon,yr,hr,min,sec,wday,diff;
     struct DateStamp now;
@@ -181,7 +181,7 @@ int *day,*month,*year;
     return(0);
 }
 
-__saveds DoStrToStamp(register struct DOpusDateTime *dt __asm("a0"))
+int __saveds DoStrToStamp(REG(a0, struct DOpusDateTime *dt))
 {
     int day,mon,yr,hr,min,sec,a,b,wday,c;
     char *ptr,monstr[20];
@@ -329,8 +329,8 @@ int *retbuf,t;
     return(ptr+a+1);
 }
 
-__saveds DoCompareDate(register struct DateStamp *date __asm("a0"),
-    register struct DateStamp *date2 __asm("a1"))
+int __saveds DoCompareDate(REG(a0, struct DateStamp *date),
+    REG(a1, struct DateStamp *date2))
 {
     if (!date) return(-1);
     if (!date2) return(1);

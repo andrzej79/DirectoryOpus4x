@@ -29,10 +29,10 @@ the existing commercial status of Directory Opus 5.
 */
 
 /*
-void * AsmCreatePool(register ULONG __asm("d0"),register ULONG __asm("d1"),register ULONG __asm("d2"),register struct ExecBase * __asm("a6"));
-void AsmDeletePool(register void * __asm("a0"),register struct ExecBase * __asm("a6"));
-void * AsmAllocPooled(register void * __asm("a0"),register ULONG __asm("d0"),register struct ExecBase * __asm("a6"));
-void AsmFreePooled(register void * __asm("a0"),register void * __asm("a1"),register ULONG __asm("d0"),register struct ExecBase * __asm("a6"));
+void * AsmCreatePool(REG(d0, ULONG),REG(d1, ULONG),REG(d2, ULONG),REG(a6, struct ExecBase *));
+void AsmDeletePool(REG(a0, void *),REG(a6, struct ExecBase *));
+void * AsmAllocPooled(REG(a0, void *),REG(d0, ULONG),REG(a6, struct ExecBase *));
+void AsmFreePooled(REG(a0, void *),REG(a1, void *),REG(d0, ULONG),REG(a6, struct ExecBase *));
 
 #define	CreatePool(x,y,z)	AsmCreatePool(x,y,z,(struct ExecBase *)SysBase)
 #define	DeletePool(x)		AsmDeletePool(x,(struct ExecBase *)SysBase)
