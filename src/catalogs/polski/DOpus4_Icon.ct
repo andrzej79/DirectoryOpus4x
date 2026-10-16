@@ -1,0 +1,111 @@
+## version $VER: DOpus4_Icon.catalog 1.0 (09.06.2001) © Mariusz Danilewicz <mandi@interia.pl>
+## language polski
+## codeset 0
+;
+; $VER DOpus_Icon.cd 1.1 (06.06.2001)
+;
+STR_REMAP_COLORS
+_Przekoloruj
+; Rema_p colors
+STR_SAVE
+Zapi_sz
+; Sa_ve
+STR_SKIP
+Pom_iï
+; S_kip
+STR_CANCEL
+Ponie_chaj
+; _Cancel
+STR_DELETE
+Skasu_j
+; De_lete
+STR_NEW
+_Nowy
+; _New
+STR_TOOLTYPES
+Parametry:
+; Tool types:
+STR_COMMENT
+Ko_mentarz:
+; Co_mment:
+STR_DEFAULT_TOOL
+Pro_gram:
+; De_fault tool:
+STR_VALIDATING
+Aktualizujë
+; Validating
+STR_WRITE_PROTECTED
+Zabezp. przed zapisem
+; Write protected
+STR_READ_WRITE
+Do odczytu/zapisu
+; Read/Write
+STR_SCRIPT
+Sk_rypt
+; _Script
+STR_ARCHIVED
+Z_archiwizowany
+; _Archived
+STR_READABLE
+_Odczytywalny
+; _Readable
+STR_WRITABLE
+_Zapisywalny
+; _Writable
+STR_EXECUTABLE
+_Wykonywalny
+; _Executable
+STR_DELETABLE
+_Kasowalny
+; _Deletable
+STR_BLOCKS
+Bloków
+; Blocks
+STR_USED
+Uûywanych
+; Used
+STR_FREE
+Wolnych
+; Free
+STR_BLOCK_SIZE
+Rozmiar bl.
+; Block size
+STR_CREATED
+Utworzony
+; Created
+STR_LAST_CHANGED
+Zmieniony
+; Last changed
+STR_BYTES
+Bajtów
+; Bytes
+STR_STACK
+S_tos
+; S_tack
+STR_DISK
+Dysk
+; Disk
+STR_DRAWER
+Katalog
+; Drawer
+STR_TOOL
+Narzëdzie
+; Tool
+STR_PROJECT
+Projekt
+; Project
+STR_TRASH
+Ômietnik
+; Trash
+STR_DEVICE
+Urzâdzenie
+; Device
+STR_KICK
+Kick
+; Kick
+STR_APPICON
+AppIkona
+; AppIcon
+STR_ICON
+Ikona
+; Icon

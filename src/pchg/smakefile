@@ -1,0 +1,39 @@
+# Directory Opus 4 released under the GNU GENERAL PUBLIC LICENSE
+#
+# use smake <option> for the following build options:
+#   clean - to delete built files
+#   all - to rebuild everything
+#
+NAME = pchgr
+
+OBJ1 = BuildFreqTable.o FastDecomp.o HuffCompr.o ParsePCHGr.o PCHGLibr.o
+OBJ2 = SetUserCopListr.o SHAM2PCHGr.o _CXD33.o _CXM22.o
+OBJS = $(OBJ1) $(OBJ2)
+
+# Build the library (default)
+$(NAME): $(OBJS) smakefile
+	oml -v $(NAME).lib $(OBJS)
+
+
+# Delete built files, ignoring any errors
+clean:
+	-Delete >NIL: $(OBJ1)
+	-Delete >NIL: $(OBJ2)
+	-Delete >NIL: $(NAME).lib
+
+
+# Build everything
+all:
+	smake clean
+	smake
+
+
+# Smake default transform
+.c.o:
+	sc $(CFLG) CSOURCE=$*.c
+
+.a.o:
+	asm $*
+
+
+# Module dependencies

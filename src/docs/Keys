@@ -1,0 +1,22 @@
+Directory Opus Internal Key Equivalents
+
+AMIGA-B .... Bufferlist (tiny B button)
+AMIGA-R .... Reselect   (tiny R button)
+AMIGA-S .... Select     (tiny S button)
+AMIGA-A .... ARexx      (tiny A button)
+
+HELP    .... Toggle Help mode
+SPACE   .... Activate other window
+RETURN  .... Activate path field of current window
+-       .... Size window full to the right
+=       .... Center window sizing
+\       .... Size window full to the left
+
+Cursor
+   keys .... Move around in directory windows
++ SHIFT .... Move a page in that direction
++ CTRL  .... Move to beginning/end
++ ALT   .... Move to previous/next buffer
+
+Any key .... Scroll to first entry starting with that letter
++ SHIFT .... Scroll to first file starting with that letter

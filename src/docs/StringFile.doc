@@ -1,0 +1,86 @@
+
+                  Directory Opus external string file format
+
+                        v1.0 (c) 1992 Jonathan Potter
+
+
+The Directory Opus external string file is a file of strings that can be
+modified to change the text strings used in Directory Opus. This is used
+primarily to support non-English languages, but could also be used by
+the user to further customise the program.
+
+The string file is an IFF file of form OSTR (Opus STRings).
+It consists of one header chunk (STHD - STring HeaDer), followed by
+a number of string chunks (STRN).
+
+These structures are defined as follows :
+
+        /* String header chunk - STHD */
+
+        typedef struct {
+            ULONG version;      /* Version of this string file */
+            ULONG stringcount;  /* Number of strings defined */
+            ULONG flags;        /* Flags, set to 0 for now */
+            char  language[20]; /* The name of this language */
+        } StringHeader;
+
+
+        /* String chunk - STRN */
+
+        typedef struct {
+            ULONG string_id;    /* Reference number of this string */
+            char string[];      /* The replacement string, null-terminated */
+        } DOpusString;
+
+
+The detailed meaning of the fields of these structures are:
+
+        StringHeader.version
+
+        This is the version number of this string file. The version number
+        is used by the program reading the string file to determine whether
+        the string file is too old to be usable. Due to the nature of the
+        string file format, strings can be added and deleted without
+        requiring a version number change. However, any change to
+        existing strings should be accompanied by a version number change.
+
+        StringHeader.stringcount
+
+        This gives the number of replacement strings defined by this
+        file (the number of STRN chunks present).
+
+        StringHeader.flags
+
+        Flags field for future expansion, should be 0 for now.
+
+        StringHeader.language
+
+        Allows you to give a name to this string file; typically this
+        will be the name of the language that these strings represent.
+
+
+        DOpusString.string_id
+
+        This is a reference number used by the program reading the
+        string file, and is used to identify each string.
+
+        DopusString.string
+
+        This is the actual replacement string. It may be any length,
+        and must be null-terminated.
+
+
+A typical SIFTed string file fragment might look like this :
+
+        . F0RM 10010 D0ST
+        . . STHD 32 D0ST
+        . . STRN 65 D0ST
+        . . STRN 83 D0ST
+        . . STRN 34 D0ST
+        . . STRN 67 D0ST
+        . . STRN 36 D0ST
+        . . STRN 26 D0ST
+
+
+Note that you do not need to specify all possible strings, nor do they
+have to be in any particular order.

@@ -1,0 +1,21 @@
+Short:    Great filemanager from GP Software
+Author:   Jonathan Potter (original version), Jacek Rzeuski (under GPL license)
+Uploader: Jacek Rzeuski (jrzeuski@neptun.gdansk.tpsa.pl)
+Type:     biz/dopus
+Requires: KS 3.0+, 68020+
+Version:  4.16
+Replaces: DOpus415JRsrc.lha
+
+These sources are released under GPL license. Read README.TXT to get details.
+I didn't marked changes which I did simply because there were lots of them.
+Sorry for that. Binaries compiled from these sources you'll find in
+biz/dopus/DOpus416JRbin.lha archive on Aminet.
+
+You can find original GPL'ed sources in biz/dopus directory of Aminet.
+
+NOTE:
+
+You'll need some 3rd party includes to compile these sources.
+Grab them from Aminet. These sources are prepared for GCC compiler (sources
+in C) and PhxAss (sources in ASM). They should also compile with SAS/C
+after few changes.

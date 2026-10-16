@@ -1,0 +1,218 @@
+STATUS commands.
+
+  Status 1 [set <path>]        - current directory
+  Status 2                     - version
+  Status 3 [set <win>]         - active window (0 or 1)
+  Status 4 <win>               - number of files in window
+  Status 5 <win>               - number of dirs in window
+  Status 6 <win>               - number of entries in window
+  Status 7 <win>               - number of selected files
+  Status 8 <win>               - number of selected dirs
+  Status 9 <win>               - number of selected entries
+  Status 10 <win>              - total bytes in window
+  Status 11 <win>              - total selected bytes
+
+  Status 12 <type> [set <pat>] - select pattern;
+                                   type 0 = name
+                                   type 1 = date
+                                   type 2 = bits
+
+  Status 13 <win> [set <path>] - directory currently open in window
+  Status 14 <win>              - name of disk open in window
+  Status 15 <win>              - bytes free on disk open in window
+  Status 16 <win>              - total bytes on disk open in window
+
+  Status 17 <win> <buf>        - Name of directory in buffer                 *
+  Status 18 <win> <buf>        - Name of disk in buffer                      *
+  Status 19 <win> <buf>        - Free bytes on disk in buffer                *
+  Status 20 <win> <buf>        - Total bytes on disk in buffer               *
+  Status 21 <win> [set <buf>]  - Current buffer displayed in window          *
+
+  Status 22 <win> [set <off>]  - Current offset in window
+
+  Status 24                    - entries that can be displayed per page
+  Status 25 [set <state>]      - configuration changed
+
+  Status 26 [set <string>]     - okay string
+  Status 27 [set <string>]     - cancel string
+
+  Status 28                    - currently iconified?
+                                 Returns 0 = no
+                                         1 = yes
+                                         2 = button iconify
+
+  Status 30 [set <type>]       - Top-text justification
+                                         0 = left
+                                         1 = right
+                                         2 = center
+
+  Status 31                    - Address of the configuration structure
+  Status 33 <type> [set <add>] - Address of the first node. Type :           *
+                                         0 = first filetype
+                                         1 = first gadget bank
+                                         2 = first hotkey
+
+  Status 34                    - Current gadget bank                         *
+
+
+We should probably provide definitions of the latest configuration structures;
+let me know if you think these are needed.
+
+
+* The format of this status command has changed
+
+
+MODIFY parameters.
+
+  The Modify command recognises the following keywords :
+
+    CopyFlags <flags>                : Copy Datestamp        = 1
+                                       Copy Protection bits  = 2
+                                       Copy Comments         = 4
+                                       Set Archive bit       = 8
+                                       Check free space      = 16
+
+    DeleteFlags <flags>              : Ask before commencing = 1
+                                       Ask before each file  = 2
+                                       Ask before dirs       = 4
+                                       Ignore protection     = 8
+
+    ErrorFlags <flags>               : Enable DOS errors     = 1
+                                       Enable Opus errors    = 2
+
+    ListFormat <win> <items>         : Name     = 0
+                                       Size     = 1
+                                       Protect  = 2
+                                       Date     = 3
+                                       Comment  = 4
+                                       Filetype = 5
+
+    GeneralFlags <flags>             : Display Info       = 2
+                                       Double-click       = 8
+                                       Slider activate    = 64
+                                       Click-m-click drag = 128
+
+    IconFlags <flags>                : Make directory icons = 1
+                                       Do actions to icons  = 2
+                                       Auto-select icons    = 4
+
+    ReplaceFlags <flags>             : Always replace = 1
+                                       Never replace  = 2
+                                       Replace older  = 4
+                                       Ask to replace = 8
+
+    SortFlags <flags>                : Reverse sort in left window  = 1
+                                       Reverse sort in right window = 2
+
+    UpdateFlags <flags>              : Update free disk space     = 1
+                                       Scroll to follow           = 2
+                                       Redraw more than a quarter = 4
+                                       StartNotify                = 8
+                                       Left-justify filenames     = 16
+                                       Progress indicator         = 32
+
+    ScrDepth <depth>
+
+    ScreenFlags <flags>              : Default width  = 1
+                                       Default height = 2
+                                       Half-height    = 4
+
+    ScreenMode <mode>                : 1 = Workbench use
+                                       2 = Workbench clone
+                                       other = screen mode ID
+
+    ScrW <width>
+
+    ScrH <height>
+
+    DirFlags <flags>                 : Move to empty buffer   = 1
+                                       ExAll()                = 2
+                                       Auto diskchange        = 4
+                                       Auto diskload          = 8
+                                       Search on double-click = 16
+                                       Re-read changed        = 32
+                                       Search on parent/root  = 64
+                                       Expand paths           = 128
+
+    HelpFile <pathname>
+
+    DefaultTool <toolname>
+
+    ShowDelay <delay>
+
+    ViewPlayFlags <flags>            : Black screen        = 1
+                                       Audio filter off    = 2
+                                       8-bit colour        = 4
+                                       Loop-play           = 8
+                                       Text viewer borders = 16
+                                       Start anims paused  = 32
+
+    FadeTime <time>
+
+    ShowPatBits <flags>              : Hide files with hidden-bit = 1
+
+    ShowPattern <pattern>
+
+    HidePattern <pattern>
+
+    IconifyFlags <flags>             : Memory monitor  = 1
+                                       CPU monitor     = 2
+                                       Date            = 4
+                                       Time            = 8
+                                       No window       = 16
+                                       AppIcon         = 32
+                                       Memory in bytes = 64
+                                       C: and F:       = 128
+
+    ScrClockFlags <flags>            : Memory          = 1
+                                       CPU             = 2
+                                       Date            = 4
+                                       Time            = 8
+                                       Bytes           = 64
+                                       C: and F:       = 128
+
+    ShowFreeFlags <flags>            : Bytes    = 1
+                                       K/Mbytes = 2
+                                       Blocks   = 4
+                                       Percent  = 8
+
+    Font <place> <font> <size>       : General           = 0
+                                       Directory windows = 1
+                                       Text viewer       = 2
+                                       Buttons           = 3
+                                       Menus             = 4
+                                       Status bar        = 5
+                                       Disk names        = 6
+                                       Clock bar         = 7
+                                       Requesters        = 8
+                                       Path fields       = 9
+                                       Button Iconify    = 10
+
+    BankNumber <num>
+
+    DateFormat <flags>               : DOS format           = 1
+                                       International format = 2
+                                       USA format           = 4
+                                       Australian format    = 8
+                                       Name substitution    = 16
+                                       12 hour clock        = 32
+
+    ButtonRows <rows>
+
+    DisplayLength <win> <type> <len> : Name     = 0
+                                       Comment  = 1
+                                       Filetype = 2
+
+    WindowSize <offset>
+
+    SortMethod <win> <item>          : Name     = 0
+                                       Size     = 1
+                                       Protect  = 2
+                                       Date     = 3
+                                       Comment  = 4
+                                       Filetype = 5
+
+    SeparateMethod <win> <method>    : Mix         = 0
+                                       Dirs first  = 1
+                                       Files first = 2
+

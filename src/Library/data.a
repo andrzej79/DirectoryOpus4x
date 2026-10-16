@@ -1,0 +1,68 @@
+; Directory Opus 4
+; Original GPL release version 4.12
+; Copyright 1993-2000 Jonathan Potter
+;
+; This program is free software; you can redistribute it and/or
+; modify it under the terms of the GNU General Public License
+; as published by the Free Software Foundation; either version 2
+; of the License, or (at your option) any later version.
+;
+; This program is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License
+; along with this program; if not, write to the Free Software
+; Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+;
+; All users of Directory Opus 4 (including versions distributed
+; under the GPL) are entitled to upgrade to the latest version of
+; Directory Opus version 5 at a reduced price. Please see
+; http://www.gpsoft.com.au for more information.
+;
+; The release of Directory Opus 4 under the GPL in NO WAY affects
+; the existing commercial status of Directory Opus 5.
+
+    section .data_chip,data
+
+    XDEF _pdb_cycletop
+    XDEF _pdb_cyclebot
+    XDEF _pdb_check
+    XDEF _glass_image1
+    XDEF _glass_image2
+;    XDEF _busydata13
+;    XDEF _busydata20
+
+_pdb_cycletop:
+    dc.w $7f00,$c180,$c180,$c7e0,$c3c0,$c180
+
+_pdb_cyclebot:
+    dc.w $c180,$7f00
+
+_pdb_check:
+    dc.w $0038,$0060,$00c0,$e180,$7300,$3e00,$1c00
+
+_glass_image1:
+    dc.w $0f80,$7070,$c218,$c818,$c018,$7070,$0fbc,$000f
+
+_glass_image2:
+    dc.w $0000,$0f80,$3de0,$37e0,$3fe0,$0f80,$0000,$0000
+
+;_busydata13:
+;    dc.w $0000,$0000
+;    dc.w $0600,$0600,$0f40,$0f40,$3fe0,$3fe0,$7fe0,$7fe0
+;    dc.w $61f0,$7ff0,$7bf8,$7ff8,$f7f8,$fff8,$61fc,$7ffc
+;    dc.w $7f0c,$7ffc,$3fde,$3ffe,$7fbc,$7ffc,$3f0c,$3ffc
+;    dc.w $1ff8,$1ff8,$07f0,$07f0,$01c0,$01c0,$0700,$0700
+;    dc.w $0fc0,$0fc0,$0780,$0780,$0000,$0000,$00c0,$00c0
+;    dc.w $00e0,$00e0,$0040,$0040
+;    dc.w $0000,$0000
+
+;_busydata20:
+;    dc.w $0000,$0000
+;    dc.w $0400,$07c0,$0000,$07c0,$0100,$0380,$0000,$07e0
+;    dc.w $07c0,$1ff8,$1ff0,$3fec,$3ff8,$7fde,$3ff8,$7fbe
+;    dc.w $7ffc,$ff7f,$7efc,$ffff,$7ffc,$ffff,$3ff8,$7ffe
+;    dc.w $3ff8,$7ffe,$1ff0,$3ffc,$07c0,$1ff8,$0000,$07e0
+;    dc.w $0000,$0000

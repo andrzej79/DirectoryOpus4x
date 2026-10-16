@@ -1,0 +1,574 @@
+**about
+Diese Funktion zeigt einige Informationen über das Programm,
+den Autor und das Copyright an.^
+**iconify
+Hiermit wird der Directory Opus Screen geschlossen und es erscheint eine
+Uhr auf der Workbench. Das ist eine Speicherplatzsparende Methode, um
+Diropus immer parat zu haben. Um Das Programm wieder zu aktivieren, muß
+man das Fenster nur einfach mit der rechten Maustaste anklicken.^
+**quit
+Beendet Directory Opus. Wenn die Konfiguration während der Sitzung geändert
+wurde, so wird gefragt, ob sie gespeichert werden soll.^
+**configure
+Das Konfigurationsprogramm von Directory Opus wird geladen.
+Damit sind umfangreiche Manipulationen im Programm möglich! Diropus
+kann völlig frei konfiguriert werden.^
+*arc list
+Der Inhalt aller Archive, die Diropus kennt wird hiermit automatisch
+aufgelistet. Es muß nur das Archiv angewählt sein. Der Archivtyp
+wird von Diropus automatisch erkannt.^
+*arc ext
+Ein Archiv wird entpackt. Dabei werden die Dateien immer in das Ziel-
+verzeichnis entpackt.^
+**archive
+Dient zum Packen von Dateien und Directorys in ein Archiv. Hierbei wird
+der Packer nicht automatisch erkannt (wie auch?!). Es wird der Packer
+benutzt, der in der Konfiguration als erstes erscheint. Das Archiv wird
+im Zielverzeichnis erstellt.^
+**all
+Diese Funktion selektiert ALLE Dateien und Verzeichnisse im aktiven Fenster.^
+**none
+Bewirkt das Gegenteil von ALL, alle Dateien und Verzeichnisse
+werden deselektiert.^
+**toggle
+Diese Funktion wirkt als Selektionsschalter, alle aktiven Dateien werden
+inaktiv und alle inaktiven werden aktiv.^
+**parent
+Diese Funktion liest das Hauptverzeichniss des aktuellen Directorys ein.^
+**root
+Diese Funktion liest das Grundverzeichniss des aktuellen Directorys ein.^
+**saveconfig
+Diese Funktion speichert die aktuelle Konfiguration unter dem Namen der
+geladenen Konfiguration ab. Diese wird also überschrieben. Zuerst versucht
+Diropus das File "Directoryopus.CFG" zu laden. Es wird im aktuellen
+Verzeichniss und dann im S: gesucht. Haben Sie einen Pfad auf Diropus
+gelegt, sollten Sie das File in das S: Verzeichnis legen.^
+**lastsaved
+Diese Funktion setzt die zuletzt geladene Konfiguration wieder als
+aktiv. Wurde Die Konfiguration zwischenzeitlich geändert, so fragt Diropus,
+ob Sie das wirklich tun wollen.^
+**defaults
+Mit dieser Funktion werden die programmierten Voeinstellungen übernommen.
+Das kann nützlich sein, wenn man sich "verkonfiguriert" hat.^
+**date
+Hier können Sie die Zeit und das Datum setzen, z.B. wenn Sie keine Hardware-
+Uhr haben.^
+**cd
+Hiermit wird das aktuelle Arbeitsverzeichnis für Diropus gesetzt.^
+**errorhelp
+Hier gibt es Informationen über Amigados-Fehlermeldungen. Diese sind etwas
+ausführlicher als im Handbuch.^
+**format
+Dies dient zum Formatieren einer leeren Diskette.
+
+Wenn Sie diese Funktion anwählen erscheint ein Requester mit mehreren
+Knöpfen. Sie können hier das (oder die) Laufwerke einstellen und den
+Namen der neuen Diskette eingeben.
+
+Mit Verify wird die Diskette auch gleich geprüft.
+
+Wählen Sie Quick, so können schon Formatierte Disketten sehr schnell
+gelöscht werden. Das geht aber nur mit Disketten, die vorformatiert sind!
+
+Wird die Option NoIcons selektiert, wird das Verzeichnis Trashcan nicht
+mitangelegt.
+
+FFS formatiert die Disketten unter dem OS2.0 Filesystem, diese Disketten
+können nur unter Kickstart 2.0 gelesen werden.^
+**diskcopy
+Mit dieser Funktion lassen sich Disketten kopieren.^
+**install
+Diese Funktion installiert einen Bootblock auf einer Diskette
+und macht diese damit Bootfähig.
+Wenn Sie nur Check wählen, so wird geprüft, ob auf dieser Diskette
+ein Standart-Bootblock ist. Sollte das nicht der Fall sein, ist es
+ratsam, die Diskette mit einem Viruschecker zu prüfen!^
+**relabel
+Diese Funktion gestattet es die Diskette im aktiven Fenster umzubenennen.^
+**search
+Mit dieser Funktion werden alle Dateien im aktuellen Fenster auf den
+Inhalt einer bestimmten Zeichenfolge untersucht. Wird eine Datei gefunden,
+so kann diese auch gleich angezeigt werden. Anschließend kann man entscheiden
+ob man weitersuchen lässt, oder abbrechen will.^
+**protect
+Diese Funktion erlaubt es, die Schutzbits einer Datei oder Verzeichnisses zu
+ändern. Dabei haben die einzelnen Bits folgende Bedeutungen:
+H (Hidden) Die Datei wird unsichtbar.
+S (Script) Eine Scriptdatei kann ohne "Execute" gestartet werden.
+P (Pure)   Das Programm kann resident gemacht werden.
+A (Archived) Die Datei wurde von einer Festplatte gesichert.
+R (Readable) Die Datei kann gelesen werden.
+W (Writeable) Die Datei kann beschrieben werden.
+E (Executable) Die Datei ist ein Programm.
+D (Deletable) Die Datei ist nicht vorm Löschen geschützt.
+Um die Bits ein- oder auszuschalten müssen nur die Buchstaben angeklickt
+werden.^
+**printdir
+Diese Funktion gibt das aktuelle Verzeichnis auf dem mit Preferences
+eingestellten Drucker aus.^
+**print
+Mit dieser Funktion werden alle gewählten Dateien ausgedruckt. Dabei sind
+sehr viele Parameter einstellbar.
+
+Die Parameter entsprechen den Voreinstellungen von dem Preferences Programm
+auf der Workbench.
+Weiterhin kann noch ein Titel angegeben werden, der vor jeder Seite
+gedruckt wird. Dabei können Dateiname, Zeit und Setiennummer mitgedruckt
+werden.^
+**hunt
+Diese Funktion erlaubt die Suche nach einer Datei in allen selektierten
+Verzeichnissen. Wird die Datei gefunden, so wird das Verzeichnis angezeigt
+und die Datei wird selektiert. Wildcards sind erlaubt.^
+**encrypt
+Diese Funktion verschlüsselt Dateien mit Hilfe eines Codewortes. Die
+verschlüsselte Datei wird dabei in das Zielverzeichnis kopiert. Wird
+vor dem Codewort ein "-" (Minus) eingegeben, wird die Datei entschlüsselt.^
+**datestamp
+Diese Funktion erlaubt es, das Erstellungsdatum einer Datei zu verändern.^
+**comment
+Mit dieser Funktion wird ein Kommentar zu einer Datei verändert oder
+erstellt. Bitte darauf achten, daß nur 79 Zeichen zulässig sind.^
+**assign
+Hiermit wird dem aktuellen Verzeichnis ein logisches Laufwerk zugewiesen.
+Das ermöglicht es, einen Verzeichnisnamen abzukürzen, z.B:
+Dh0:Programme/text/wichtig/Geschäft  wird zu txt:.^
+**addicon
+Mit dieser (sehr schönen) Funktion wird ein Icon zu einem Verzeichnis,
+oder zu einer Datei erstellt, so daß diese auch auf der Workbench sichtbar
+werden. Dabei erkennt Diropus automatisch den Typ des Icons. Es können auch
+Icons im Konfigurationsprogramm vorgegeben werden.^
+**addbuffers
+Dieser Befehl erstellt einen Cache-Puffer für das angegebene Laufwerk.
+Damit lassen sich einige Funktionen (besonders bei Floppys) stark be-
+schleunigen. Diese Puffer kosten aber auch Speicher!^
+**makedir
+Diese Funktion erzeugt ein neues Verzeichnis.^
+**delete
+Diese Funktion löscht ALLE selektierten Dateien und Verzeichnisse aus dem
+aktiven Fenster. Hier können im Konfigurationsprogramm Sicherheitsabfragen
+eingebaut werden.^
+**copy
+Diese Funktion kopiert alle selektierten Dateien und Verzeichnisse in das
+zweite Fenster. Es wird immer vom Aktiven ins Nichtaktive kopiert.^
+**clone
+Diese Funktion erstellt Kopien der selektierten Dateien und Verzeichnisse
+im selben Verzeichnis, aber unter einem anderen Namen.^
+**rename
+Diese Funktion erlaubt es Dateien und Verzeichnisse umzubenennen. Dabei
+können mehrere Dateien auf einen Schlag mit einer Endung versehen werden.
+Dazu muß nur im unteren Teil des Requesters ein *. Angegeben werden.^
+**move
+Diese Funktion verschiebt eine Datei oder ein Verzeichnis in das andere
+Fenster. Dabei wird das Original gelöscht.^
+**nnmove
+Diese Funktion verschiebt alle selektierten Dateien und Verzeichnisse in
+das Zielverzeichnis. Dabei wird jeder Datei ein neuer Name gegeben.^
+**run
+Diese Funktion startet ein ausführbares Programm. In den erscheinenden
+Requester könnnen Argumente eingegeben werden.^
+**execute
+Diese Funktion startet eine Scriptdatei.^
+**play
+Mit dieser Funktion werden Samples im 8SVX-Format abgespielt. Wenn sich die
+STOPUS.Library im Libs: Verzeichniss befindet, werden sogar Soundtracker
+Lieder abgespielt. Dasselbe erreicht man durch einen Doppelklick auf die
+Datei.^
+**playst
+Mit dieser Funktion wird ein Soundtracker Musikstück abgespielt. Dabei
+wird nicht geprüft, ob der Filename ein "mod." enthält.^
+**stopst
+Diese Funktion stopt das Abspielen eines Soundtracker-Liedes.^
+**contst
+Diese Funktion startet ein mit stopst angehaltenes Stück wieder.^
+**show
+Mit dieser Funktion können Icons, Fonts und IFF-Blider angezeigt werden. Es
+ist aber auch möglich, einfach die betreffende Datei mit einem Doppelklick
+anzuwählen. Diropus schaut nach was das ist und zeigt es dann an!
+Während das Bild angezeigt wird, läßt sich durch drücken der P-Taste ein
+Ausdruck des Bildes starten. Ein evtl. vorhandenes Colorcycling wird mit der
+Tab-Taste gestartet und auch wieder gestoppt.^
+**read
+Mit dieser Funktion kann man sich Texte anzeigen lassen. Dabei wird die Maus
+zum Scrollen benutzt. Die Geschwindigkeit des Scrollings wird durch die Maus-
+position bestimmt. Allerdings kann auch mit den Cursortasten und der Space-
+taste gescrollt werden.
+Angezeigt werden die aktuelle Zeile und der Prozentsatz des angezeigten
+Textes. Wenn man dorthinklickt, erscheint ein Requester, in den man auch die
+entsprechenden Werte eintragen kann. Weiterhin sind unten rechts noch einige
+Gadgets für T=Oben; B=Unten; U=Seite hoch; D=Seite runter; P=Druck;S=suchen.^
+**hexread
+Hiermit lassen sich auch Dateien ansehen, die nicht nur Text enthalten. Die
+Funktionen sind mit denen des Textanzeigers Identisch.^
+**smartread
+Dies ist die Funktion, die auch beim Doppelklick auf ein Textfile ausgeführt
+wird. Diropus prüft, ob in der Datei Binärzeichen enthalten sind. Ist das
+der Fall, so wird der Hex-reader verwendet, ansonsten der Textanzeiger.^
+**getdevices
+Mit dieser Funktion werden im aktuellen Fenster alle Devices (Geräte)
+angezeigt. Dabei wird angegeben, ob es ein logisches oder ein physikalisches
+Gerät ist. Mit einem Doppelklick wird dann das Device angezeigt. Ebenso sind
+Kopieroperationen möglich.^
+**select
+Hiermit können mehrere Dateien nach einem Suchmuster selektiert werden. Dabei
+sind Wildcards erlaubt. Z.B. *.info selektiert alle Icons in diesem
+Verzeichnis.^
+**arexx
+Mit dieser Funktion kann ein externes ARexx-Programm gestaret werden.^
+**dirtree
+Diese Funktion gibt die gesamte Verzeichnisstruktur als Baum aus, damit kann
+man sehr schnell in ein tiefgelegenes Unterverzeichnis wechseln.^
+**nncopy
+Mit dieser Funktion werden alle selektierten Dateien und Verzeichnisse in
+das inaktive Fenster kopiert. Dabei kann jeder Datei ein neuer Name gegeben
+werden.^
+**lplay
+Diese Funktion spielt 8SVX-Samples oder Soundtrackermodule ab, ohne nach
+deren Ende aufzuhören. Um zu stoppen, muß die linke Maustaste gedrückt werden.^
+**byte
+Hiermit wird in den selektierten Verzeichnissen der Gesamtinhalt ermittelt.^
+**unbyte
+Dies entfernt die Größeneinträge der Byte-Funktion.^
+**reselect
+Mit dieser Funktion werden alle Einträge wieder selektiert, die vor der
+letzten Operation aktiv waren.^
+**rescan
+Das Verzeichnis wird erneut eingelesen. Das ist nützlich, wenn z.B. ein
+Texteditor eine neue Datei anlegt.^
+**bufferlist
+Nit dieser Funktion wird eine Liste aller eingelesenen Verzeichnisse
+angezeigt. Sehr nützlich bei Diskettenbetrieb. Durch Doppelklick kann
+man auch wieder diese Verzeichnisse anzeigen lassen.^
+**clearbuffers
+Mit dieser Funktion werden alle Puffer gelöscht. Das ist nützlich, wenn
+man nicht genug Speicher hat, da die Puffer Speicher kosten.^
+**diskinfo
+Diese Funktion liefert Informationen über die eingelegte Diskette oder
+die Festplatte. Es werden Filesystem, freier und belegter Speicher und
+eventuelle Fehler angezeigt.^
+**version
+Hiermit werden die Versionen von Directory Opus, der Kickstart und der
+Workbench angezeigt.^
+**drivegadgets
+Das sind die Gadgets für die Laufwerke. Durch anklicken wird das Inhalts-
+verzeichnis auf dem aktivem Fenster ausgegeben. Wenn man diese Gadgets mit
+der rechten Maustaste anklickt, ist es möglich noch vier weitere Seiten
+von Laufwerken anzuwählen. Die Laufwerke werden im Konfigurationsprogramm
+eingestellt.^
+*edit
+Mit dieser Funktion wird ein Texteditor aufgerufen und die selektierten
+Dateien werden als Parameter übergeben. Dies ist keine eingebaute Funktion,
+es wird ein externer Editor gestartet. Der Aufruf wird im Konfigurations-
+menü festgelegt.^
+*new file
+Hier wird der Editor auch aufgerufen, aber man wird zur Eingabe eines neuen
+Dateinamens aufgefordert.^
+*!103
+Nicht genug Speicher!
+
+Grund:
+Dein Rechner hat nicht genügend freien Speicher für diese Funktion.
+
+Mögliche Abhilfe:
+Alle nichtbenötigten Fenster schließen, alle Programme beenden.
+Wenn das nicht hilft, solltest Du den Computer neu booten, es steht
+dann evtl. mehr Speicher zur Verfügung. Ansonsten: Speicher kaufen!^
+*!104
+Zu viele Tasks!
+
+Grund:
+Der Amiga ist trotz seines Multitasking-Betriebssystems in der Zahl der
+gleichzeitig laufenden Programme beschränkt.
+
+Mögliche Abhilfe:
+Eins oder mehrere Programme stoppen.^
+*!114
+Falscher Parameter!
+
+Grund:
+Ein Programm erwartet andere Parameter.
+
+Mögliche Abhilfe:
+In der Dokumentation nachschauen.^
+*!115
+Keine Zahl!
+
+Grund:
+Das Programm erwartet eine Zahl als Argument.
+
+Mögliche Abhilfe:
+In der Dokumentation nachschauen.^
+*!116
+Benötigtes Argument fehlt!
+
+Grund:
+Ein Programm erwartet andere Parameter.
+
+Mögliche Abhilfe:
+In der Dokumentation nachschauen.^
+*!117
+Argument hinter "=" fehlt!
+
+Grund:
+Ein Programm erwartet andere Parameter.
+
+Mögliche Abhilfe:
+In der Dokumentation nachschauen.^
+*!118
+Zu viele Argumente!
+
+Grund:
+Ein Programm erwartet andere Parameter.
+
+Mögliche Abhilfe:
+In der Dokumentation nachschauen.^
+*!119
+Ungleiche anzahl von Gänsefußchen!
+
+Grund:
+Ein Programm erwartet andere Parameter.
+
+Mögliche Abhilfe:
+In der Dokumentation nachschauen.^
+*!120
+Komandozeile zu lang, oder ungültig!
+
+Grund:
+Fehler in der Komandozeile, oder falsche Argumente.
+
+Mögliche Abhilfe:
+In der Dokumentation nachschauen.^
+*!121
+Datei ist nicht ausführbar!
+
+Grund:
+Falscher Dateiname, oder die Datei ist kein Programm.
+
+Mögliche Abhilfe:
+Den Dateinamen richtig eingeben und kontrollieren, ob die Datei wirklich
+ein Programm ist. Wenn die Datei ein Script ist muß das S-Bit gesetzt sein,
+oder der Execute Befehl verwendet werden.^
+*!122
+Ungültige residente Library!
+
+Grund:
+Es wurde versucht ein Programm zu starten, daß für eine andere (neuere)
+Kickstartversion vorgesehen ist.
+
+Mögliche Abhilfe:
+Eine andere Kickstartversion benutzen.^
+*!202
+Datei oder Directory ist in Gebrauch!
+
+Grund:
+Die Datei oder das Directory wird von einer anderen Applikation bentutzt.
+Mögliche Abhilfe:
+Die andere Applikation beenden, oder ein "assign remove" ausführen.^
+*!203
+Datei oder Directory existiert schon!
+
+Grund:
+Der Name gehört schon zu einem anderen Programm oder Directory.
+
+Mögliche Abhilfe:
+Einen anderen Namen benutzen oder die existierende Datei löschen.^
+*!204
+Directory nicht gefunden!
+
+Grund:
+AmigaDOS kann das angegebene Directory nicht finden. Vielleicht nur
+vertippt?
+
+Mögliche Abhilfe:
+Den Directorynamen überpüfen (Dir-Befehl) und den Befehl neu eungeben.^
+*!205
+Object nicht gefunden!
+
+Grund:
+AmigaDOS kann das angegebene Directory oder Gerät nicht finden. Vielleicht
+nur vertippt?
+
+Mögliche Abhilfe:
+Den Directorynamen überpüfen (Dir-Befehl) und den Befehl neu eungeben.^
+*!206
+Ungültige Window spezifikation!
+
+Grund:
+Dieser Fehler tritt auf, wenn ein Ausgabefenster zu groß oder zu klein
+gewählt wird.
+
+Mögliche Abhilfe:
+Fensterparameter verändern.^
+*!209
+Unbekannter Befehlscode!
+
+Grund:
+Sie haben versucht einen Gerätetreiber etwas zu tun, das er garnicht kann.
+
+Mögliche Abhilfe:
+Sprechen Sie den richtigen Treiber an.^
+*!210
+Ungültiger Dateiname!
+
+Grund:
+Der Dateiname ist länger als 30 Zeichen oder enthält Steuerzeichen.
+
+Mögliche Abhilfe:
+Einen anderen Namen verwenden.^
+*!211
+Invalid object lock
+
+Probable cause:
+You have used something that is not a valid lock.
+
+Recovery suggestion:
+Check that your code only passes valid locks to AmigaDOS calls that
+expect locks.^
+*!212
+Object ist nicht vom richtigen Typ!
+
+Grund:
+Sie haben einen Dateinamen als Directorynamen angegeben oder umgekehrt.
+
+Mögliche Abhilfe:
+In der Dokumentation nachsehen.^
+*!213
+Disk hat keine gültige Blockbelegung!
+
+Grund:
+Wenn Sie gerade eine Diskette eingelegt haben, kann es sein, daß diese
+gerade angemeldet wird. Ebenso kann diese Diskette defekt sein.
+
+Mögliche Abhilfe:
+Wenn Sie die Diskette gerade eingelgt haben, warten Sie noch einen
+Augenblick, bevor Sie darauf zugreifen. Ist dies nicht der Fall, so
+sollten Sie sich vergewissern, daß der "Disk-Validator" auf Ihrer Boot-
+Diskette ist.^
+*!214
+Diskette ist schreibgeschützt!
+
+Der Schreibschutzschieber der Diskette ist nach oben geschoben.
+
+Mögliche Abhilfe:
+Öffnen Sie den Schreibschutz.^
+*!215
+Es wurde versucht mit dem Rename Befehl eine Datei über 2 Geräte zu
+kopieren!
+
+Grund:
+Rename kann Dateien nur auf einem Gerät verschieben.
+
+Mögliche Abhilfe:
+Benutzen Sie statt des Rename Befehls den MOVE oder COPY Befehl.^
+*!216
+Directory ist nicht leer!
+
+Grund:
+Sie haben versucht ein Directory zu löschen, daß nicht leer ist.
+
+Mögliche Abhilfe:
+Löschen Sie alle Dateien und Directorys aus dem Directory.^
+*!217
+Too many levels
+
+Probable cause:
+You've exceeded the limit of 15 soft links.
+
+Recovery suggestion:
+Reduce the number of soft links.^
+*!218
+Gerät ist nicht angemeldet!
+
+Grund:
+Wenn das Gerät eine Diskette ist, ist sie nicht eingelegt. Ist es
+ein anderes Gerät, so muß es mit dem MOUNT Befehl angemeldet werden.
+Oder Sie haben sich vertippt.
+
+Mögliche Abhilfe:
+Die richtige Disk einlegen, den Namen prüfen, oder das Gerät anmelden.^
+*!219
+Seek error
+
+Probable cause:
+You have attempted to call SEEK with invalid arguments.
+
+Recovery suggestion:
+Make sure that you only SEEK within the file. You cannot SEEK outside the
+bounds of the file.^
+*!220
+Kommentar ist zu lang!
+
+Grund:
+Der Kommentar zu dem File hat mehr als 79 Zeichen.
+
+Mögliche Abhilfe:
+Den Kommentar kürzen.^
+*!221
+Diskette ist voll!
+
+Grund:
+Es ist nicht mehr genug Speicherplatz auf der Diskette vorhanden.
+
+Mögliche Abhilfe:
+Löschen Sie einige Dateien von der Diskette, oder nehmen Sie eine leere.^
+*!222
+Datei ist vor dem Löschen geschützt!
+
+Grund:
+Das Schutzbit "d" ist gesetzt.
+
+Mögliche Abhilfe:
+Mit dem POTECT Befehl das Schutzbit löschen.^
+*!223
+Datei ist schreibgeschützt!
+
+Grund:
+Das Schutzbit "w" ist gesetzt.
+
+Mögliche Abhilfe:
+Mit dem PROTECT Befehl das Schutzbit löschen.^
+*!224
+Datei ist lesegeschützt!
+
+Grund:
+Das Schutzbit "r" ist gesetzt.
+
+Mögliche Abhilfe:
+Mit dem PROTECT Befehl das Schutzbit löschen.^
+*!225
+Keine Amigados Diskette!
+
+Grund:
+Die Diskette ist nicht unter Amigados formatiert, garnicht
+formatiert, oder ist defekt.
+
+Abhilfe:
+Diskette formatieren, oder eine andere verwenden.^
+*!226
+Keine Diskette im Laufwerk!
+
+Grund:
+Sie haben vergessen die Disk einzulegen.
+
+Mögliche Abhilfe:
+Na, die Diskette einlegen, was sonst?^
+*!232
+Keine Weiteren Eintäge in diesem Directory!
+
+Grund:
+Der Amigados Aufruf "EXNEXT" hat keine weiteren Einträge in diesem
+Verzeichnis gefunden.
+Dieser Fehler sollte normalerweise nicht auftreten, es könnte ein
+Programmfehler vorliegen!
+
+Mögliche Abhilfe:
+EXNEXT nicht mehr aufrufen.^
+*!233
+Object is soft link
+
+Probable cause:
+You tried to perform an operation on a soft link that should only be
+performed on a file or directory.
+
+Recovery suggestion:
+AmigaDOS uses the Action_Read_Link packet to resolve the soft link and
+retries the operation.^

@@ -1,0 +1,646 @@
+Directory Opus Command Summary, 2nd November 1992
+
+NB : Where commands take optional filenames, names may either be an entry in
+     the active window, or an absolute path name (to an object not necessarily
+     in either window) except where noted, or where it doesn't work :-)
+
+     All the commands relating to Print operations have been left out as their
+     final states are unknown. Also, the IconInfo command may change form
+     when it is moved external.
+
+     Also the list of parameters for the Modify and Status commands has
+     not been finalised yet.
+
+     All Returns are in ARexx RESULT variable except where stated
+
+     <> indicates a required parameter
+     [<>] indicates an optional parameter
+     [] indicates an optional keyword
+
+------------------------------------------------------------------------------
+
+about
+  - Display about information
+
+
+addcustentry <text> [<userdata> [<fgpen> [<bgpen> [<selectable>
+  [<show> [<before>]]]]]]
+  - Adds custom entry to active window
+    <text> text to display for entry
+    <userdata> optional user data for this entry
+    <fgpen> optional pen color to display entry in or -1 for default file color
+    <bgpen> optional background color of entry or -1 for default
+    <selectable> indicates if entry is selectable (default 0)
+    <show> optional boolean to update directory display (default 0)
+    <before> ordinal entry number to add this entry _before_, or -1 for end of
+             the list
+
+    Returns 0 or 1 to indicate failure or success.
+
+
+addcusthandler <portname> [<win>]
+  - Adds custom entry handler to a window
+    <portname> name of handler's message port
+    <win> optional window to add handler to (default = active window)
+
+    Returns name of old custom handler (if there was one)
+
+
+addfile <name> <size> <type> <seconds> <comment> <protection> <reserved> <show>
+  - Adds entry to active window
+    <name> name of entry
+    <size> size in bytes of entry
+    <type> type of entry (<0 file >1 dir)
+    <seconds> datestamp of file in seconds from 1-Jan-78
+    <comment> file comment
+    <protection> protection bits in ascii form
+    <reserved> reserved, must be 0 for now
+    <show> update directory display boolean
+
+    Returns 0 or 1 to indicate failure or success.
+
+
+addicon [<name>]
+  - Adds icon to selected entries
+    <name> optional name of file
+
+
+alarm
+  - Sounds an alarm
+
+
+all
+  - Selects all entries
+
+
+ansiread [<name>]
+  - ANSI reads selected entries
+    <name> optional name of file
+
+
+arexx [<command>]
+  - Executes ARexx command
+    <command> optional command to execute
+
+
+assign [<name>]
+  - Assigns a device name to active window
+    <name> optional name to assign
+
+
+auto [<name>]
+  - Runs "auto func 1" filetype for selected files
+    <name> optional name of file
+
+
+auto2 [<name>]
+  - Runs "auto func 2" filetype for selected files
+    <name> optional name of file
+
+
+beep
+  - Sounds a beep
+
+
+bufferlist
+  - Lists buffered directories in active window
+
+
+busy [on|off]
+
+  - Activates or deactivates busy pointer
+
+
+buttoniconify [<rows> [<bank>]]
+  - Iconifies to button strip
+    <rows> optional number of gadget rows
+    <bank> optional bank number to display initially
+
+
+cd [<path>]
+  - Changes DOpus current directory
+    <path> optional path to make cd
+
+
+checkabort
+  - returns 0 if the abort sequence has not been hit
+            1 if the abort sequence has been hit
+
+
+checkfit
+  - Counts "real" number of bytes in all selected entries and
+    indicates whether they would fit in the destination
+
+
+clearbuffers
+  - Frees up all non-displayed buffers
+
+
+clearsizes
+  - Removes all directory sizes displayed in active window
+
+
+clearwin [<win>]
+  - Clears contents of active window
+    <win> optional window to clear (0 or 1)
+
+
+clone [<name> [<new name>]]
+  - Clones selected entries in active window
+    <name> optional file name
+    <new name> optional new file name
+
+
+comment [<name> [<comment> [recurse]]]
+  - Adds comments to selected entries
+    <name> optional file name
+    <comment> optional comment string
+    recurse - specify to comment dirs recursively
+
+
+configure
+  - Invokes configuration program
+
+
+contst
+  - Continue a paused ST module
+
+
+copy [<name> [<destination>]]
+  - Copy selected entries
+    <name> optional file name
+    <destination> optional destination directory
+
+
+copyas [<name> [<new name>]]
+  - Copy selected entries with new names
+    <name> optional file name
+    <new name> optional new file name
+
+
+copywindow <win>
+  - Copy contents of one window to the other
+    <win> window to copy _from_
+
+
+custreq [<name>]
+  - Run selected file as custom requester
+    <name> optional file name
+
+
+date [<date and time>]
+  - Set system clock to given date and time
+    <date and time> optional date and time to set
+
+
+datestamp [<name> [<date> [recurse]]]
+  - Set datestamp of selected entries
+    <name> optional file name
+    <date> optional date to set
+    recurse - specify to datestamp directories recursively
+
+
+defaults
+  - Restore configuration to default settings
+
+
+delete [<name>]
+  - Delete selected entries
+    <name> optional file name
+
+
+dirtree [<win>]
+  - Generate a directory tree of active window
+    <win> optional window to "tree" (either 0 or 1)
+
+
+diskcopy [<source> <destination> [verify]]
+  - Diskcopy from one source to multiple destinations
+    <source> optional source disk
+    <destinations> destination disk
+    verify - specify to diskcopy with verify on
+
+diskinfo
+  - Give disk information about active window
+
+
+displaydir [<win>]
+  - Refresh directory window display in active window
+    <win> optional window to refresh (0 or 1)
+
+
+dopustoback
+  - Move DOpus screen to the back
+
+
+dopustofront
+  - Move DOpus screen to the front
+
+
+encrypt [<name> [<password>]]
+  - Encrypt selected files with a given password
+    <name> optional file name
+    <password> optional password to use
+
+
+endfunction
+  - End and execute the "external" section of a function immediately
+
+
+errorhelp [<err>]
+  - Produce error help for an error code
+  <err> optional error code
+
+
+execute
+  - Execute selected files as batch files
+
+
+fileinfo <name> [<separator>]
+  - Produce file information for given filename (ARexx only)
+    <name> name of file to give info for (must be in active window)
+    <separator> optional character to separate info with
+
+
+format [<drive> [verify] [quick] [noicons] [ffs] [inter] [cache]]
+  - Format one or more disks
+    <drive> optional drive to format
+    verify - specify to format with verify on
+    quick - specify to quick format
+    noicons - specify to format with no icons
+    ffs - specify to format fast file system
+    inter - specify to format in international mode
+    cache - specify to format in dircaching mode
+
+
+getall [<separator>]
+  - Returns names of all entries in active window (ARexx only)
+    <separator> optional character to separate names with
+
+
+getdevices
+  - Generates device list in active window
+
+
+getdirs [<separator>]
+  - Returns names of all directories in active window (ARexx only)
+    <separator> optional character to separate names with
+
+
+getentry <num>
+  - Returns the name of a given entry (ARexx only)
+    <num> the entry number to return the name of
+
+
+getfiletype <filename>
+  - Returns the filetype (if recognised) of the given file
+    <filename> file to return filetype of
+
+
+getfiles [<separator>]
+  - Returns names of all files in active window (ARexx only)
+    <separator> optional character to separate names with
+
+
+getnextselected
+  - Returns the name of the first selected entry (ARexx only)
+
+
+getselectedall [<separator>]
+  - Returns names of all selected entries in active window (ARexx only)
+    <separator> optional character to separate names with
+
+
+getselecteddirs [<separator>]
+  - Returns names of all selected directories in active window (ARexx only)
+    <separator> optional character to separate names with
+
+
+getselectedfiles [<separator>]
+  - Returns names of all selected files in active window (ARexx only)
+    <separator> optional character to separate names with
+
+
+getsizes
+  - Counts sizes of all selected directories in active window
+
+
+getstring [<message>]
+  - Prompts user to enter a string (ARexx only)
+    <message> optional text for requester
+
+    Returns string in RESULT
+    Returns 0 or 1 in RC to indicate success or failure
+
+
+help
+  - Toggles help mode
+
+
+hexread [<name>]
+  - HEX reads selected files
+    <name> optional name of file
+
+
+hunt [<name> [<pattern>]]
+  - Hunts through directories for given file pattern
+    <name> optional name of directory to hunt
+    <pattern> optional file pattern to hunt for
+
+
+iconify
+  - Iconifies Directory Opus
+
+
+iconinfo [<name>]
+  - Displays and modifies icon information
+    <name> optional name of icon (or file with icon)
+
+
+install [<drive> [ffs] [noboot]]
+  - Installs disks to make them bootable
+    <drive> optional drive to install
+    ffs - specify to force ffs bootblock
+    noboot - makes disk non-bootable
+
+
+lastsaved
+  - Loads last-saved configuration
+
+
+loadconfig <name>
+  - Reads configuration from given filename
+    <name> configuration file to load
+
+    Returns 0 or 1 to indicate success or failure
+
+
+loadstrings <name>
+  - Reads string file from given filename
+    <name> string file to load
+
+    Returns 0 or 1 to indicate success or failure
+
+
+loopplay [<name>]
+  - Continually plays a sound file
+    <name> optional name of file
+
+
+makedir [<name>]
+  - Creates a directory in active window
+    <name> optional name of directory
+
+
+modify <number> <value>
+  - Modifies configuration parameter
+    <number> number of item to modify
+    <value> new value
+
+
+move [<name> [<destination>]]
+  - Moves selected entries to destination window
+    <name> optional name of file
+    <destination> optional destination path
+
+
+moveas [<name> [<new name>]]
+  - Moves and renames selected entries
+    <name> optional name of file
+    <new name> optional new file name
+
+
+newcli [<handle>]
+  - Creates a new CLI window
+    <handle> optional CLI handle to use
+
+
+nextdrives
+  - Flips to the next bank of drive gadgets
+
+
+none
+  - Deselects all entries in active window
+
+
+otherwindow
+  - Activates the inactive window
+
+    Returns number of new active window
+
+
+parent
+  - Reads parent directory of active window
+
+
+patternmatch <pattern> <string>
+  - Attempts to match a string to a pattern (ARexx only)
+    <pattern> pattern string
+    <string> string to match to pattern
+
+
+play [<name>]
+  - Plays selected files
+    <name> optional name of file
+
+
+playst [<name>]
+  - Attempts to play selected files as modules
+    <name> optional name of file
+
+
+protect [<name> <bits> [recurse]]
+  - Sets protection bits of selected files
+    <name> optional name of file
+    <bits> bits to set on given file
+    recurse - specify to protect directories recursively
+
+
+quit
+  - Quits the program
+
+
+read [<name>]
+  - Reads selected files
+    <name> optional name of file
+
+
+redraw
+  - Redraws display
+
+
+relabel [<device> <newname>]
+  - Relabels current disk
+    <device> optional device to relabel
+    <newname> new name to give to selected device
+
+
+remember <item>
+  - Stores contents of given configuration item in memory
+
+
+removeentry <number> <show>
+  - Removes an entry by ordinal number
+    <number> number of entry to remove
+    <show> boolean indicates whether to update display
+
+
+removefile <name> <show>
+  - Removes given entry from active window
+    <show> boolean indicates whether to update display
+
+
+rename [<name> <newname>]
+  - Renames selected entries
+    <name> optional name of file
+    <newname> newname to give to selected file
+
+
+request <message>
+  - Displays requester with given message text
+    Returns : 1 if Okay was selected
+              0 if Cancel was selected
+
+
+rescan [<win>]
+  - Rescans active window
+    <win> optional window to rescan
+
+
+reselect
+  - Reselects previously-selected entries in active window
+
+
+restore
+  - Restores contents of a previously Remember'd configuration item
+
+
+root
+  - Reads root directory of active window
+
+
+run [<name>]
+  - Runs selected files
+    <name> optional name of file
+
+
+saveconfig [<filename>]
+  - Saves configuration to config file
+    <filename> optional configuration file to save to
+
+
+scandir <path> [<win>]
+  - Reads given path into active window
+    <path> path to read
+    <win> optional window to read path in to
+
+
+scrollh <win> <chars>
+  - Scrolls given window horizontally by a given amount
+    <win> window to scroll
+    <chars> characters to scroll
+
+    Returns : new horizontal position
+
+
+scrolltoshow <win> <entry>
+  - Scrolls given window (if necessary) to make a given entry visible
+    <win> window to scroll or -1 for active window
+    <entry> entry to make visible. May be either a name or wildcard pattern,
+            or the ordinal number of the desired entry.
+
+    Returns 0 or 1 to indicate if the entry could be found
+
+
+scrollv <win> <lines>
+  - Scrolls given window vertically by a given amount
+    <win> window to scroll
+    <lines> lines to scroll
+
+    Returns : new vertical position
+
+
+search [<name> <pattern>]
+  - Searches selected files for given text pattern
+    <name> optional name of file
+    <pattern> text pattern to search for
+
+
+select [<pattern> [onlyfiles|onlydirs] [name|date|protection]]
+  - Selects entries by wildcard pattern
+    <pattern> optional pattern to select by
+    onlyfiles - specify to select only files
+    onlydirs - specify to select only dirs
+    name - specify to match on name
+    date - specify to match on date
+    protection - specify to match on protection
+
+
+selectentry <number>
+  - Selects an entry in the active window
+    <number> ordinal number of entry to select
+
+    Returns new old selection status of entry or -1 if it could not be found
+
+
+selectfile <name> [<state> [<show>]]
+  - Selects a given entry in the active window
+    <name> name of entry to select
+    <state> optional selection state (0=off, 1=on) default=-1 (toggle)
+    <show> optional boolean indicating whether to update display
+
+    Returns new old selection status of entry or -1 if it could not be found
+
+
+setwintitle <title>
+  - Sets title of active window to given string
+    <title> title string to use
+
+
+show [<name>]
+  - Attempts to show selected files
+    <name> optional name of file
+
+
+smartread [<name>]
+  - Smart reads selected files
+    <name> optional name of file
+
+
+status <value> [set <newvalue>]
+  - Reads or sets given status values
+    Status value list is not completed yet
+
+
+stopst
+  - Stops a playing sound module in progress
+
+
+swapwindow
+  - Swaps the contents of the two directory windows
+
+
+toggle
+  - Toggles the selection state of all entries in the active window
+
+
+toptext <text>
+  - Displays given string in the status bar
+    <text> text string to display
+
+
+uniconify
+  - Returns to main program from iconified state
+
+
+verify [<text>]
+  - Displays "Are you sure?" requester, which will abort a multi-function
+    function.
+    <text> optional text to display in requester
+
+    Returns : 0 if cancel
+              1 if okay
+
+
+version
+  - Displays system and program version in status bar
