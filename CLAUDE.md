@@ -27,7 +27,7 @@ make install    # copy dist tree to TARGET_DIR (~/Documents/Amiga/amiga_uae_disk
 make ftp        # build + upload dist tree to Work:DirOpus4x/ (FTP_DIR=...)
 make protos     # regenerate src/include/inline/*_protos.h via tools/fd2vbcc.py
 make catalogs   # check src/catalogs/*.cd, compile the .ct files (part of make)
-make lha        # build + pack the dist tree into release/DirectoryOpus417.lha (git-ignored)
+make lha        # build + pack release/DOpus4x.lha and DOpus4x.readme for Aminet (git-ignored)
 make -C src/Config    # one component
 ```
 
@@ -64,9 +64,11 @@ make -C src/Config    # one component
   - `sdk/stubs/pm_stubs.c` (popupmenu varargs functions, compiled into Program).
 
   Don't edit `sdk/`. Change `tools/fetch_sdk.sh` and re-run it.
-- `icons/`: Workbench icons. `make` copies `DirectoryOpus.info` into the dist tree and clears its
-  snapshot position there (`tools/amiSnapRemove.py`), so Workbench places it itself.
-- Distribution layout: `DirectoryOpus`, `DirectoryOpus.info`, `C/DOpusRT`, `Libs/dopus.library`, `Modules/*`, `S/*.HLP`.
+- `icons/`: Workbench icons. `make` copies `DirectoryOpus.info` into the dist tree and
+  `drawer.info` next to it as `build/DirectoryOpus4x.info`, and clears their snapshot positions
+  there (`tools/amiSnapRemove.py`), so Workbench places them itself.
+- Distribution layout: `DirectoryOpus`, `DirectoryOpus.info`, `ChangeLog`, `COPYING` (the
+  `LICENSE`), `C/DOpusRT`, `Libs/dopus.library`, `Modules/*`, `S/*.HLP`, `Catalogs/*/*.catalog`.
   This matches `look_dirs[]` in `src/Library/dopus_stuff.c` (`PROGDIR:` first).
 
 ## Code formatting
@@ -161,6 +163,17 @@ the `.cd` lists the enum in order and its texts equal `default_strings[]`.
 - `catcomp.py` warns when a translation uses printf conversions the English text doesn't have.
 - Build output: `Catalogs/<language>/*.catalog` in the dist tree. `tools/ftpput.py` sends file names
   as Latin-1 (`español`).
+
+## Release (Aminet)
+
+- Aminet package `biz/dopus/DOpus4x.lha`. Re-uploads keep that name, so the version goes only
+  into the readme (from `$VER` in `Program/about.c`), never into the file name.
+- `ChangeLog`: plain ASCII, at most 78 columns, newest version first. Add an entry for each
+  user-visible change or fix.
+- `aminet/DOpus4x.readme`: ASCII, at most 78 columns, LF. `@VERSION@`/`@UPLOADER@` are filled
+  in by `make lha` (`UPLOADER` from the git-ignored `aminet.local`), which appends `ChangeLog`
+  to the release readme. `tools/aminet_check.py` enforces the Aminet rules.
+- Nothing is uploaded to Aminet without the user's explicit go-ahead.
 
 ## Testing
 

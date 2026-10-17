@@ -1,0 +1,53 @@
+Short:        Directory Opus 4.x file manager
+Author:       Jonathan Potter, Jacek Rzeuski, Andrzej Rogozynski
+Uploader:     Andrzej Rogozynski <@UPLOADER@>
+Type:         biz/dopus
+Version:      @VERSION@
+Architecture: m68k-amigaos >= 3.0.0
+Requires:     68020+
+Kurz:         Directory Opus 4.x Dateimanager
+
+Directory Opus 4 is the classic two-pane file manager by GP Software,
+released under the GPL in 2000.  Jacek Rzeuski continued it up to 4.16
+(biz/dopus/DOpus416JRbin.lha).  4.x carries on from there: the 4.16
+sources, built with vbcc for the 68020 (no FPU needed), with bug fixes
+and new features.  The ChangeLog below lists what has changed.
+
+Installation
+------------
+
+Unpack the archive anywhere and start DirectoryOpus from the
+DirectoryOpus4x drawer.  The drawer is self-contained:
+
+  DirectoryOpus         the program
+  Libs/dopus.library    found here, unless LIBS: has its own copy
+  Modules/              ConfigOpus, DOpus_Disk, DOpus_Icon, DOpus_Print
+  C/DOpusRT             runs commands for DOpus and waits for a key
+  S/                    help files (English and translations)
+  Catalogs/             deutsch, espanol, francais, italiano, polski, suomi
+
+DirectoryOpus opens dopus.library from LIBS: first.  If an older
+dopus.library is in LIBS:, delete it or replace it with the one in Libs/.
+If one is already in memory, quit DirectoryOpus and run "avail flush".
+The configuration files of 4.16 can be used as they are.
+
+Requirements
+------------
+
+- AmigaOS 3.0 or newer, 68020 or better.
+- Optional: xadmaster.library, xfdmaster.library, powerpacker.library,
+  popupmenu.library, screennotify.library, sysinfo.library, CyberGraphX,
+  NewMouse wheel events.  DOpus uses them when they are installed.
+
+Source code and license
+-----------------------
+
+Directory Opus 4 is free software under the GNU General Public License,
+version 2 or later; see COPYING in the archive.  The source code of this
+release, and how to build it, is at
+
+  https://github.com/andrzej79/DirectoryOpus4x
+
+The names Directory Opus, DOpus and Opus are trademarks of GPSoftware.
+They are used here as allowed by Jonathan Potter's release notice, for
+derived versions of Directory Opus 4 distributed under the GPL.

@@ -1,0 +1,3 @@
+# Copy to aminet.local (git-ignored) and fill in.  make lha writes this
+# address into the Uploader: line of the Aminet readme.
+UPLOADER=you@example.com

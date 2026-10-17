@@ -6,6 +6,8 @@ release/
 sdk/
 # FTP login for make ftp - never commit
 ftp.local
+# Uploader e-mail for the Aminet readme (make lha)
+aminet.local
 # The original Aminet source archive (its contents are in src/)
 /DOpus416JRsrc.lha
 # Python bytecode

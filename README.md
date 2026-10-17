@@ -59,7 +59,7 @@ make -j8        # the same, in parallel
 make clean      # remove build/
 make install    # copy build/DirectoryOpus4x to TARGET_DIR (default ~/Documents/Amiga/amiga_uae_disk/)
 make ftp        # build, then upload build/DirectoryOpus4x to Work:DirOpus4x/ on the Amiga
-make lha        # build, then pack it into release/DirectoryOpus417.lha (needs lha, 1.14i-ac)
+make lha        # build, then pack it into release/DOpus4x.lha + DOpus4x.readme for Aminet
 make protos     # regenerate src/include/inline/*_protos.h from the FD files
 make -C src/Program   # build one component (output in build/Program/)
 ```
@@ -86,6 +86,23 @@ The target directory defaults to `Work:DirOpus4x/` (override with `make ftp FTP_
 The volume must exist on the Amiga. The directory and its subdirectories are created
 if they are missing.
 
+### Aminet release
+
+`make lha` writes the Aminet upload to the git-ignored `release/`:
+
+- `DOpus4x.lha`: the drawer `DirectoryOpus4x/` and its icon `DirectoryOpus4x.info`
+  (from `icons/drawer.info`, snapshot position cleared), lh5 with level 2 headers, file
+  names in ISO-8859-1 as the Amiga spells them. Needs `lha` (LHa for UNIX 1.14i-ac).
+- `DOpus4x.readme`: made from `aminet/DOpus4x.readme`, with the version from the `$VER`
+  string in `src/Program/about.c` and the uploader's e-mail from `aminet.local`
+  (git-ignored, see `aminet.local.example`), followed by `ChangeLog`. A copy goes into the
+  drawer too.
+
+`tools/aminet_check.py` then checks both against the
+[Aminet rules](https://wiki.aminet.net/Uploading_instructions): file names, readme
+header fields, line lengths, LF line ends. Before an upload, update `ChangeLog` and the
+description in `aminet/DOpus4x.readme`. Uploads go to `ftp://main.aminet.net/new`.
+
 ## Installing on the Amiga
 
 The distribution tree `build/DirectoryOpus4x` has the layout DOpus searches at run time
@@ -93,7 +110,7 @@ The distribution tree `build/DirectoryOpus4x` has the layout DOpus searches at r
 `DOpus:...`):
 
 ```
-DirectoryOpus  DirectoryOpus.info
+DirectoryOpus  DirectoryOpus.info  ChangeLog  COPYING
 C/DOpusRT
 Libs/dopus.library
 Modules/ConfigOpus  Modules/DOpus_Disk  Modules/DOpus_Icon  Modules/DOpus_Print
@@ -128,6 +145,10 @@ tools/fd2vbcc.py     generates vbcc inline headers from FD files
 tools/ftpput.py      FTP upload for make ftp
 tools/amiSnapRemove.py  clears the snapshot position of Workbench icons (.info)
 tools/catcomp.py     compiles the catalogs and checks the .cd files against the sources
+tools/aminet_check.py  checks the Aminet archive and readme of make lha
+aminet/DOpus4x.readme  the Aminet readme (version and uploader filled in by make lha)
+icons/               Workbench icons of the program and of its drawer
+ChangeLog            changes per release, shipped in the archive
 ```
 
 ## Changes from the original sources

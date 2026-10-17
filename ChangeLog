@@ -1,0 +1,50 @@
+Directory Opus 4.x - ChangeLog
+==============================
+
+Newest version first.  Earlier versions, up to 4.16, were released by
+Jonathan Potter (GP Software) and Jacek Rzeuski; see biz/dopus on Aminet.
+
+
+4.17 (unreleased)
+-----------------
+
+Built from the GPL sources of 4.16 with vbcc, vasm and vlink, for the
+68020 without FPU instructions.  Needs Kickstart 3.0 or newer.
+
+Versions: DirectoryOpus 4.17, dopus.library 22.19, ConfigOpus 4.14i,
+DOpus_Disk 2.5, DOpus_Icon 1.7i, DOpus_Print 1.29, DOpusRT 4.7.
+
+New:
+- Clock bar: free memory can be shown in megabytes, e.g. "FAST:118.4M"
+  (ConfigOpus, System/Clocks, "Show free as: Megabytes free").
+- Iconified window: the same option, e.g. "F:118.4M".
+- French catalogs, recovered from the 4.16 binary release.
+- English help files from the 4.16 release (the help in the 4.16 sources
+  was German), plus the translated help for deutsch, espanol, francais,
+  italiano, polski and suomi.
+
+Changed:
+- Files are copied in large chunks (up to 1 MB) also when the copy
+  progress indicator is on.  Before, they were read in 8 KB packets,
+  which was much slower on fast disks.  AsyncIO is no longer used.
+- The clock's CPU usage is measured by sampling 50/60 times a second
+  whether the CPU is busy.  Without sysinfo.library the old figure
+  counted task switches and showed 30-40% on an idle machine.
+- Menu items are drawn with the screen's menu colours (BARBLOCKPEN,
+  BARDETAILPEN) instead of fixed pens; a custom text colour is kept.
+- About requester: "Modified by Andrzej Rogozynski".
+
+Fixed:
+- A read error during a copy was treated as success, so the copy could
+  miss data.  A short write (e.g. disk full) now fails the copy too.
+- The lister could stop reacting to clicks when the mouse wheel scrolled
+  fast past the top or bottom of a list (also in 4.16).
+- NewMouse wheel events could throw away queued mouse clicks.
+- The memory fields of the clock bar had no fixed width, so the text
+  moved whenever a number changed length.  On machines without Fast RAM
+  the "Bytes" display looked as if Fast RAM were present.
+- DOpus_Icon: the Icon Information window closed again as soon as it
+  opened (an array too small for its 15 shortcut keys, also in 4.16).
+- Catalogs: German config strings that were hidden by a syntax error,
+  stray German entries, and English texts that had drifted from the
+  program.
