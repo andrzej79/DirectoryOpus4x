@@ -104,9 +104,18 @@ the existing commercial status of Directory Opus 5.
 #define OSVER_39 3
 #define OSVER_40 4
 
-#define ASYNC_READ_SIZE 16384
-#define ASYNC_WRITE_SIZE 16384
-#define COPY_BUF_SIZE 16384 // 2048
+/* copyfile() reads and writes a file in chunks of COPY_CHUNK_MAX at most.
+   With the progress indicator on, a file is split into about
+   COPY_CHUNK_STEPS chunks, but none smaller than COPY_CHUNK_MIN: on fast
+   (DMA) disks every transfer has a fixed cost, so small ones are slow.
+   With more than COPY_BIGMEM free, the smallest chunk is COPY_CHUNK_MIN_BIG.
+   Chunk sizes are multiples of COPY_CHUNK_ALIGN (a power of two). */
+#define COPY_CHUNK_MIN (128 * 1024)
+#define COPY_CHUNK_MIN_BIG (256 * 1024)
+#define COPY_BIGMEM (8 * 1024 * 1024)
+#define COPY_CHUNK_MAX (1024 * 1024)
+#define COPY_CHUNK_STEPS 64
+#define COPY_CHUNK_ALIGN (64 * 1024)
 
 #define CURSOR_LEFT 0x4f
 #define CURSOR_RIGHT 0x4e

@@ -29,10 +29,39 @@ the existing commercial status of Directory Opus 5.
 */
 
 #include "dopus.h"
-/* AsyncIO is built with stack arguments (see Makefile) */
-// #define ASIO_REGARGS
-#include <clib/asyncio_protos.h>
-// #include <inline/asyncio.h>
+
+/* Chunk size for copying a file of size bytes, see COPY_CHUNK_* in dopus.h */
+static int copy_chunk_size(int size, int prog)
+{
+  int chunk;
+
+  if (prog)
+  {
+    chunk = (size / COPY_CHUNK_STEPS + COPY_CHUNK_ALIGN - 1) & ~(COPY_CHUNK_ALIGN - 1);
+    if (chunk < COPY_CHUNK_MIN)
+    {
+      chunk = COPY_CHUNK_MIN;
+    }
+    /* AvailMem() only where it changes the result, not for every small
+       file of a big copy */
+    if (chunk < COPY_CHUNK_MIN_BIG && size > COPY_CHUNK_MIN && AvailMem(MEMF_ANY) > COPY_BIGMEM)
+    {
+      chunk = COPY_CHUNK_MIN_BIG;
+    }
+  } else
+  {
+    chunk = COPY_CHUNK_MAX;
+  }
+  if (chunk > COPY_CHUNK_MAX)
+  {
+    chunk = COPY_CHUNK_MAX;
+  }
+  if (chunk > size)
+  {
+    chunk = size;
+  }
+  return (chunk);
+}
 
 copyfile(src, dst, err, /*size,*/ password, encryptstate) char *src, *dst;
 int *err /*,size*/;
@@ -43,18 +72,10 @@ int encryptstate;
   char *buffer;
   int out, length, suc, readsize, size_read, size_write, size_total, ret = 0, prog = 0, buffer_size, size;
   int inhandle, outhandle;
-  struct AsyncFile *infile;
-  /*
-      struct AsyncFile *outfile;
-  */
   struct DateStamp ds, *dsp;
   ULONG owner_info;
 
-  buffer = NULL;
-  infile = NULL;
-  /*
-      outfile=NULL;
-  */
+  buffer    = NULL;
   inhandle  = 0;
   outhandle = 0;
 
@@ -125,58 +146,13 @@ int encryptstate;
     return (1);
   }
 
-  if (size <= COPY_BUF_SIZE)
+  /* Plan the chunks.  No progress updates when one chunk takes the file. */
+  buffer_size = copy_chunk_size(size, prog);
+  if (buffer_size >= size)
   {
-    dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 100, 100, NULL, 1);
     prog = 0;
-  } else
-  {
-    dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, 0, 100, NULL, 1);
   }
-
-  /*
-      if (prog) {
-          buffer_size=COPY_BUF_SIZE;
-          buffer=AllocMem(COPY_BUF_SIZE,0);
-          if (infile=OpenAsync(src,MODE_READ,ASYNC_READ_SIZE))
-              outfile=OpenAsync(dst,MODE_WRITE,ASYNC_WRITE_SIZE);
-          if (!outfile) goto failed;
-      }
-      else {
-          if (size>65536) buffer_size=size/2;
-          else buffer_size=size;
-          if (buffer_size>122880) buffer_size=122880;
-
-          while (buffer_size>0) {
-              if (buffer=AllocMem(buffer_size,0)) break;
-              buffer_size/=2;
-          }
-          if (inhandle=Open(src,MODE_OLDFILE))
-              outhandle=Open(dst,MODE_NEWFILE);
-          if (!outhandle) goto failed;
-      }
-
-      if (!buffer) goto failed;
-  */
-
-  if (prog)
-  {
-    //        buffer_size=COPY_BUF_SIZE;
-    infile = OpenAsync(src, MODE_READ, ASYNC_READ_SIZE);
-  }
-  /*else*/ {
-    if (size > 65536)
-    {
-      buffer_size = size / 2;
-    } else
-    {
-      buffer_size = size;
-    }
-    if (buffer_size > 122880)
-    {
-      buffer_size = 122880;
-    }
-  }
+  dotaskmsg(hotkeymsg_port, PROGRESS_UPDATE, prog ? 0 : 100, 100, NULL, 1);
 
   while (buffer_size > 0)
   {
@@ -192,7 +168,7 @@ int encryptstate;
     goto failed;
   }
 
-  if (!infile && (!(inhandle = Open(src, MODE_OLDFILE))))
+  if (!(inhandle = Open(src, MODE_OLDFILE)))
   {
     goto failed;
   }
@@ -209,15 +185,16 @@ int encryptstate;
   while (size > 0)
   {
     readsize = (size > buffer_size) ? buffer_size : size;
-    if (infile)
+    if ((length = Read(inhandle, buffer, readsize)) < 0)
     {
-      length = ReadAsync(infile, buffer, readsize);
-    } else
+      goto failed; /* a read error used to be skipped over */
+    }
+    if (length == 0)
     {
-      length = Read(inhandle, buffer, readsize);
+      break; /* the file got shorter while we copied it */
     }
 
-    size -= readsize;
+    size -= length;
     size_read += length;
 
     if (prog)
@@ -253,18 +230,9 @@ int encryptstate;
       }
     }
 
-    if (length > 0)
+    if ((Write(outhandle, buffer, length)) != length)
     {
-      /*
-                  if (outfile) {
-                      if ((WriteAsync(outfile,buffer,length))==-1) goto failed;
-                  }
-                  else
-      */
-      if ((Write(outhandle, buffer, length)) == -1)
-      {
-        goto failed;
-      }
+      goto failed;
     }
     size_write += length;
 
@@ -280,13 +248,6 @@ int encryptstate;
     }
   }
 
-  if (infile)
-  {
-    CloseAsync(infile);
-  }
-  /*
-      if (outfile) CloseAsync(outfile);
-  */
   if (inhandle)
   {
     Close(inhandle);
@@ -328,20 +289,12 @@ failed:
   {
     FreeMem(buffer, buffer_size);
   }
-  if (infile)
-  {
-    CloseAsync(infile);
-  }
   if (inhandle)
   {
     Close(inhandle);
   }
-  if (/* outfile || */ outhandle)
+  if (outhandle)
   {
-    /*
-            if (outfile) CloseAsync(outfile);
-            else
-    */
     Close(outhandle);
     DeleteFile(dst);
   }
