@@ -71,7 +71,7 @@ Select the first button to swap.
 STR_GADGET_EDIT_SCREEN (//)
 Button edit screen
 STR_ENTER_BANK_TO_COPY (//)
-Enter bank number to copy this bank to. \nIf this bank does not exist a new bank will be created.
+Enter bank number to copy this bank to.\nIf this bank does not exist a new bank will be created.
 STR_BANK_ALREADY_EXISTS (//)
 Selected bank already exists! Do you really\nwant to overwrite this bank?
 STR_GADGET_BANK_COPIED (//)

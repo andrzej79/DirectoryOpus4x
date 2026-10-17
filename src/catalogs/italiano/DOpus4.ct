@@ -173,7 +173,7 @@ Leggo la configurazione...
 STR_CONFIG_CHANGED_LASTSAVED
 La configurazione è stata modificata.\nVuoi caricare comunque le ultime impostazioni salvate?
 ;You have modified the configuration.\nReally load the last-saved settings?
-STR_CONFIG_CHANGED_DEFAULTs
+STR_CONFIG_CHANGED_DEFAULTS
 Hai modificato la configurazione.\nVuoi salvarla prima di richiamare\nquella preimpostata?
 ;You have modified the configuration.\nSave before restoring defaults?
 STR_HELP_NOT_AVAILABLE
@@ -344,7 +344,7 @@ Manca l'argomento dopo \"=\"
 STR_TOO_MANY_ARGUMENTS
 Troppi argomenti
 ;Too many arguments
-STR_UNMATCHED_QUOTED
+STR_UNMATCHED_QUOTES
 Virgolette non interpretabili
 ;Unmatched quotes
 STR_ARG_LINE_TOO_LONG
@@ -1061,10 +1061,10 @@ Leggi (_R)
 STR_PROTECT_WRITE
 Scrivi (_W)
 ;_Write
-STR_PROTECT_EXECUTED
+STR_PROTECT_EXECUTE
 Esegui (_E)
 ;_Execute
-STR_PROTECT_DELETED
+STR_PROTECT_DELETE
 Cancella (_D)
 ;_Delete
 STR_FILE_REQUEST

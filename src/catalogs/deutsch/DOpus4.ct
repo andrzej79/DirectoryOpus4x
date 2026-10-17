@@ -225,7 +225,7 @@ STR_CONFIG_CHANGED_LASTSAVED
 Die Konfiguration wurde geändert.\nWirklich auf zuletzt gespeicherte Werte rücksetzen?
 ;#DEF You have modified the configuration.\nReally load the last-saved settings?
 ;#SET (//)
-STR_CONFIG_CHANGED_DEFAULTs
+STR_CONFIG_CHANGED_DEFAULTS
 Die Konfiguration wurde geändert.\nVor dem Rücksetzen abspeichern?
 ;#DEF You have modified the configuration.\nSave before restoring defaults?
 ;#SET (//)
@@ -369,25 +369,13 @@ STR_ADDING_ICON
 Erzeuge ein Piktogramm für
 ;#DEF adding an icon to
 ;#SET (//)
-STR_recremoved
-STR_recremoved (//)
-;#DEF 
-;#SET (//)
 STR_ENTER_COMMENT
 Kommentar eingeben
 ;#DEF Enter comment
 ;#SET (//)
-STR_recremoved
-STR_recremoved (//)
-;#DEF 
-;#SET (//)
 STR_ENTER_PASSWORD
 Passwort eingeben
 ;#DEF Enter password
-;#SET (//)
-STR_recremoved
-STR_recremoved (//)
-;#DEF 
 ;#SET (//)
 STR_ENTER_DATE_AND_TIME
 Datum und Zeit eingeben (leer für aktuelles Datum)
@@ -396,10 +384,6 @@ Datum und Zeit eingeben (leer für aktuelles Datum)
 STR_ENTER_SEARCH_STRING
 Suchzeichenkette eingeben
 ;#DEF Enter search string
-;#SET (//)
-STR_recremoved
-STR_recremoved (//)
-;#DEF 
 ;#SET (//)
 STR_STRING_NOT_FOUND
 Zeichenkette konnte leider nicht gefunden werden!
@@ -453,7 +437,7 @@ STR_TOO_MANY_ARGUMENTS
 Falsche Anzahl an Argumenten
 ;#DEF Too many arguments
 ;#SET (//)
-STR_UNMATCHED_QUOTED
+STR_UNMATCHED_QUOTES
 Ungerade Anzahl von Anführungszeichen
 ;#DEF Unmatched quotes
 ;#SET (//)
@@ -644,10 +628,6 @@ Kodiere...
 STR_NEW_DISK_INSERTED
 Neue Diskette im Laufwerk DF%ld:\nHauptverzeichnis einlesen?
 ;#DEF A new disk has been inserted in drive DF%ld:\nDo you want to read this disk?
-;#SET (//)
-STR_recremoved
-STR_recremoved (//)
-;#DEF 
 ;#SET (//)
 STR_ENTER_DATE_1
 Datum im Format TT-MMM-JJ eingeben
@@ -1409,11 +1389,11 @@ STR_PROTECT_WRITE
 _W-Schreibbar
 ;#DEF _Write
 ;#SET (//)
-STR_PROTECT_EXECUTED
+STR_PROTECT_EXECUTE
 _E-Ausführbar
 ;#DEF _Execute
 ;#SET (//)
-STR_PROTECT_DELETED
+STR_PROTECT_DELETE
 _D-Löschbar
 ;#DEF _Delete
 ;#SET (//)

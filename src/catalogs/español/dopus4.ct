@@ -454,7 +454,7 @@ STR_CONFIG_CHANGED_LASTSAVED
 Ha modificado la configuración.\n\n¿De verdad desea cargar la config. anterior?
 ; You have modified the configuration.\nReally load the last-saved settings?
 ;
-STR_CONFIG_CHANGED_DEFAULTs
+STR_CONFIG_CHANGED_DEFAULTS
 Ha modificado la configuración.\n\n¿Guardarla antes de recuperar los valores por omisión?
 ; You have modified the configuration.\nSave before restoring defaults?
 ;
@@ -670,7 +670,7 @@ STR_TOO_MANY_ARGUMENTS
 Demasiados argumentos.
 ; Too many arguments
 ;
-STR_UNMATCHED_QUOTED
+STR_UNMATCHED_QUOTES
 Faltan o sobran comillas.
 ; Unmatched quotes
 ;
@@ -1669,11 +1669,11 @@ STR_PROTECT_WRITE
 _Escribible
 ; _Write
 ;
-STR_PROTECT_EXECUTED
+STR_PROTECT_EXECUTE
 Ejec_utable
 ; _Execute
 ;
-STR_PROTECT_DELETED
+STR_PROTECT_DELETE
 _Borrable
 ; _Delete
 ;

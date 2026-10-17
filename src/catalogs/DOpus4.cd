@@ -112,7 +112,7 @@ STR_READING_CONFIG (//)
 Reading configuration..
 STR_CONFIG_CHANGED_LASTSAVED (//)
 You have modified the configuration.\nReally load the last-saved settings?
-STR_CONFIG_CHANGED_DEFAULTs (//)
+STR_CONFIG_CHANGED_DEFAULTS (//)
 You have modified the configuration.\nSave before restoring defaults?
 STR_HELP_NOT_AVAILABLE (//)
 Help not available for that function!
@@ -226,7 +226,7 @@ STR_ARGUMENT_MISSING (//)
 Argument after \"=\" missing
 STR_TOO_MANY_ARGUMENTS (//)
 Too many arguments
-STR_UNMATCHED_QUOTED (//)
+STR_UNMATCHED_QUOTES (//)
 Unmatched quotes
 STR_ARG_LINE_TOO_LONG (//)
 Argument line invalid or too long
@@ -367,23 +367,23 @@ Unprotect
 STR_RUN (//)
 Run
 STR_TRY_AGAIN (//)
-Try Again
+_Try Again
 STR_RETRY (//)
-Retry
+_Retry
 STR_ABORT (//)
-Abort
+A_bort
 STR_REPLACE (//)
-Replace
+_Replace
 STR_SKIP (//)
-Skip
+_Skip
 STR_ALL (//)
-All
+_All
 STR_REMOVE (//)
-Remove
+_Remove
 STR_QUIT (//)
-Quit
+_Quit
 STR_SAVE_QUIT (//)
-Save & quit
+_Save & quit
 STR_LOAD (//)
 Load
 STR_SAVE (//)
@@ -393,21 +393,21 @@ Defaults
 STR_CLOSE (//)
 Close
 STR_DELETE (//)
-Delete
+_Delete
 STR_LEAVE (//)
-Leave
+_Leave
 STR_YES (//)
-Yes
+_Yes
 STR_NO (//)
-No
+_No
 STR_ICONIFY (//)
-Iconify
+_Iconify
 STR_CONTINUE (//)
-Continue
+_Continue
 STR_OKAY (//25)
-Okay
+_Okay
 STR_CANCEL (//25)
-Cancel
+_Cancel
 STR_OKAY_TITLE (//)
 OK
 STR_DESCRIPTION (//)
@@ -641,7 +641,7 @@ Tomorrow
 STR_DAY_FUTURE (//)
 Future
 STR_KEY (//)
-Key :
+Key : 
 STR_TINY_BUTTONS (//)
 BRSA?EFCIQ
 STR_VIEW_BUTTONS (//)
@@ -704,9 +704,9 @@ STR_PROTECT_READ (//)
 _Read
 STR_PROTECT_WRITE (//)
 _Write
-STR_PROTECT_EXECUTED (//)
+STR_PROTECT_EXECUTE (//)
 _Execute
-STR_PROTECT_DELETED (//)
+STR_PROTECT_DELETE (//)
 _Delete
 STR_FILE_REQUEST (//)
 File request
@@ -789,6 +789,6 @@ Operation not supported
 STR_QUERY_REMOVE_ASSIGN (//)
 Do you really wish to remove \"%s\" assign?
 STR_VERSION_CONTENTS (//)
-%-42s\n\n  Directory Opus%24s  \n  DOpus Library%25s  \n  Compile time%26s  \n  Compile date%26s  \n  Port/screen name%22s  \n\n  Kickstart%29s  \n  Workbench%29s  \n  Processor%29s  \n  Math co-processor%21s  \n  Graphics chipset%22s  \n  Video system%26s
+%-42s\n\n  Directory Opus%24s  \n  DOpus Library%25s  \n  Compile time%26s  \n  Compile date%26s  \n  Port/screen name%22s  \n\n  Kickstart%29s  \n  Workbench%29s  \n  Processor%29s  \n  Math co-processor%21s  \n  Graphics chipset%22s  \n  Video system%26s  
 STR_VERSION_HEADER (//)
 Version information...

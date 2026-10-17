@@ -171,7 +171,7 @@ Luen asetuksia...
 STR_CONFIG_CHANGED_LASTSAVED
 Olet muuttanut asetuksia.\nLadataanko varmasti viimeksi tallennetut asetukset?
 ; You have modified the configuration.\nReally load the last-saved settings? *
-STR_CONFIG_CHANGED_DEFAULTs
+STR_CONFIG_CHANGED_DEFAULTS
 Olet muuttanut asetuksia.\nTalletetaanko ennen kuin palautan oletukset?
 ; You have modified the configuration.\nSave before restoring defaults?
 STR_HELP_NOT_AVAILABLE
@@ -342,7 +342,7 @@ STR_ARGUMENT_MISSING
 STR_TOO_MANY_ARGUMENTS
 Liian monta m‰‰ritett‰
 ; Too many arguments
-STR_UNMATCHED_QUOTED
+STR_UNMATCHED_QUOTES
 Lainausmerkit eiv‰t t‰sm‰‰
 ; Unmatched quotes
 STR_ARG_LINE_TOO_LONG
@@ -1059,10 +1059,10 @@ Luku
 STR_PROTECT_WRITE
 Kirjoitus
 ; _Write
-STR_PROTECT_EXECUTED
+STR_PROTECT_EXECUTE
 Suorita
 ; _Execute
-STR_PROTECT_DELETED
+STR_PROTECT_DELETE
 Poista
 ; _Delete
 STR_FILE_REQUEST

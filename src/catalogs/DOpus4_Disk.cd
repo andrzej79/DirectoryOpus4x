@@ -17,7 +17,7 @@ Format
 STR_FORMAT_QUICKFORMAT (//)
 Quick Format
 STR_FORMAT_EXIT (//)
-Exit
+E_xit
 STR_FORMAT_EMPTY (//)
 Empty
 STR_FORMAT_INFODISPLAY (//)
@@ -63,7 +63,7 @@ Proceed
 STR_CHECKING_DESTINATION (//)
 Checking destination disk...
 STR_DISKCOPY_DISKCOPY (//)
-Diskcopy
+_Diskcopy
 STR_DISKCOPY_FROM (//)
 From...
 STR_DISKCOPY_TO (//)
@@ -111,7 +111,7 @@ _Bump name
 STR_BUMPING_NAME (//)
 Bumping disk name...
 STR_DISKCOPY_CHECK (//)
-Check
+_Check
 STR_WINDOW_FORMAT (//)
 Format
 STR_WINDOW_DISKCOPY (//)

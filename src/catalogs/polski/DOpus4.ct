@@ -172,7 +172,7 @@ Odczytujë konfiguracjë...
 STR_CONFIG_CHANGED_LASTSAVED
 Zmieniîeô konfiguracjë.\nCzy chcesz wczytaê ostatnio zapisane ustawienia?
 ; You have modified the configuration.\nReally load the last-saved settings?
-STR_CONFIG_CHANGED_DEFAULTs
+STR_CONFIG_CHANGED_DEFAULTS
 Zmieniîeô konfiguracjë.\nZapisaê przed przywróceniem ustawieï domyôlnych?
 ; You have modified the configuration.\nSave before restoring defaults?
 STR_HELP_NOT_AVAILABLE
@@ -343,7 +343,7 @@ Brak argumentu po \"=\"
 STR_TOO_MANY_ARGUMENTS
 Zbyt duûo argumentów
 ; Too many arguments
-STR_UNMATCHED_QUOTED
+STR_UNMATCHED_QUOTES
 Niepasujâce cudzysîowy
 ; Unmatched quotes
 STR_ARG_LINE_TOO_LONG
@@ -1074,10 +1074,10 @@ _Odczytywalny
 STR_PROTECT_WRITE
 _Zapisywalny
 ; _Write
-STR_PROTECT_EXECUTED
+STR_PROTECT_EXECUTE
 _Wykonywalny
 ; _Execute
-STR_PROTECT_DELETED
+STR_PROTECT_DELETE
 _Kasowalny
 ; _Delete
 STR_FILE_REQUEST
