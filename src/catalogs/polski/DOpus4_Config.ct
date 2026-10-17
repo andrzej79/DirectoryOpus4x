@@ -1855,3 +1855,6 @@ MatchI       - tekst (bez wielkoôci znaków)
 STR_MENU_MAX_REACHED
 Uwaga! Niektóre menu nie zostaîy zaimportowane z powodu braku miejsca.
 ; Warning! Some menus were not imported due to lack of free space.
+STR_SYS_CLOCK_MEGABYTES_FREE
+Megabajty wolne
+; Megabytes free

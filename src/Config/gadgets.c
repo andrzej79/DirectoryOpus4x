@@ -121,8 +121,9 @@ struct ConfigGadget op_copygadgets[]    = {{CTYPE_MOVE, 0, -1, 20},
                                               {CTYPE_GAD, 0, STR_SYS_CLOCK_TIME, 227, 68, -1, -1, 8, 0},
 
                                               {CTYPE_TEXT, 0, STR_SYS_CLOCK_SHOWFREEAS, 423, 26},
-                                              {CTYPE_RAD, 0, STR_SYS_CLOCK_BYTES, 435, 31, -1, -1, 64, 64},
-                                              {CTYPE_MRAD, 0, STR_SYS_CLOCK_KILOBYTES_FREE, 435, 41, -1, -1, 512, 576},
+                                              {CTYPE_RAD, 0, STR_SYS_CLOCK_BYTES, 435, 31, -1, -1, 64, 96},
+                                              {CTYPE_MRAD, 0, STR_SYS_CLOCK_KILOBYTES_FREE, 435, 41, -1, -1, 512, 608},
+                                              {CTYPE_RAD, 0, STR_SYS_CLOCK_MEGABYTES_FREE, 435, 51, -1, -1, 32, 96},
 
                                               {CTYPE_TEXT, 0, STR_SYS_CLOCK_TEXTFORMAT, 423, 65},
                                               {CTYPE_MRAD, 0, STR_SYS_CLOCK_CHIPANDFAST, 435, 70, -1, -1, 1024, 1152},

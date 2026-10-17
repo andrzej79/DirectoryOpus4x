@@ -1230,3 +1230,5 @@ STR_CLASSOPS_MATCHI (//)
 MatchI       - text (case-insensitive)
 STR_MENU_MAX_REACHED (//)
 Warning! Some menus were not imported due to lack of free space.
+STR_SYS_CLOCK_MEGABYTES_FREE (//)
+Megabytes free

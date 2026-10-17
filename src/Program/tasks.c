@@ -825,11 +825,43 @@ __saveds struct InputEvent *keyhandler(REG(a0, struct InputEvent *oldevent), REG
   return (oldevent);
 }
 
+/* Free memory for the clock bar, with its unit: bytes, nnnK or x.yM */
+static void clockmemstr(char *buf, ULONG bytes)
+{
+  ULONG tenths;
+
+  if (config->scrclktype & SCRCLOCK_MEGABYTES)
+  {
+    tenths = ((bytes >> 10) * 10 + 512) >> 10; /* rounded to 0.1M */
+    lsprintf(buf, "%ld.%ldM", tenths / 10, tenths % 10);
+  } else if (config->scrclktype & SCRCLOCK_BYTES)
+  {
+    lsprintf(buf, "%ld", bytes);
+  } else
+  {
+    lsprintf(buf, "%ldK", bytes >> 10);
+  }
+}
+
+/* Field width for clockmemstr() of a memory that has kdigits digits in K */
+static int clockmemwidth(int kdigits)
+{
+  if (config->scrclktype & SCRCLOCK_MEGABYTES)
+  {
+    return (((kdigits > 3) ? kdigits - 3 : 1) + 3); /* ".yM" */
+  }
+  if (config->scrclktype & SCRCLOCK_BYTES)
+  {
+    return (kdigits + 3);
+  }
+  return (kdigits + 1); /* "K" */
+}
+
 void __saveds clocktask()
 {
   int chipc, fast, wmes, h, m, s, secs, micro, cx, sig, cy, len, ct, chipnum, fastnum, a, active = 1, usage;
   USHORT clock_width, clock_height, scr_height;
-  char buf[160], date[20], time[20], formstring[160], memstring[160], ampm;
+  char buf[160], date[20], time[20], formstring[160], memstring[160], memval[3][16], ampm;
   struct MsgPort *clock_time_port;
   struct timerequest ctimereq;
   struct DOpusDateTime datetime;
@@ -861,37 +893,27 @@ void __saveds clocktask()
   chipnum = getmaxmem(MEMF_CHIP, MEMF_ANY);
   fastnum = getmaxmem(MEMF_ANY, MEMF_CHIP);
   a       = getmaxmem(MEMF_ANY, MEMF_ANY);
+  /* Labels and fixed field widths (from the total sizes, so the centred
+     clock text does not move) for the free memory */
   if (fastnum > 1)
   {
     if (config->scrclktype & SCRCLOCK_C_AND_F)
     {
-      lsprintf(memstring, "%lc:%%-%ldld%s %lc:%%-%ldld%s %lc:%%-%ldld%lc", globstring[STR_CLOCK_CHIP][0],
-               chipnum + (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0,
-               (config->scrclktype & SCRCLOCK_BYTES) ? " " : "K ", globstring[STR_CLOCK_FAST][0],
-               fastnum + (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0,
-               (config->scrclktype & SCRCLOCK_BYTES) ? " " : "K ", globstring[STR_CLOCK_TOTAL][0],
-               a + (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0, (config->scrclktype & SCRCLOCK_BYTES) ? 0 : 'K');
+      lsprintf(memstring, "%lc:%%-%lds %lc:%%-%lds %lc:%%-%lds", globstring[STR_CLOCK_CHIP][0], clockmemwidth(chipnum),
+               globstring[STR_CLOCK_FAST][0], clockmemwidth(fastnum), globstring[STR_CLOCK_TOTAL][0], clockmemwidth(a));
     } else
     {
-      lsprintf(memstring, "%s%%-%ldld%s %s%%-%ldld%s %s%%-%ldld%lc", globstring[STR_CLOCK_CHIP],
-               chipnum + (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0,
-               (config->scrclktype & SCRCLOCK_BYTES) ? " " : "K ", globstring[STR_CLOCK_FAST],
-               fastnum + (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0,
-               (config->scrclktype & SCRCLOCK_BYTES) ? " " : "K ", globstring[STR_CLOCK_TOTAL],
-               a + (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0, (config->scrclktype & SCRCLOCK_BYTES) ? 0 : 'K');
+      lsprintf(memstring, "%s%%-%lds %s%%-%lds %s%%-%lds", globstring[STR_CLOCK_CHIP], clockmemwidth(chipnum),
+               globstring[STR_CLOCK_FAST], clockmemwidth(fastnum), globstring[STR_CLOCK_TOTAL], clockmemwidth(a));
     }
   } else
   {
     if (config->scrclktype & SCRCLOCK_C_AND_F)
     {
-      lsprintf(memstring, "%lc:%%-%ldld%lc", globstring[STR_CLOCK_MEMORY][0],
-               chipnum + (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0,
-               (config->scrclktype & SCRCLOCK_BYTES) ? 0 : 'K');
+      lsprintf(memstring, "%lc:%%-%lds", globstring[STR_CLOCK_MEMORY][0], clockmemwidth(chipnum));
     } else
     {
-      lsprintf(memstring, "%s%%-%ldld%lc", globstring[STR_CLOCK_MEMORY],
-               chipnum + (config->scrclktype & SCRCLOCK_BYTES) ? 3 : 0,
-               (config->scrclktype & SCRCLOCK_BYTES) ? 0 : 'K');
+      lsprintf(memstring, "%s%%-%lds", globstring[STR_CLOCK_MEMORY], clockmemwidth(chipnum));
     }
   }
 
@@ -930,14 +952,6 @@ void __saveds clocktask()
       {
         chipc = AvailMem(MEMF_CHIP);
         fast  = AvailMem(MEMF_ANY) - chipc;
-        if (!(config->scrclktype & SCRCLOCK_BYTES))
-        {
-          chipc /= 1024;
-        }
-        if (!(config->scrclktype & SCRCLOCK_BYTES))
-        {
-          fast /= 1024;
-        }
 
         CurrentTime((ULONG *)&secs, (ULONG *)&micro);
         datetime.dat_Stamp.ds_Days = secs / 86400;
@@ -975,12 +989,15 @@ void __saveds clocktask()
           formstring[0] = 0;
           if (config->scrclktype & SCRCLOCK_MEMORY)
           {
+            clockmemstr(memval[0], chipc);
             if (fastnum > 1)
             {
-              lsprintf(buf, memstring, chipc, fast, chipc + fast);
+              clockmemstr(memval[1], fast);
+              clockmemstr(memval[2], chipc + fast);
+              lsprintf(buf, memstring, memval[0], memval[1], memval[2]);
             } else
             {
-              lsprintf(buf, memstring, chipc);
+              lsprintf(buf, memstring, memval[0]);
             }
             strcat(formstring, buf);
             strcat(formstring, "  ");

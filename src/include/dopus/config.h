@@ -78,6 +78,7 @@ the existing commercial status of Directory Opus 5.
 #define SCRCLOCK_CPU 2
 #define SCRCLOCK_DATE 4
 #define SCRCLOCK_TIME 8
+#define SCRCLOCK_MEGABYTES 32 /* free memory as x.yM (else bytes or K) */
 #define SCRCLOCK_BYTES 64
 #define SCRCLOCK_C_AND_F 128
 

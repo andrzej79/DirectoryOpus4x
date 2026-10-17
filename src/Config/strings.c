@@ -1267,6 +1267,7 @@ struct DefaultString default_strings[] = {
 
     {STR_MENU_MAX_REACHED, // JRZ
      "Warning! Some menus were not imported due to lack of free space."},
+    {STR_SYS_CLOCK_MEGABYTES_FREE, "Megabytes free"},
 
     {STR_STRING_COUNT, NULL}};
 
