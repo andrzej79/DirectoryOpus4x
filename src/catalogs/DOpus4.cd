@@ -531,7 +531,7 @@ Bits
 STR_STARTING_PRINT_MODULE (//)
 Starting print module...
 STR_ABOUT (//950)
-%s\nBased on GPL release version 4.12\nmodified by %s\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nAll users of Directory Opus 4 (including versions distributed\nunder the GPL) are entitled to upgrade to the latest version of\nDirectory Opus version 5 at a reduced price. Please see\nhttp://www.gpsoft.com.au for more information.
+%s\nBased on GPL release version 4.12\nModified by %s\n\nThis program is free software; you can redistribute it and/or\nmodify it under the terms of the GNU General Public License\nas published by the Free Software Foundation; either version 2\nof the License, or (at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nAll users of Directory Opus 4 (including versions distributed\nunder the GPL) are entitled to upgrade to the latest version of\nDirectory Opus version 5 at a reduced price. Please see\nhttp://www.gpsoft.com.au for more information.
 STR_PRINTTITLE (//)
 Print _Title
 STR_SEARCH_NO_CASE (//)

@@ -577,7 +577,7 @@ Old  -  Size : %7ld  Date : %19s"},
 
     {STR_ABOUT, "%s\n"
                 "Based on GPL release version 4.12\n"
-                "modified by %s\n"
+                "Modified by %s\n"
                 "\n"
                 "This program is free software; you can redistribute it and/or\n"
                 "modify it under the terms of the GNU General Public License\n"
