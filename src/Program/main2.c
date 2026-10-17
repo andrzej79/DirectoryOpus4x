@@ -1007,19 +1007,19 @@ int len, x, y;
 }
 
 #define DISPLAYSIZELENGTH 10
-#define DISPLAYSIZEFORMAT "%9ld "
+#define DISPLAYSIZEFORMAT "%9s "
 
-void buildkmgstring(char *buf, ULONG size, int lister)
+void buildkmgstring(char *buf, long long size, int lister)
 {
   if (config->listerdisplayflags[lister] & SIZE_KMG) // HUX
   {
-    if (size & 0xFFFFFC00) // >1024
+    if (size >= 1024)
     {
       char tmp[16], c;
 
-      if (size & 0xFFF00000) // >1024*1024
+      if (size >= 1024 * 1024)
       {
-        if (size & 0xC0000000) // >1024*1024*1024
+        if (size >= 1024 * 1024 * 1024)
         {
           getfloatstr(size / (float)(1024 * 1024 * 1024), tmp);
           c = 'G';
@@ -1052,11 +1052,14 @@ void buildkmgstring(char *buf, ULONG size, int lister)
       lsprintf(buf, "%4s%lc ", tmp, c);
     } else
     {
-      lsprintf(buf, "%4ld  ", size);
+      lsprintf(buf, "%4ld  ", (long)size);
     }
   } else
   {
-    lsprintf(buf, DISPLAYSIZEFORMAT, size);
+    char num[24];
+
+    sizetostr(num, size);
+    lsprintf(buf, DISPLAYSIZEFORMAT, num);
   }
 }
 

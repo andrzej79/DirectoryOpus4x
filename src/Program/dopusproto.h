@@ -144,7 +144,7 @@ void endfollow(int);
 
 int doparent(char *);
 int doroot(char *);
-int addfile(struct DirectoryWindow *, int, char *, int, int, struct DateStamp *, char *, int, int, int, char *,
+int addfile(struct DirectoryWindow *, int, char *, long long, int, struct DateStamp *, char *, int, int, int, char *,
             struct Directory *, UWORD, UWORD);
 int namesort(char *, char *);
 int inter_sort(char *, char *);
@@ -292,6 +292,9 @@ void get_device_task(BPTR, char *, struct MsgPort *);
 void getsizestring(char *, bigint);
 #else
 void getsizestring(char *, unsigned long long);
+void uquadtostr(char *, unsigned long long);
+void sizetostr(char *, long long);
+void sizeformat(char *, char *, int, int);
 #endif
 void getfloatstr(double, char *);
 
@@ -335,7 +338,7 @@ void readhelp(char *);
 void doreadhelp(char *);
 void dohelp(char *, char *, int, int, char *);
 void checkstringgads(int);
-void setdirsize(struct Directory *, int, int);
+void setdirsize(struct Directory *, long long, int);
 
 /* main17.c */
 

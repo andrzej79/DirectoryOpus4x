@@ -1249,9 +1249,13 @@ void doselinfo(win) int win;
 {
   if (!dopus_curwin[win]->firstentry || dopus_curwin[win]->firstentry->type != ENTRY_CUSTOM)
   {
-    lsprintf(str_select_info, globstring[STR_DIRS_FILES_BYTES_COUNT], dopus_curwin[win]->dirsel,
-             dopus_curwin[win]->dirtot, dopus_curwin[win]->filesel, dopus_curwin[win]->filetot,
-             dopus_curwin[win]->bytessel, dopus_curwin[win]->bytestot);
+    char fmt[160], bytessel[24], bytestot[24];
+
+    sizeformat(fmt, globstring[STR_DIRS_FILES_BYTES_COUNT], 0x30, sizeof(fmt));
+    sizetostr(bytessel, dopus_curwin[win]->bytessel);
+    sizetostr(bytestot, dopus_curwin[win]->bytestot);
+    lsprintf(str_select_info, fmt, dopus_curwin[win]->dirsel, dopus_curwin[win]->dirtot, dopus_curwin[win]->filesel,
+             dopus_curwin[win]->filetot, bytessel, bytestot);
   } else
   {
     switch (dopus_curwin[win]->firstentry->subtype)

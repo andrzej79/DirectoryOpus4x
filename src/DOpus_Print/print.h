@@ -58,12 +58,14 @@ extern struct DosLibrary *DOSBase;
 extern struct Library *WorkbenchBase;
 // JRZ extern struct PPBase *PPBase;
 
+/* The start of the program's struct Directory (Program/dopusstructures.h);
+   PrintDir reads the lister entries directly, so the layout must match */
 struct Directory
 {
   struct Directory *last, *next;
   char name[FILEBUF_SIZE];
   int type;
-  int size;
+  long long size;
   int subtype;
   int protection;
   char *comment;

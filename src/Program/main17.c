@@ -618,14 +618,16 @@ char *command;
       {
         c = data_active_window;
       }
-      d = dopus_curwin[c]->bytestot;
+      sizetostr(buf, dopus_curwin[c]->bytestot);
+      buf1 = buf;
       break;
     case RXSTATUS_TOTAL_SELECTED_BYTES:
       if (c < 0 || c > 1)
       {
         c = data_active_window;
       }
-      d = dopus_curwin[c]->bytessel;
+      sizetostr(buf, dopus_curwin[c]->bytessel);
+      buf1 = buf;
       break;
     case RXSTATUS_SELECT_PATTERN:
       if (f)
@@ -909,8 +911,11 @@ char *command;
     }
     if ((entry = findfile(dopus_curwin[win], rexx_args[0], NULL)))
     {
+      char sizestr[24];
+
       getprot(entry->protection, buf2);
-      lsprintf(buf, "%s%lc%ld%lc%ld%lc%ld%lc%ld%lc%ld%lc%ld%lc%s%lc%s%lc", entry->name, pad[0], entry->size, pad[0],
+      sizetostr(sizestr, entry->size);
+      lsprintf(buf, "%s%lc%s%lc%ld%lc%ld%lc%ld%lc%ld%lc%ld%lc%s%lc%s%lc", entry->name, pad[0], sizestr, pad[0],
                entry->subtype, pad[0], entry->type, pad[0], entry->selected, pad[0], entry->date.ds_Days, pad[0],
                (entry->date.ds_Minute * 60) + (entry->date.ds_Tick / 50), pad[0], entry->comment, pad[0], buf2, pad[0]);
       rexx_set_return(msg, 0, buf);

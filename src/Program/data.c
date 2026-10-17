@@ -157,7 +157,7 @@ char str_config_basename[256] = {0}; /* Configuration base name */
 char str_config_file[256]     = {0}; /* Configuration file */
 char str_dopusrt_path[256]    = {0}; /* DOpusRT path name */
 
-char str_select_info[80]       = {0};  /* Status bar text for selection info */
+char str_select_info[256]      = {0};  /* Status bar text for selection info */
 char *str_select_pattern[3]    = {0};  /* Three different Select patterns */
 char *str_arexx_command        = NULL; /* Entered ARexx command string */
 char *str_space_string         = NULL; /* 255 spaces in a string */
@@ -222,10 +222,10 @@ BYTE config_changed          = 0;    /* Configuration has been changed */
 
 UBYTE disk_change_state = 0; /* Lower bits indicate change state */
 
-ULONG dos_global_bytecount    = 0; /* Global byte count from recursive op */
-ULONG dos_global_copiedbytes  = 0; /* Bytes copied in a recursive op */
-ULONG dos_global_deletedbytes = 0; /* Bytes copied in a recursive op */
-ULONG dos_global_blocksneeded = 0; /* Number of blocks needed to copy */
+long long dos_global_bytecount    = 0; /* Global byte count from recursive op */
+long long dos_global_copiedbytes  = 0; /* Bytes copied in a recursive op */
+long long dos_global_deletedbytes = 0; /* Bytes copied in a recursive op */
+ULONG dos_global_blocksneeded     = 0; /* Number of blocks needed to copy */
 
 struct DateStamp dos_copy_date = {0}; /* DateStamp of file last copied */
 ULONG dos_copy_protection      = 0;   /* Protection of file last copied */

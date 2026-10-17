@@ -51,7 +51,7 @@ struct Directory
   struct Directory *last, *next;
   char name[FILEBUF_SIZE];
   int type;
-  int size;
+  long long size;
   int subtype;
   int protection;
   char *comment;
@@ -138,8 +138,10 @@ struct DirectoryWindow
   char directory[256];
   char diskname[32];
   int total;
-  int filetot, dirtot, bytestot;
-  int filesel, dirsel, bytessel;
+  int filetot, dirtot;
+  long long bytestot;
+  int filesel, dirsel;
+  long long bytessel;
   int offset, hoffset;
   int oldoff, oldhoff;
   int hlen;

@@ -419,6 +419,29 @@ int wind;
   }
 }
 
+/* An entry size (64-bit, see struct Directory) as decimal text */
+static void sizetostr(char *buf, long long x)
+{
+  char tmp[24];
+  int len = 0;
+
+  if (x < 0)
+  {
+    *buf++ = '-';
+    x      = -x;
+  }
+  do
+  {
+    tmp[len++] = (x % 10) + '0';
+    x /= 10;
+  } while (x);
+  while (len)
+  {
+    *buf++ = tmp[--len];
+  }
+  *buf = 0;
+}
+
 void printdirectory(reqbase, portname, flags, output, wind) struct RequesterBase *reqbase;
 char *portname;
 int flags;
@@ -501,13 +524,16 @@ int wind;
           //                        lsprintf(buf,pbuf,pddata.entry->name);
           if (flags & PD_SIZE)
           {
+            char sizestr[24];
+
+            sizetostr(sizestr, pddata.entry->size);
             if (pddata.entry->type <= ENTRY_FILE)
             {
-              lsprintf(pbuf, "%9ld ", pddata.entry->size);
+              lsprintf(pbuf, "%9s ", sizestr);
               strcat(buf, pbuf);
             } else if (pddata.entry->size != -1)
             {
-              lsprintf(pbuf, "[%8ld]", pddata.entry->size);
+              lsprintf(pbuf, "[%8s]", sizestr);
               strcat(buf, pbuf);
             } else
             {

@@ -149,7 +149,8 @@ addfile(dir, win, name, size, type, date, comment, protection, subtype, show, di
         groupid) struct DirectoryWindow *dir;
 int win;
 char *name;
-int size, type;
+long long size;
+int type;
 struct DateStamp *date;
 char *comment;
 int protection, subtype, show;
@@ -860,7 +861,8 @@ void removefile(file, dir, win, show) struct Directory *file;
 struct DirectoryWindow *dir;
 int win, show;
 {
-  int ty = file->type, sz = file->size, se = file->selected;
+  int ty = file->type, se = file->selected;
+  long long sz = file->size;
 
   if (win < 0 || !dir || (status_iconified && status_flags & STATUS_ISINBUTTONS))
   {

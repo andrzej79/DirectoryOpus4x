@@ -367,7 +367,8 @@ void checkstringgads(a) int a;
 }
 
 void setdirsize(dir, byte, win) struct Directory *dir;
-int byte, win;
+long long byte;
+int win;
 {
   if (status_iconified || win == -1)
   {

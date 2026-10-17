@@ -40,6 +40,10 @@ Fixed:
 - The lister could stop reacting to clicks when the mouse wheel scrolled
   fast past the top or bottom of a list (also in 4.16).
 - NewMouse wheel events could throw away queued mouse clicks.
+- GetSizes showed no size for a directory holding more than 2 GB (also
+  in 4.16).  Directory sizes, the selected/total bytes in the status
+  line, CheckFit, ARexx and PrintDir now use 64-bit sizes; CheckFit also
+  works with more than 2 GB free.
 - The memory fields of the clock bar had no fixed width, so the text
   moved whenever a number changed length.  On machines without Fast RAM
   the "Bytes" display looked as if Fast RAM were present.

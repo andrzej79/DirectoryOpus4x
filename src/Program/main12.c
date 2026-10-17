@@ -51,6 +51,61 @@ void uquadtostr(char *buf, unsigned long long x)
   buf[len] = 0;
   // kprintf("%ld\t%s\n",len,buf);
 }
+
+/* A size as text; -1 (directory size not known) gives "-1" */
+void sizetostr(char *buf, long long x)
+{
+  if (x < 0)
+  {
+    *buf++ = '-';
+    x      = -x;
+  }
+  uquadtostr(buf, x);
+}
+
+/* Copy a (possibly translated) format string, turning each %ld that mask
+   selects (bit n for the n-th conversion) into %s with the same flags and
+   width, so a 64-bit size can be passed as sizetostr() text. RawDoFmt has
+   no 64-bit conversion, and the catalogs stay as they are. */
+void sizeformat(char *dest, char *fmt, int mask, int len)
+{
+  int n = 0;
+
+  while (*fmt && len > 1)
+  {
+    if (*fmt != '%')
+    {
+      *dest++ = *fmt++;
+      --len;
+      continue;
+    }
+    /* No room for a whole conversion: end the string before it */
+    if (len < 16)
+    {
+      break;
+    }
+    *dest++ = *fmt++;
+    --len;
+    if (*fmt == '%')
+    {
+      *dest++ = *fmt++;
+      --len;
+      continue;
+    }
+    while (*fmt && strchr("-0123456789.", *fmt) && len > 3)
+    {
+      *dest++ = *fmt++;
+      --len;
+    }
+    if (mask & (1 << n++) && fmt[0] == 'l' && fmt[1] == 'd')
+    {
+      *dest++ = 's';
+      --len;
+      fmt += 2;
+    }
+  }
+  *dest = 0;
+}
 #endif
 void setupchangestate()
 {

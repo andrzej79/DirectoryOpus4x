@@ -57,8 +57,9 @@ int act, inact, rexx;
   D_S(struct FileInfoBlock, fileinfo);
   int askeach = 0, autoskip = 0, a, b, special = 0, candoicon = 1, old, specflags, noshow = 0, err;
   int sourcewild = 0, destwild = 0, firstset = 0, breakout, rexarg, protstuff[2];
-  int pt = 1, okayflag, show, lastfile, flag, exist, byte, count, data, mask = 0, temp;
+  int pt = 1, okayflag, show, lastfile, flag, exist, count, data, mask = 0, temp;
   int globflag, noremove, doicons = 0, total, value = 0, progtype, blocksize, retval = 0;
+  long long byte;
   ULONG class;
   USHORT code;
   struct Directory *file = NULL, *tempfile, *nextfile, filebuf, dummyfile;
@@ -2460,19 +2461,21 @@ int act, inact, rexx;
   case FUNC_BYTE:
     if (!status_justabort)
     {
+      long long freebytes;
+
       main_proc->pr_WindowPtr = (APTR)-1;
       if (!(filelock = Lock(destdir, ACCESS_READ)))
       {
-        value = 0;
+        freebytes = 0;
       } else
       {
         Info(filelock, infodata);
         if (ramdisk_lock && CompareLock(filelock, ramdisk_lock) != LOCK_DIFFERENT)
         {
-          value = AvailMem(0);
+          freebytes = AvailMem(0);
         } else
         {
-          value = (infodata->id_NumBlocks - infodata->id_NumBlocksUsed) * blocksize;
+          freebytes = (long long)(infodata->id_NumBlocks - infodata->id_NumBlocksUsed) * blocksize;
         }
         UnLock(filelock);
       }
@@ -2482,27 +2485,32 @@ int act, inact, rexx;
       }
       if (specflags & FUNCFLAGS_BYTEISCHECKFIT)
       {
-        double needed, percent;
+        long long needed;
+        double percent;
+        char fmt[160], neededstr[24], freestr[24];
 
-        needed = data * blocksize;
-        if (value < 1)
+        needed = (long long)(ULONG)data * blocksize;
+        if (freebytes < 1)
         {
           percent = 0;
-        } else if (value >= needed || needed < 1)
+        } else if (freebytes >= needed || needed < 1)
         {
           percent = 100;
           retval  = 1;
         } else
         {
-          percent = 100 / (needed / value);
+          percent = 100 / ((double)needed / (double)freebytes);
         }
         getfloatstr(percent, tbuf);
-        lsprintf(buf, globstring[STR_CHECKFIT_STRING], data * blocksize, value, tbuf);
+        sizeformat(fmt, globstring[STR_CHECKFIT_STRING], 0x03, sizeof(fmt));
+        sizetostr(neededstr, needed);
+        sizetostr(freestr, freebytes);
+        lsprintf(buf, fmt, neededstr, freestr, tbuf);
         dostatustext(buf);
       } else
       {
         doselinfo(act);
-        strcat(str_select_info, (value <= swindow->bytessel) ? globstring[STR_NO_FIT] : globstring[STR_YES_FIT]);
+        strcat(str_select_info, (freebytes <= swindow->bytessel) ? globstring[STR_NO_FIT] : globstring[STR_YES_FIT]);
         dostatustext(str_select_info);
       }
       okayflag = 0;
