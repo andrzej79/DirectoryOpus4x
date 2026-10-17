@@ -26,6 +26,7 @@ make clean
 make install    # copy dist tree to TARGET_DIR (~/Documents/Amiga/amiga_uae_disk/)
 make ftp        # build + upload dist tree to Work:DirOpus4x/ (FTP_DIR=...)
 make protos     # regenerate src/include/inline/*_protos.h via tools/fd2vbcc.py
+make catalogs   # check src/catalogs/*.cd, compile the .ct files (part of make)
 make -C src/Config    # one component
 ```
 
@@ -137,6 +138,22 @@ Follow these when touching or adding code:
 - PopupMenu's `PMMenu(...) ... End` macros leave a call open across macro boundaries, which vbcc's
   preprocessor can't expand when `PM_MakeMenu` is itself a macro. So popupmenu varargs functions
   are real C stubs (`fd2vbcc.py --stubs`), not inline macros.
+
+## Strings and catalogs
+
+Each component has an enum of string IDs (`*strings.h`, ends in `STR_STRING_COUNT`), the English
+texts in `default_strings[]` (`strings.c`), and a catalog description `src/catalogs/<name>.cd`.
+The `.cd` IDs are automatic (`(//)`), so the position in the file is the ID. `make` fails unless
+the `.cd` lists the enum in order and its texts equal `default_strings[]`.
+- New strings go at the **end** of the enum, `default_strings[]` and the `.cd` (before
+  `STR_STRING_COUNT`). Never insert, reorder or remove: catalogs, including users' old ones,
+  address strings by number. A string no longer used stays as a placeholder (`STR_removed_*`).
+- Changing an English text: change it in `strings.c` and the `.cd` together.
+- Translations: `src/catalogs/<language>/*.ct`, ISO-8859-1 (edit with a Latin-1-safe tool). Add the
+  Polish text along with a new string; other languages fall back to English until translated.
+  A `.ct` entry is the name line, the text line, then `;` comment lines with the English.
+- Build output: `Catalogs/<language>/*.catalog` in the dist tree. `tools/ftpput.py` sends file names
+  as Latin-1 (`español`).
 
 ## Testing
 

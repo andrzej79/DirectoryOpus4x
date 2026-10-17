@@ -20,6 +20,7 @@ import ftplib
 import os
 import re
 import sys
+import unicodedata
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG = os.path.join(ROOT, 'ftp.local')
@@ -43,6 +44,7 @@ def load_config():
 
 def connect(cfg):
     ftp = ftplib.FTP()
+    ftp.encoding = 'latin-1'  # Amiga file names, e.g. Catalogs/español; set before connect()
     ftp.set_pasv(cfg.get('AMIGA_FTP_PASSIVE', 'no').lower() in ('1', 'yes', 'true', 'on'))
     ftp.connect(cfg['AMIGA_FTP_HOST'], int(cfg.get('AMIGA_FTP_PORT', '21')), timeout=30)
     ftp.login(cfg['AMIGA_FTP_USER'], cfg['AMIGA_FTP_PASSWORD'])
@@ -64,8 +66,13 @@ def enter_dir(ftp, path):
         print('created %s' % path)
 
 
+def amiga_name(name):
+    """A host file name as the Amiga spells it: composed characters, so it fits ISO-8859-1."""
+    return unicodedata.normalize('NFC', name)
+
+
 def put_file(ftp, local, remote_dir):
-    name = os.path.basename(local)
+    name = amiga_name(os.path.basename(local))
     with open(local, 'rb') as fh:
         ftp.storbinary('STOR %s' % name, fh)
     size = os.path.getsize(local)
@@ -93,7 +100,7 @@ def put_tree(ftp, local_dir, remote_dir):
         path = os.path.join(local_dir, name)
         if name.startswith('.') or not os.path.isdir(path):
             continue
-        sub = amiga_join(remote_dir, name)
+        sub = amiga_join(remote_dir, amiga_name(name))
         enter_dir(ftp, sub)
         ok &= put_tree(ftp, path, sub)
         ftp.cwd(remote_dir)

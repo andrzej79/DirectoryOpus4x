@@ -4,6 +4,7 @@
 #   make clean      remove build/
 #   make install    copy build/DirectoryOpus4x to $(TARGET_DIR)
 #   make ftp        build, then upload build/DirectoryOpus4x to the Amiga
+#   make catalogs   check the catalog descriptions, compile the translations
 #   make protos     regenerate the vbcc inline headers of src/include
 #
 # Each component can also be built alone: make -C src/Program
@@ -17,16 +18,31 @@ FTP_DIR     ?= Work:DirOpus4x/
 
 INC         := src/include
 
-.PHONY: all $(COMPONENTS) dist clean install ftp protos
+.PHONY: all $(COMPONENTS) catalogs dist clean install ftp protos
 
 all: dist
 
 $(COMPONENTS):
 	$(MAKE) -C src/$@
 
+# Locale catalogs.  The program asks for strings by their enum value, so each
+# .cd must list the enum of its component in order (checked, with the English
+# texts against default_strings[]).  Translations go to Catalogs/<language>/,
+# where locale.library looks first (PROGDIR:Catalogs/, then LOCALE:Catalogs/).
+CAT_SRC     := src/catalogs
+
+catalogs:
+	@echo '------ CATALOGS ------'
+	python3 tools/catcomp.py check $(CAT_SRC)/DOpus4.cd src/Program/dopusstrings.h src/Program/strings.c
+	python3 tools/catcomp.py check $(CAT_SRC)/DOpus4_Config.cd src/Config/configstrings.h src/Config/strings.c
+	python3 tools/catcomp.py check $(CAT_SRC)/DOpus4_Disk.cd src/DOpus_Disk/diskstrings.h src/DOpus_Disk/strings.c
+	python3 tools/catcomp.py check $(CAT_SRC)/DOpus4_Icon.cd src/DOpus_Icon/iconstrings.h src/DOpus_Icon/strings.c
+	python3 tools/catcomp.py check $(CAT_SRC)/DOpus4_Print.cd src/DOpus_Print/printstrings.h src/DOpus_Print/strings.c
+	python3 tools/catcomp.py build $(CAT_SRC) $(DIST_DIR)/Catalogs
+
 # Distribution tree, laid out the way DOpus looks for its files
 # (PROGDIR:C/, Libs/, Modules/, S/ - see look_dirs[] in Library/dopus_stuff.c)
-dist: $(COMPONENTS)
+dist: $(COMPONENTS) catalogs
 	@echo '------  DIST  ------'
 	@mkdir -p $(DIST_DIR)/C $(DIST_DIR)/Libs $(DIST_DIR)/Modules $(DIST_DIR)/S
 	cp $(BUILD_DIR)/Program/DirectoryOpus $(DIST_DIR)/

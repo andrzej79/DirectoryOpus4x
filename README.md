@@ -97,6 +97,7 @@ C/DOpusRT
 Libs/dopus.library
 Modules/ConfigOpus  Modules/DOpus_Disk  Modules/DOpus_Icon  Modules/DOpus_Print
 S/DirectoryOpus.HLP  S/ConfigOpus.HLP
+Catalogs/<language>/DOpus4.catalog  DOpus4_Config.catalog  DOpus4_Disk.catalog  ...
 ```
 
 DOpus opens `dopus.library` from `LIBS:` first, and only then from `libs/` or
@@ -104,7 +105,11 @@ DOpus opens `dopus.library` from `LIBS:` first, and only then from `libs/` or
 copy is used instead. When testing a new build, remove the old library, or run `avail flush`
 after quitting DOpus.
 
-The catalogs in `src/catalogs` (`.cd`/`.ct`) are not compiled by the build yet.
+The translations in `src/catalogs` (`<language>/*.ct`) are compiled by `tools/catcomp.py` into
+`Catalogs/<language>/` of the distribution tree. locale.library looks there first
+(`PROGDIR:Catalogs/`), then in `LOCALE:Catalogs/`. Strings a catalog lacks are shown in
+English. The build also checks that each catalog description (`.cd`) matches the string enum and
+the built-in English texts of its component.
 
 ## Repository layout
 
@@ -118,6 +123,7 @@ src/docs/            original developer notes (ARexx commands, string files, ...
 tools/fetch_sdk.sh   fetches the third-party SDK files into sdk/
 tools/fd2vbcc.py     generates vbcc inline headers from FD files
 tools/ftpput.py      FTP upload for make ftp
+tools/catcomp.py     compiles the catalogs and checks the .cd files against the sources
 ```
 
 ## Changes from the original sources
