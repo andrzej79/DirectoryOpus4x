@@ -59,6 +59,7 @@ make -j8        # the same, in parallel
 make clean      # remove build/
 make install    # copy build/DirectoryOpus4x to TARGET_DIR (default ~/Documents/Amiga/amiga_uae_disk/)
 make ftp        # build, then upload build/DirectoryOpus4x to Work:DirOpus4x/ on the Amiga
+make lha        # build, then pack it into release/DirectoryOpus417.lha (needs lha, 1.14i-ac)
 make protos     # regenerate src/include/inline/*_protos.h from the FD files
 make -C src/Program   # build one component (output in build/Program/)
 ```
@@ -92,7 +93,7 @@ The distribution tree `build/DirectoryOpus4x` has the layout DOpus searches at r
 `DOpus:...`):
 
 ```
-DirectoryOpus
+DirectoryOpus  DirectoryOpus.info
 C/DOpusRT
 Libs/dopus.library
 Modules/ConfigOpus  Modules/DOpus_Disk  Modules/DOpus_Icon  Modules/DOpus_Print
@@ -125,6 +126,7 @@ src/docs/            original developer notes (ARexx commands, string files, ...
 tools/fetch_sdk.sh   fetches the third-party SDK files into sdk/
 tools/fd2vbcc.py     generates vbcc inline headers from FD files
 tools/ftpput.py      FTP upload for make ftp
+tools/amiSnapRemove.py  clears the snapshot position of Workbench icons (.info)
 tools/catcomp.py     compiles the catalogs and checks the .cd files against the sources
 ```
 

@@ -1,5 +1,7 @@
 # Build output
 build/
+# Release archives, from make lha
+release/
 # Third-party Amiga SDK files, from tools/fetch_sdk.sh
 sdk/
 # FTP login for make ftp - never commit

@@ -5,6 +5,7 @@
 #   make install    copy build/DirectoryOpus4x to $(TARGET_DIR)
 #   make ftp        build, then upload build/DirectoryOpus4x to the Amiga
 #   make catalogs   check the catalog descriptions, compile the translations
+#   make lha        build, then pack build/DirectoryOpus4x into release/DirectoryOpus417.lha
 #   make protos     regenerate the vbcc inline headers of src/include
 #
 # Each component can also be built alone: make -C src/Program
@@ -15,10 +16,12 @@ BUILD_DIR   := build
 DIST_DIR    := $(BUILD_DIR)/DirectoryOpus4x
 TARGET_DIR  ?= ~/Documents/Amiga/amiga_uae_disk/
 FTP_DIR     ?= Work:DirOpus4x/
+RELEASE_DIR := release
+LHA_FILE    := $(RELEASE_DIR)/DirectoryOpus417.lha
 
 INC         := src/include
 
-.PHONY: all $(COMPONENTS) catalogs dist clean install ftp protos
+.PHONY: all $(COMPONENTS) catalogs dist clean install ftp lha protos
 
 all: dist
 
@@ -47,6 +50,8 @@ dist: $(COMPONENTS) catalogs
 	@echo '------  DIST  ------'
 	@mkdir -p $(DIST_DIR)/C $(DIST_DIR)/Libs $(DIST_DIR)/Modules $(DIST_DIR)/S
 	cp $(BUILD_DIR)/Program/DirectoryOpus $(DIST_DIR)/
+	cp icons/DirectoryOpus.info $(DIST_DIR)/
+	python3 tools/amiSnapRemove.py --no-backup $(DIST_DIR)/DirectoryOpus.info >/dev/null
 	cp $(BUILD_DIR)/DOpusRT/DOpusRT $(DIST_DIR)/C/
 	cp $(BUILD_DIR)/Library/dopus.library $(DIST_DIR)/Libs/
 	cp $(BUILD_DIR)/Config/ConfigOpus $(BUILD_DIR)/DOpus_Disk/DOpus_Disk \
@@ -68,6 +73,16 @@ install: dist
 # see ftp.local.example) or the AMIGA_FTP_* environment variables.
 ftp: dist
 	python3 tools/ftpput.py $(DIST_DIR) -d $(FTP_DIR)
+
+# Release archive: the dist tree as DirectoryOpus4x/, file names in ISO-8859-1
+# as the Amiga spells them (Catalogs/español).  Replaces an existing archive.
+lha: dist
+	@echo '------  LHA  ------'
+	@mkdir -p $(RELEASE_DIR)
+	$(RM) $(LHA_FILE)
+	cd $(BUILD_DIR) && lha aq2o5 --ignore-mac-files --system-kanji-code=utf8 --archive-kanji-code=latin1 \
+	    $(abspath $(LHA_FILE)) DirectoryOpus4x
+	lha l $(LHA_FILE) | tail -1
 
 # dopus.library's own inline headers, from its FD file and prototypes
 protos:

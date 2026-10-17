@@ -27,6 +27,7 @@ make install    # copy dist tree to TARGET_DIR (~/Documents/Amiga/amiga_uae_disk
 make ftp        # build + upload dist tree to Work:DirOpus4x/ (FTP_DIR=...)
 make protos     # regenerate src/include/inline/*_protos.h via tools/fd2vbcc.py
 make catalogs   # check src/catalogs/*.cd, compile the .ct files (part of make)
+make lha        # build + pack the dist tree into release/DirectoryOpus417.lha (git-ignored)
 make -C src/Config    # one component
 ```
 
@@ -63,7 +64,9 @@ make -C src/Config    # one component
   - `sdk/stubs/pm_stubs.c` (popupmenu varargs functions, compiled into Program).
 
   Don't edit `sdk/`. Change `tools/fetch_sdk.sh` and re-run it.
-- Distribution layout: `DirectoryOpus`, `C/DOpusRT`, `Libs/dopus.library`, `Modules/*`, `S/*.HLP`.
+- `icons/`: Workbench icons. `make` copies `DirectoryOpus.info` into the dist tree and clears its
+  snapshot position there (`tools/amiSnapRemove.py`), so Workbench places it itself.
+- Distribution layout: `DirectoryOpus`, `DirectoryOpus.info`, `C/DOpusRT`, `Libs/dopus.library`, `Modules/*`, `S/*.HLP`.
   This matches `look_dirs[]` in `src/Library/dopus_stuff.c` (`PROGDIR:` first).
 
 ## Code formatting
