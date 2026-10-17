@@ -441,7 +441,7 @@ doload(type, def) int type, def;
       CopyMem((char *)newcstuff->config->outputcmd, (char *)config->outputcmd,
               offsetof(struct Config, gadgetrows) - offsetof(struct Config, outputcmd));
       CopyMem((char *)newcstuff->config->startupscript, (char *)config->startupscript,
-              offsetof(struct Config, pad8) - offsetof(struct Config, startupscript));
+              offsetof(struct Config, iconx) - offsetof(struct Config, startupscript));
       strcpy(config->uniconscript, newcstuff->config->uniconscript);
       config->addiconflags = newcstuff->config->addiconflags;
       strcpy(config->shellstartup, newcstuff->config->shellstartup);

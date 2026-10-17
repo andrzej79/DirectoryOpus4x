@@ -243,6 +243,7 @@ struct RememberData
   char icontype;
   char scrclktype;
   char showfree;
+  char iconclkflags;
   char fontsizes[NUMFONTS];
   char fontbufs[NUMFONTS][40];
   char dateformat;

@@ -128,6 +128,8 @@ the existing commercial status of Directory Opus 5.
 #define ICON_BYTES 64
 #define ICON_C_AND_F 128
 
+#define ICONCLK_MEGABYTES 1 /* iconified: free memory as x.yM (else bytes or K) */
+
 /* ScrClkType */
 
 #define SCRCLOCK_MEMORY 1

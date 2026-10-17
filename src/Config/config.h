@@ -70,6 +70,10 @@ the existing commercial status of Directory Opus 5.
 #define STRING_BASE 10000
 #define REQ_BASE 11000
 
+/* Bit of the iconified "Megabytes free" radio button. It does not fit in config->icontype,
+   it stands for ICONCLK_MEGABYTES in config->iconclkflags. */
+#define ICONGAD_MEGABYTES 2048
+
 #define CONFIG_STRUCTURE_SIZE 9200
 
 enum

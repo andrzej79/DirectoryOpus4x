@@ -229,7 +229,7 @@ int __saveds DoReadConfig(REG(a0, char *name), REG(a1, struct ConfigStuff *cstuf
   {
     config->errorflags ^= 1;
     config->hotkeyflags = 0;
-    config->pad3 = config->pad4 = config->pad8 = 0;
+    config->pad3 = config->pad4 = config->iconclkflags = 0;
     // HUX
     for (a = 0; a < 2; a++)
     {

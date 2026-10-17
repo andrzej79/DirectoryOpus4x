@@ -89,6 +89,8 @@ the existing commercial status of Directory Opus 5.
 #define ICON_NOWINDOW 16
 #define ICON_APPICON 32
 
+#define ICONCLK_MEGABYTES 1 /* iconified: free memory as x.yM (else bytes or K) */
+
 #define DISPLAY_NAME 0
 #define DISPLAY_SIZE 1
 #define DISPLAY_PROTECT 2
@@ -310,7 +312,7 @@ struct Config
   char showpatparsed[40], hidepatparsed[40];
   char icontype, scrclktype, showfree;
 
-  char pad8;
+  char iconclkflags; /* ICONCLK_ flags, was pad8 */
 
   short iconx, icony;
   short wbwinx, wbwiny;

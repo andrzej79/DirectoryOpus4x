@@ -117,6 +117,38 @@ static struct DiskObject iconify_appicon = {
     NULL,
     NULL};
 
+/* Free memory for the iconified clock: bytes, K or x.yM (no unit for bytes and K) */
+static void iconmemstr(char *buf, ULONG bytes)
+{
+  ULONG tenths;
+
+  if (config->iconclkflags & ICONCLK_MEGABYTES)
+  {
+    tenths = ((bytes >> 10) * 10 + 512) >> 10; /* rounded to 0.1M */
+    lsprintf(buf, "%ld.%ldM", tenths / 10, tenths % 10);
+  } else if (icon_type & ICON_BYTES)
+  {
+    lsprintf(buf, "%ld", bytes);
+  } else
+  {
+    lsprintf(buf, "%ld", bytes >> 10);
+  }
+}
+
+/* Field width for iconmemstr() of a memory that has kdigits digits in K */
+static int iconmemwidth(int kdigits)
+{
+  if (config->iconclkflags & ICONCLK_MEGABYTES)
+  {
+    return (((kdigits > 3) ? kdigits - 3 : 1) + 3); /* ".yM" */
+  }
+  if (icon_type & ICON_BYTES)
+  {
+    return (kdigits + 3);
+  }
+  return (kdigits);
+}
+
 void iconify(louise, buttons, banknum) int louise, buttons, banknum;
 {
   ULONG class;
@@ -125,8 +157,9 @@ void iconify(louise, buttons, banknum) int louise, buttons, banknum;
   struct Screen scrbuf, *sptr;
   struct DrawInfo *drinfo;
   int wmes, chipc, fast, h, m, s, waitbits, a, b, nheight, nwidth, buttonrows, oldrows, olddata_gadgetrow_offset, x, y,
-      x1, y1, c, d, w, fastnum, chipnum, bankcount, bankstep, menunum, itemnum, num, cdelay, usage, oldusage = 100;
-  char date[16], time[16], buf[50], buf1[50], buf2[50], ampm, formstring[100], *old;
+      x1, y1, c, d, w, fastnum, chipnum, gotfast = 0, bankcount, bankstep, menunum, itemnum, num, cdelay, usage,
+                                         oldusage = 100;
+  char date[16], time[16], chipstr[16], faststr[16], buf[50], buf1[50], buf2[50], ampm, formstring[100], *old;
   struct dopusgadgetbanks *bank, *oldbank, **bankarray;
   struct dopushotkey *hotkey;
   struct dopusfuncpar par;
@@ -254,14 +287,12 @@ void iconify(louise, buttons, banknum) int louise, buttons, banknum;
       {
         chipnum = getmaxmem(MEMF_CHIP, MEMF_ANY);
         fastnum = getmaxmem(MEMF_ANY, MEMF_CHIP);
-        if (icon_type & ICON_BYTES)
-        {
-          chipnum += 3;
-          fastnum += 3;
-        }
+        gotfast = (fastnum > 1);
+        chipnum = iconmemwidth(chipnum);
+        fastnum = iconmemwidth(fastnum);
         if (icon_type & ICON_C_AND_F)
         {
-          if (fastnum < 2)
+          if (!gotfast)
           {
             lsprintf(buf2, "%lc:", globstring[STR_CLOCK_MEM][0]);
           } else
@@ -271,7 +302,7 @@ void iconify(louise, buttons, banknum) int louise, buttons, banknum;
           strcat(buf, buf2);
         } else
         {
-          if (fastnum < 2)
+          if (!gotfast)
           {
             strcat(buf, globstring[STR_CLOCK_MEM]);
           } else
@@ -285,7 +316,7 @@ void iconify(louise, buttons, banknum) int louise, buttons, banknum;
         }
         buf1[a] = 0;
         strcat(buf, buf1);
-        if (fastnum > 1)
+        if (gotfast)
         {
           if (icon_type & ICON_C_AND_F)
           {
@@ -496,33 +527,30 @@ void iconify(louise, buttons, banknum) int louise, buttons, banknum;
       {
         chipc = AvailMem(MEMF_CHIP);
         fast  = AvailMem(MEMF_ANY) - chipc;
-        if (!(icon_type & ICON_BYTES))
-        {
-          chipc /= 1024;
-          fast /= 1024;
-        }
-        if (fastnum > 1)
+        iconmemstr(chipstr, chipc);
+        iconmemstr(faststr, fast);
+        if (gotfast)
         {
           if (icon_type & ICON_C_AND_F)
           {
-            lsprintf(buf1, "%lc:%%%ldld %lc:%%%ldld ", globstring[STR_CLOCK_CHIP][0], chipnum,
+            lsprintf(buf1, "%lc:%%%lds %lc:%%%lds ", globstring[STR_CLOCK_CHIP][0], chipnum,
                      globstring[STR_CLOCK_FAST][0], fastnum);
           } else
           {
-            lsprintf(buf1, "%s%%%ldld %s%%%ldld ", globstring[STR_CLOCK_CHIP], chipnum, globstring[STR_CLOCK_FAST],
+            lsprintf(buf1, "%s%%%lds %s%%%lds ", globstring[STR_CLOCK_CHIP], chipnum, globstring[STR_CLOCK_FAST],
                      fastnum);
           }
-          lsprintf(buf, buf1, chipc, fast);
+          lsprintf(buf, buf1, chipstr, faststr);
         } else
         {
           if (icon_type & ICON_C_AND_F)
           {
-            lsprintf(buf1, "%lc:%%%ldld ", globstring[STR_CLOCK_MEM][0], chipnum);
+            lsprintf(buf1, "%lc:%%%lds ", globstring[STR_CLOCK_MEM][0], chipnum);
           } else
           {
-            lsprintf(buf1, "%s%%%ldld ", globstring[STR_CLOCK_MEM], chipnum);
+            lsprintf(buf1, "%s%%%lds ", globstring[STR_CLOCK_MEM], chipnum);
           }
-          lsprintf(buf, buf1, chipc);
+          lsprintf(buf, buf1, chipstr);
         }
         strcat(formstring, buf);
       }

@@ -58,9 +58,10 @@ void do_remember_config(data) struct RememberData *data;
   data->hiddenbit = config->hiddenbit;
   strcpy(data->showpat, config->showpat);
   strcpy(data->hidepat, config->hidepat);
-  data->icontype   = config->icontype;
-  data->scrclktype = config->scrclktype;
-  data->showfree   = config->showfree;
+  data->icontype     = config->icontype;
+  data->scrclktype   = config->scrclktype;
+  data->showfree     = config->showfree;
+  data->iconclkflags = config->iconclkflags;
   for (a = 0; a < NUMFONTS; a++)
   {
     data->fontsizes[a] = config->fontsizes[a];
@@ -111,9 +112,10 @@ void do_restore_config(data) struct RememberData *data;
   config->hiddenbit = data->hiddenbit;
   strcpy(config->showpat, data->showpat);
   strcpy(config->hidepat, data->hidepat);
-  config->icontype   = data->icontype;
-  config->scrclktype = data->scrclktype;
-  config->showfree   = data->showfree;
+  config->icontype     = data->icontype;
+  config->scrclktype   = data->scrclktype;
+  config->showfree     = data->showfree;
+  config->iconclkflags = data->iconclkflags;
   for (a = 0; a < NUMFONTS; a++)
   {
     config->fontsizes[a] = data->fontsizes[a];

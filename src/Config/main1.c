@@ -582,7 +582,18 @@ dosystemconfig()
               *flag = processtickgad(systemgadgets[lastsel], (int)*flag, gadgetid - GAD_BASE, 0);
             } else
             {
-              *flag2 = processtickgad(systemgadgets[lastsel], (int)*flag2, gadgetid - 5000, 1);
+              a      = processtickgad(systemgadgets[lastsel], (int)*flag2, gadgetid - 5000, 1);
+              *flag2 = a;
+              if (lastsel == SYS_CLOCK)
+              {
+                if (a & ICONGAD_MEGABYTES)
+                {
+                  config->iconclkflags |= ICONCLK_MEGABYTES;
+                } else
+                {
+                  config->iconclkflags &= ~ICONCLK_MEGABYTES;
+                }
+              }
             }
           } else
           {
@@ -784,7 +795,12 @@ dosystemconfig()
               }
               if (tick)
               {
-                inittickgads(systemgadgets[gadgetid], (flag) ? (int)*flag : 0, (flag2) ? (int)*flag2 : 0);
+                a = (flag2) ? (UBYTE)*flag2 : 0;
+                if (gadgetid == SYS_CLOCK && config->iconclkflags & ICONCLK_MEGABYTES)
+                {
+                  a |= ICONGAD_MEGABYTES;
+                }
+                inittickgads(systemgadgets[gadgetid], (flag) ? (int)*flag : 0, a);
               }
               switch (gadgetid)
               {
