@@ -452,10 +452,7 @@ void layout_menus()
   LFreeRemember(&menu_key);
 
   title_font = Window->WScreen->RastPort.Font;
-  if (/*system_version2>=OSVER_39 &&*/ !MainScreen)
-  {
-    drinfo = GetScreenDrawInfo(Window->WScreen);
-  }
+  drinfo     = GetScreenDrawInfo(Window->WScreen);
 
   spacew = gettextlength(scr_font[FONT_MENUS], " ", NULL, 0);
 
@@ -484,8 +481,10 @@ void layout_menus()
     //            bpen=menu_bpen;
     //        }
     //        else {
-    fpen = screen_pens[config->menu[a].fpen].pen;
-    bpen = screen_pens[config->menu[a].bpen].pen;
+    /* Items use the system menu background, like the bar and the separators. The default
+       text colour (1) follows the system too; a custom one is kept. */
+    fpen = (config->menu[a].fpen == 1) ? menu_fpen : screen_pens[config->menu[a].fpen].pen;
+    bpen = menu_bpen;
     // kprintf("fpen: %ld,bpen: %ld\n",fpen,bpen);
     //         }
     menu_intuitext[a * 2].BackPen        = (UBYTE)bpen;
