@@ -5,21 +5,17 @@ DEFINES     := WITHPCHG
 
 # Link libraries built from source along with the program:
 #  ../pchg      - PCHG (palette change) IFF support
-#  sdk/asyncio  - AsyncIO buffered file I/O (from tools/fetch_sdk.sh)
 #  sdk/stubs    - varargs stubs for popupmenu.library (from tools/fetch_sdk.sh)
-ASYNCIO_DIR := ../../sdk/asyncio
 STUBS_DIR   := ../../sdk/stubs
-VPATH       := ../pchg $(ASYNCIO_DIR) $(STUBS_DIR)
+VPATH       := ../pchg $(STUBS_DIR)
 
 # assembly.c is an unfinished C port of assembly.asm (the original makefile
 # built the .asm); getusage.c replaced getusage.asm
 SRCS_C      := $(filter-out assembly.c,$(wildcard *.c)) \
                $(notdir $(wildcard ../pchg/*.c)) \
-               $(notdir $(wildcard $(ASYNCIO_DIR)/*.c)) \
                $(notdir $(wildcard $(STUBS_DIR)/*.c))
 SRCS_S      := assembly.asm chipimage.asm BuildFreqTable.a FastDecomp.a
 
-EXTRA_INC   := $(ASYNCIO_DIR)
 EXTRA_AFLAGS := -D_PHXASS_
 
 include ../common.mk

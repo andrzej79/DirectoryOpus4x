@@ -59,7 +59,6 @@ make -C src/Config    # one component
 - `sdk/` (git-ignored, from `tools/fetch_sdk.sh`):
   - headers for xadmaster, xfdmaster, powerpacker, popupmenu, screennotify, cybergraphics
     and newmouse;
-  - the AsyncIO sources (`sdk/asyncio/`, compiled into Program);
   - `sdk/stubs/pm_stubs.c` (popupmenu varargs functions, compiled into Program).
 
   Don't edit `sdk/`. Change `tools/fetch_sdk.sh` and re-run it.

@@ -3,8 +3,8 @@
 #
 # sdk/ is git-ignored: these files are freely distributable, but most of them
 # are "All Rights Reserved" and so do not go into this GPL repository.  Each
-# archive is checked against its SHA-256 below, then only the headers (and
-# the AsyncIO link-library sources) are unpacked.  vbcc inline headers are
+# archive is checked against its SHA-256 below, then only the headers are
+# unpacked.  vbcc inline headers are
 # generated with tools/fd2vbcc.py for the libraries whose dev kits lack them.
 #
 # Needs: curl, lha (or lhasa), python3, shasum.  Safe to re-run.
@@ -21,7 +21,6 @@ AMINET=${AMINET:-https://aminet.net}
 
 # path on Aminet                SHA-256
 ARCHIVES="
-dev/c/AsyncIO.lha               91eaa0b51b8efc1d0cb35b10aeecd2ba22d773948c89ceb9fbce17b802421d07
 util/arc/xadmasterdev.lha       b82c222d712bd2b62b4774d5557684e628968122f897a08332feb743f7a95478
 util/pack/xfdmaster_dev.lha     0edea300a9d3cec6367dcb0d2db47e4756e23e88e67046d0e680ab8486dcf554
 util/libs/pplib16.lha           540e1887cc1d556edd50eb616641118024c806f546325f608621e2c0a3fa03a9
@@ -98,23 +97,8 @@ put "$TMP/CGraphX-DevKit/CGraphX/C/Include" clib/cybergraphics_protos.h cybergra
 # NewMouse wheel events
 put "$TMP/NewMouse12/NewMouse12" newmouse.h
 
-# AsyncIO: headers, plus the link-library sources (built by src/Program)
-X=$TMP/AsyncIO/AsyncIO
-put "$X/include" libraries/asyncio.h clib/asyncio_protos.h
-rm -rf "$SDK/asyncio"
-mkdir -p "$SDK/asyncio"
-for f in "$X"/src/*.c "$X"/src/*.h; do
-    case $(basename "$f") in
-        AsyncLib.c|AsyncLibVer.c|Lib.c|asynciolibsr.h) continue ;;
-    esac
-    # SAS/C pragmas -> NDK protos (vbcc ignores SAS #pragma libcall)
-    sed -e 's|<pragmas/exec_sysbase_pragmas.h>|<proto/exec.h>|' \
-        -e 's|<pragmas/dos_pragmas.h>|<proto/dos.h>|' \
-        "$f" > "$SDK/asyncio/$(basename "$f")"
-done
-# It assigns NULL to BPTRs: give it the NDK's integer NULL (vbcc's libc
-# headers define NULL as ((void *)0))
-printf '\n#undef NULL\n#define NULL 0L\n' >> "$SDK/asyncio/async.h"
+# The AsyncIO link library is no longer used (copyfile() reads with Read())
+rm -rf "$SDK/asyncio" "$INC/clib/asyncio_protos.h" "$INC/libraries/asyncio.h"
 
 rm -rf "$TMP"
 echo "SDK headers ready in $INC"

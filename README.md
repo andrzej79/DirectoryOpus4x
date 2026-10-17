@@ -39,16 +39,16 @@ The program needs Kickstart 3.0 or newer.
 ### Third-party SDK files
 
 DOpus uses a few third-party libraries when they are installed (xadmaster, xfdmaster,
-powerpacker, popupmenu, screennotify, cybergraphics, NewMouse wheel events) and links the
-AsyncIO library. Their developer files are freely distributable, but most are not GPL, so they
-are not part of this repository. Fetch them once:
+powerpacker, popupmenu, screennotify, cybergraphics, NewMouse wheel events). Their developer
+files are freely distributable, but most are not GPL, so they are not part of this repository.
+Fetch them once:
 
 ```sh
 tools/fetch_sdk.sh
 ```
 
 This downloads the archives from Aminet, checks each against its SHA-256, and unpacks the
-needed headers and the AsyncIO sources into the git-ignored `sdk/` directory. It also generates
+needed headers into the git-ignored `sdk/` directory. It also generates
 vbcc inline headers for libraries whose kits lack them.
 
 ### Make targets
@@ -131,7 +131,8 @@ The 4.16 sources were set up for GCC (geekgadgets/libnix) and PhxAss. To build t
 - Chip-memory data sections are marked as `chip` for the hunk format.
 - libnix's `detach.o` is replaced by `src/Program/detach.asm`. Started from a Shell,
   DirectoryOpus detaches and returns to the prompt, as before.
-- Prebuilt GCC link libraries are gone. PCHG and AsyncIO are built from source.
+- Prebuilt GCC link libraries are gone. PCHG is built from source. AsyncIO is no longer used:
+  files are copied with plain `Read()`/`Write()` in large chunks.
 - `SysInfo.h` (public domain, no longer on Aminet) was rebuilt in `src/include/libraries/` from the
   Amiga-Oberon interface of the same release.
 
