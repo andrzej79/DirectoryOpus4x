@@ -152,6 +152,10 @@ the `.cd` lists the enum in order and its texts equal `default_strings[]`.
 - Translations: `src/catalogs/<language>/*.ct`, ISO-8859-1 (edit with a Latin-1-safe tool). Add the
   Polish text along with a new string; other languages fall back to English until translated.
   A `.ct` entry is the name line, the text line, then `;` comment lines with the English.
+- Help: English in `Program/DirectoryOpus.hlp` and `Config/ConfigOpus.HLP`, translations as
+  `src/catalogs/<language>/DO_<language>.HLP` and `CO_<language>.HLP` (found by the locale's language
+  name). Their bytes are copied as they are; the Polish ones use the AmigaPL code page.
+- `catcomp.py` warns when a translation uses printf conversions the English text doesn't have.
 - Build output: `Catalogs/<language>/*.catalog` in the dist tree. `tools/ftpput.py` sends file names
   as Latin-1 (`español`).
 

@@ -96,7 +96,7 @@ DirectoryOpus
 C/DOpusRT
 Libs/dopus.library
 Modules/ConfigOpus  Modules/DOpus_Disk  Modules/DOpus_Icon  Modules/DOpus_Print
-S/DirectoryOpus.HLP  S/ConfigOpus.HLP
+S/DirectoryOpus.HLP  S/ConfigOpus.HLP  S/DO_<language>.HLP  S/CO_<language>.HLP
 Catalogs/<language>/DOpus4.catalog  DOpus4_Config.catalog  DOpus4_Disk.catalog  ...
 ```
 
@@ -108,7 +108,9 @@ after quitting DOpus.
 The translations in `src/catalogs` (`<language>/*.ct`) are compiled by `tools/catcomp.py` into
 `Catalogs/<language>/` of the distribution tree. locale.library looks there first
 (`PROGDIR:Catalogs/`), then in `LOCALE:Catalogs/`. Strings a catalog lacks are shown in
-English. The build also checks that each catalog description (`.cd`) matches the string enum and
+English. The translated help files are next to them (`DO_<language>.HLP` for DirectoryOpus,
+`CO_<language>.HLP` for ConfigOpus) and go to `S/`; without one, the English help is used. The
+French catalogs and all help files come from the 4.16 binary release. The build also checks that each catalog description (`.cd`) matches the string enum and
 the built-in English texts of its component.
 
 ## Repository layout

@@ -129,6 +129,12 @@ def parse_ct(path, names):
     return info, strings
 
 
+def formats(s):
+    """The printf conversions of s, without flags and widths: a translation must keep them."""
+    return [re.sub(r'^%[-+ #0]*(\d+|\*)?(\.(\d+|\*))?', '%', f) for f in
+            re.findall(r'%[-+ #0]*(?:\d+|\*)?(?:\.(?:\d+|\*))?[hlL]*[a-zA-Z%]', s)]
+
+
 def chunk(cid, data):
     data = bytes(data)
     pad = b'\0' if len(data) & 1 else b''
@@ -147,6 +153,12 @@ def compile_catalog(cd_path, ct_path, out_path):
     strs = b''
     for name, sid, english in cd:
         if strings.get(name) and strings[name] != english and strings[name] != english.replace('_', ''):
+            # Leaving out trailing arguments is harmless, using others is not.  An English
+            # text without any is no format string ("% free"), so its translation is not checked.
+            tf, ef = formats(strings[name]), formats(english)
+            if ef and tf != ef[:len(tf)]:
+                print('%s: warning: %s has %s, the English %s' % (ct_path, name, ' '.join(tf), ' '.join(ef)),
+                      file=sys.stderr)
             data = strings[name].encode('latin-1') + b'\0'
             data += b'\0' * (-len(data) % 4)
             strs += struct.pack('>LL', sid, len(strings[name]) + 1) + data

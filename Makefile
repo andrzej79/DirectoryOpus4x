@@ -29,6 +29,7 @@ $(COMPONENTS):
 # .cd must list the enum of its component in order (checked, with the English
 # texts against default_strings[]).  Translations go to Catalogs/<language>/,
 # where locale.library looks first (PROGDIR:Catalogs/, then LOCALE:Catalogs/).
+# The translated help (DO_/CO_<language>.HLP, next to the .ct files) goes to S/.
 CAT_SRC     := src/catalogs
 
 catalogs:
@@ -53,6 +54,7 @@ dist: $(COMPONENTS) catalogs
 	   $(DIST_DIR)/Modules/
 	cp src/Program/DirectoryOpus.hlp $(DIST_DIR)/S/DirectoryOpus.HLP
 	cp src/Config/ConfigOpus.HLP $(DIST_DIR)/S/ConfigOpus.HLP
+	cp src/catalogs/*/*.HLP $(DIST_DIR)/S/
 
 clean:
 	$(RM) -r $(BUILD_DIR)
