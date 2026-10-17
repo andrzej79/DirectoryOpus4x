@@ -40,6 +40,7 @@ int smartcountlines(REG(a0, struct ViewData *));
 int ansicountlines(REG(a0, struct ViewData *));
 void removetabs(REG(a0, struct ViewData *));
 int getusage(void);
+void freeusage(void);
 void dprintf(char *, char *, ...);
 int filteroff(void);
 void filteron(void);

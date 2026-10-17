@@ -160,6 +160,7 @@ void quit()
   CLOSE_PM_LIB;
   CloseLibrary((struct Library *)xfdMasterBase);
   CloseLibrary((struct Library *)xadMasterBase);
+  freeusage();
   if (sysinfo)
   {
     FreeSysInfo(sysinfo);
